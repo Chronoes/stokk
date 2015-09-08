@@ -1,2 +1,2 @@
-Uku Tammet
+Noku Tammet
 Marten Truu
