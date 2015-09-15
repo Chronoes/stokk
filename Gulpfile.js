@@ -2,15 +2,21 @@ var gulp = require('gulp');
 var browserify = require('browserify');
 var babelify = require('babelify');
 var source = require('vinyl-source-stream');
+var sass = require('gulp-sass');
+var concatCss = require('gulp-concat');
+var minifyCss = require('gulp-minify-css');
 
 var directories = {
-  source: 'src',
+  source: {
+    script: 'src/scripts',
+    style: 'src/styles'
+  },
   distribution: 'static'
 };
 
-gulp.task('build', function () {
+gulp.task('js', function () {
   return browserify({
-    entries: directories.source + '/main.js',
+    entries: directories.source.script + '/main.js',
     extensions: ['.js'],
     debug: true
   })
@@ -22,9 +28,9 @@ gulp.task('build', function () {
   .pipe(gulp.dest(directories.distribution));
 });
 
-gulp.task('build:production', function () {
+gulp.task('js:production', function () {
   return browserify({
-    entries: directories.source + '/main.js',
+    entries: directories.source.script + '/main.js',
     extensions: ['.js'],
     debug: false
   })
@@ -40,8 +46,27 @@ gulp.task('build:production', function () {
   .pipe(gulp.dest(directories.distribution));
 });
 
+gulp.task('sass', function() {
+  return gulp.src(directories.source.style + '/main.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(concatCss('style.css'))
+    .pipe(gulp.dest(directories.distribution + '/'));
+});
+
+gulp.task('sass:production', function() {
+  return gulp.src(directories.source.style + '/main.scss')
+    .pipe(sass({outFile: 'style.css'}).on('error', sass.logError))
+    .pipe(concatCss('style.css'))
+    .pipe(minifyCss({compatibility: 'ie9'}))
+    .pipe(gulp.dest(directories.distribution + '/'));
+});
+
+gulp.task('build', ['js', 'sass']);
+
+gulp.task('build:production', ['js:production', 'sass:production']);
+
 gulp.task('watch', function () {
   return gulp.watch('./' + directories.source + '/**/*', ['build']);
 });
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['js', 'watch']);
