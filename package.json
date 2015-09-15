@@ -1,0 +1,36 @@
+{
+  "name": "stokk",
+  "version": "0.0.1",
+  "description": "A stock tracker application",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://uku.tammet@hektor1.ttu.ee/git/scm/jekaterina_boys/stokk.git"
+  },
+  "keywords": [
+    "javascript",
+    "es6",
+    "react",
+    "flux",
+    "stock"
+  ],
+  "private": "true",
+  "author": "jekaterina_boys",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "alt": "^0.17.3",
+    "axios": "^0.5.4",
+    "express": "^4.13.3",
+    "immutable": "^3.7.5",
+    "react": "^0.14.0-beta1"
+  },
+  "devDependencies": {
+    "babelify": "^6.3.0",
+    "browserify": "^11.1.0",
+    "gulp": "^3.9.0",
+    "uglifyify": "^3.0.1",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
