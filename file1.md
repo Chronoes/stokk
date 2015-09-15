@@ -1,2 +1,0 @@
-Uku Tammet
-Marten Truu
