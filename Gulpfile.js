@@ -8,11 +8,17 @@ var minifyCss = require('gulp-minify-css');
 
 var directories = {
   source: {
+    base: 'src/',
     script: 'src/scripts',
     style: 'src/styles'
   },
   distribution: 'static'
 };
+
+gulp.task('html', function() {
+  return gulp.src(directories.source.base + '/index.html')
+    .pipe(gulp.dest(directories.distribution));
+});
 
 gulp.task('js', function () {
   return browserify({
@@ -61,9 +67,9 @@ gulp.task('sass:production', function() {
     .pipe(gulp.dest(directories.distribution + '/'));
 });
 
-gulp.task('build', ['js', 'sass']);
+gulp.task('build', ['js', 'sass', 'html']);
 
-gulp.task('build:production', ['js:production', 'sass:production']);
+gulp.task('build:production', ['js:production', 'sass:production', 'html']);
 
 gulp.task('watch', function () {
   return gulp.watch('./' + directories.source + '/**/*', ['build']);
