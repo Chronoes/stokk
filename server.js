@@ -7,6 +7,10 @@ app.get('/', function(req, res) {
   res.sendFile(__dirname + '/static/index.html');
 });
 
+app.get('/*', function(req, res) {
+  res.sendFile(__dirname + '/static/index.html');
+});
+
 var server = app.listen(1337, function () {
   var port = server.address().port;
 

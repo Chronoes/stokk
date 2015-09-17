@@ -1,0 +1,15 @@
+@import "bootstrap";
+
+$dark-background: rgb(26, 28, 34);
+$main-background: #252830;
+
+.stokk-navbar {
+	@extend .navbar;
+	@extend .navbar-dark;
+	background-color: $dark-background;
+	border-radius: 0px;
+}
+
+body {
+	background-color: $main-background;
+}

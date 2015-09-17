@@ -62,14 +62,14 @@ gulp.task('js:production', function () {
 
 gulp.task('sass', function() {
   return gulp.src(directories.source.style + '/main.scss')
-    .pipe(sass().on('error', sass.logError))
+    .pipe(sass({includePaths: ['./node_modules/bootstrap/scss']}).on('error', sass.logError))
     .pipe(concatCss('style.css'))
     .pipe(gulp.dest(directories.distribution + '/'));
 });
 
 gulp.task('sass:production', function() {
   return gulp.src(directories.source.style + '/main.scss')
-    .pipe(sass({outFile: 'style.css'}).on('error', sass.logError))
+    .pipe(sass({includePaths: ['./node_modules/bootstrap/scss']}).on('error', sass.logError))
     .pipe(concatCss('style.css'))
     .pipe(minifyCss({compatibility: 'ie9'}))
     .pipe(gulp.dest(directories.distribution + '/'));
@@ -80,7 +80,7 @@ gulp.task('build', ['lint', 'js', 'sass', 'html']);
 gulp.task('build:production', ['lint', 'js:production', 'sass:production', 'html']);
 
 gulp.task('watch', function () {
-  return gulp.watch('./' + directories.source + '/**/*', ['build']);
+  return gulp.watch(directories.source.base + '/**/*', ['build']);
 });
 
-gulp.task('default', ['js', 'watch']);
+gulp.task('default', ['build', 'watch']);
