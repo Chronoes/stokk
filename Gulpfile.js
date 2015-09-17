@@ -5,6 +5,7 @@ var source = require('vinyl-source-stream');
 var sass = require('gulp-sass');
 var concatCss = require('gulp-concat');
 var minifyCss = require('gulp-minify-css');
+var eslint = require('gulp-eslint');
 
 var directories = {
   source: {
@@ -14,6 +15,13 @@ var directories = {
   },
   distribution: 'static'
 };
+
+gulp.task('lint', function() {
+  return gulp.src(directories.source.script + '/**/*.js')
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failOnError());
+});
 
 gulp.task('html', function() {
   return gulp.src(directories.source.base + '/index.html')
@@ -67,9 +75,9 @@ gulp.task('sass:production', function() {
     .pipe(gulp.dest(directories.distribution + '/'));
 });
 
-gulp.task('build', ['js', 'sass', 'html']);
+gulp.task('build', ['lint', 'js', 'sass', 'html']);
 
-gulp.task('build:production', ['js:production', 'sass:production', 'html']);
+gulp.task('build:production', ['lint', 'js:production', 'sass:production', 'html']);
 
 gulp.task('watch', function () {
   return gulp.watch('./' + directories.source + '/**/*', ['build']);
