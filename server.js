@@ -1,7 +1,9 @@
 var express = require('express');
 var app = express();
+var api = require('./server/api-router');
 
 app.use(express.static('static'));
+app.use('/api', api);
 
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/static/index.html');
