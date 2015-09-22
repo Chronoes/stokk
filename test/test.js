@@ -8,5 +8,5 @@ function sum(n1, n2) {
 describe('sum', function() {
   it('should return sum of two numbers', function() {
     expect(sum(1, 1)).to.equal(2);
-  })
+  });
 });

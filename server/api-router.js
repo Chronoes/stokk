@@ -13,4 +13,4 @@ router.post('/register', function(req, res) {
   res.send('I am API register page.');
 });
 
-module.exports = router; 
+module.exports = router;

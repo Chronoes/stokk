@@ -16,14 +16,15 @@ var directories = {
     style: 'src/styles'
   },
   test: 'test',
+  server: 'server',
   distribution: 'static'
 };
 
 gulp.task('lint', function() {
-  return gulp.src(directories.source.script + '/**/*.js')
+  return gulp.src(['./*.js', directories.source.script + '/**/*.js', directories.test + '/**/*.js', directories.server + '/**/*.js'])
     .pipe(eslint())
     .pipe(eslint.format())
-    .pipe(eslint.failOnError());
+    .pipe(eslint.failAfterError());
 });
 
 gulp.task('html', function() {
@@ -31,28 +32,28 @@ gulp.task('html', function() {
     .pipe(gulp.dest(directories.distribution));
 });
 
-gulp.task('js', function () {
+gulp.task('js', function() {
   return browserify({
     entries: directories.source.script + '/main.js',
     extensions: ['.js'],
     debug: true
   })
   .transform(babelify.configure({
-    optional: ["es7"]
+    optional: ['es7']
   }))
   .bundle()
   .pipe(source('bundle.js'))
   .pipe(gulp.dest(directories.distribution));
 });
 
-gulp.task('js:production', function () {
+gulp.task('js:production', function() {
   return browserify({
     entries: directories.source.script + '/main.js',
     extensions: ['.js'],
     debug: false
   })
   .transform(babelify.configure({
-    optional: ["es7"]
+    optional: ['es7']
   }))
   .transform({
     global: true,
@@ -80,7 +81,7 @@ gulp.task('sass:production', function() {
 
 gulp.task('test', function() {
   return gulp.src(directories.test + '/**/*.js', { read: false })
-    .pipe(mocha({ reporter: 'spec' }));
+    .pipe(mocha({ reporter: 'nyan' }));
 });
 
 gulp.task('build', function() {
@@ -91,8 +92,16 @@ gulp.task('build:production', function() {
   runSequence('lint', 'test', ['js:production', 'sass:production', 'html']);
 });
 
-gulp.task('watch', function () {
-  return gulp.watch([directories.source.base + '/**/*', directories.test + '/**/*'], ['build']);
+gulp.task('watch', function() {
+  return gulp.watch(
+    [
+      '*.js',
+      directories.source.base + '/**/*',
+      directories.test + '/**/*',
+      directories.server + '/**/*.js'
+    ],
+    ['build']
+  );
 });
 
 gulp.task('default', ['build', 'watch']);

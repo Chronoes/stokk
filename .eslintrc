@@ -1,6 +1,8 @@
 {
-  "extends": "airbnb",
+  "extends": "airbnb-es5",
   "rules": {
-  	"react/prop-types": 0
-  }
+    "func-names": 0,
+    "no-console": 0,
+    "new-cap": 0,
+  },
 }
