@@ -14,17 +14,34 @@ class Navbar extends Component {
   }
 
   render() {
+    const {loggedIn} = this.props;
+
+    const dashboardLink = (
+      <li className={this.getLinkState('/dashboard')} key="dashboardLink">
+        <Link className="nav-link" to="/dashboard">Dashboard</Link>
+      </li>
+    );
+
+    const authenticatedLinks = [
+      dashboardLink,
+    ];
+
+    const loginLink = (
+      <li className={this.getLinkState('/login')} key="loginLink">
+        <Link className="nav-link" to="/login">Login</Link>
+      </li>
+    );
+
+    const unAuthenticatedLinks = [
+      loginLink,
+    ];
+
     return (
       <nav className="stokk-navbar">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">Stokk</Link>
           <ul className="nav navbar-nav">
-            <li className={this.getLinkState('/dashboard')}>
-              <Link className="nav-link" to="/dashboard">Dashboard</Link>
-            </li>
-            <li className={this.getLinkState('/login')}>
-              <Link className="nav-link" to="/login">Login</Link>
-            </li>
+            {loggedIn ? authenticatedLinks : unAuthenticatedLinks}
           </ul>
         </div>
       </nav>
