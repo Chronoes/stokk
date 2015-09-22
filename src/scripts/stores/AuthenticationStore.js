@@ -1,8 +1,8 @@
-import {createStore} from '../altInstance';
 import immutable from 'alt/utils/ImmutableUtil';
 import {Map} from 'immutable';
 
-@createStore
+import alt from '../altInstance';
+
 @immutable
 class AuthenticationStore {
   static displayName = 'AuthenticationStore';
@@ -14,4 +14,4 @@ class AuthenticationStore {
   }
 }
 
-export default AuthenticationStore;
+export default alt.createStore(AuthenticationStore);

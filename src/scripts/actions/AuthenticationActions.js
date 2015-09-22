@@ -1,8 +1,7 @@
-import {createActions} from '../altInstance';
+import alt from '../altInstance';
 
-@createActions
 class AuthenticationActions {
 
 }
 
-export default AuthenticationActions;
+export default alt.createActions(AuthenticationActions);
