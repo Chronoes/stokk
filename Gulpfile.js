@@ -6,6 +6,8 @@ var sass = require('gulp-sass');
 var concatCss = require('gulp-concat');
 var minifyCss = require('gulp-minify-css');
 var eslint = require('gulp-eslint');
+var runSequence = require('run-sequence');
+var mocha = require('gulp-mocha');
 
 var directories = {
   source: {
@@ -13,6 +15,7 @@ var directories = {
     script: 'src/scripts',
     style: 'src/styles'
   },
+  test: 'test',
   distribution: 'static'
 };
 
@@ -75,12 +78,21 @@ gulp.task('sass:production', function() {
     .pipe(gulp.dest(directories.distribution + '/'));
 });
 
-gulp.task('build', ['lint', 'js', 'sass', 'html']);
+gulp.task('test', function() {
+  return gulp.src(directories.test + '/**/*.js', { read: false })
+    .pipe(mocha({ reporter: 'spec' }));
+});
 
-gulp.task('build:production', ['lint', 'js:production', 'sass:production', 'html']);
+gulp.task('build', function() {
+  runSequence('lint', 'test', ['js', 'sass', 'html']);
+});
+
+gulp.task('build:production', function() {
+  runSequence('lint', 'test', ['js:production', 'sass:production', 'html']);
+});
 
 gulp.task('watch', function () {
-  return gulp.watch(directories.source.base + '/**/*', ['build']);
+  return gulp.watch([directories.source.base + '/**/*', directories.test + '/**/*'], ['build']);
 });
 
 gulp.task('default', ['build', 'watch']);
