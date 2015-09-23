@@ -1,16 +1,15 @@
-var express = require('express');
-var router = express.Router();
+const api = require('express').Router();
 
-router.get('/', function(req, res) {
+api.get('/', (req, res) => {
   res.send('I am API page. There be dragons!');
 });
 
-router.post('/login', function(req, res) {
+api.post('/login', (req, res) => {
   res.send('I am API login page.');
 });
 
-router.post('/register', function(req, res) {
+api.post('/register', (req, res) => {
   res.send('I am API register page.');
 });
 
-module.exports = router;
+module.exports = api;

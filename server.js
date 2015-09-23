@@ -1,21 +1,22 @@
-var express = require('express');
-var app = express();
-var api = require('./server/api-router');
-var path = require('path');
+const express = require('express');
+const path = require('path');
+const api = require('./server/api-router');
+
+const app = express();
 
 app.use(express.static('static'));
 app.use('/api', api);
 
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/static/index.html'));
 });
 
-app.get('/*', function(req, res) {
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/static/index.html'));
 });
 
-var server = app.listen(1337, function() {
-  var port = server.address().port;
+const server = app.listen(1337, () => {
+  const port = server.address().port;
 
   console.log('Listening on ' + port);
 });

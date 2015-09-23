@@ -1,77 +1,83 @@
-var gulp = require('gulp');
-var browserify = require('browserify');
-var babelify = require('babelify');
-var source = require('vinyl-source-stream');
-var sass = require('gulp-sass');
-var concatCss = require('gulp-concat');
-var minifyCss = require('gulp-minify-css');
-var eslint = require('gulp-eslint');
-var runSequence = require('run-sequence');
-var mocha = require('gulp-mocha');
+import gulp from 'gulp';
+import browserify from 'browserify';
+import babelify from 'babelify';
+import source from 'vinyl-source-stream';
+import sass from 'gulp-sass';
+import concatCss from 'gulp-concat';
+import minifyCss from 'gulp-minify-css';
+import eslint from 'gulp-eslint';
+import runSequence from 'run-sequence';
+import mocha from 'gulp-mocha';
 
-var directories = {
+const directories = {
   source: {
     base: 'src/',
     script: 'src/scripts',
-    style: 'src/styles'
+    style: 'src/styles',
   },
   test: 'test',
   server: 'server',
-  distribution: 'static'
+  distribution: 'static',
 };
 
-gulp.task('lint', function() {
-  return gulp.src(['./*.js', directories.source.script + '/**/*.js', directories.test + '/**/*.js', directories.server + '/**/*.js'])
+gulp.task('lint', () => {
+  return gulp.src(
+    [
+      './*.js',
+      directories.source.script + '/**/*.js',
+      directories.test + '/**/*.js',
+      directories.server + '/**/*.js',
+    ])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('html', function() {
+gulp.task('html', () => {
   return gulp.src(directories.source.base + '/index.html')
     .pipe(gulp.dest(directories.distribution));
 });
 
-gulp.task('js', function() {
+gulp.task('js', () => {
   return browserify({
     entries: directories.source.script + '/main.js',
     extensions: ['.js'],
-    debug: true
+    debug: true,
   })
   .transform(babelify.configure({
-    optional: ['es7']
+    optional: ['es7'],
   }))
   .bundle()
   .pipe(source('bundle.js'))
   .pipe(gulp.dest(directories.distribution));
 });
 
-gulp.task('js:production', function() {
+gulp.task('js:production', () => {
   return browserify({
     entries: directories.source.script + '/main.js',
     extensions: ['.js'],
-    debug: false
+    debug: false,
   })
   .transform(babelify.configure({
-    optional: ['es7']
+    optional: ['es7'],
   }))
   .transform({
     global: true,
-    sourcemap: false
+    sourcemap: false,
   }, 'uglifyify')
   .bundle()
   .pipe(source('bundle.js'))
   .pipe(gulp.dest(directories.distribution));
 });
 
-gulp.task('sass', function() {
+gulp.task('sass', () => {
   return gulp.src(directories.source.style + '/main.scss')
     .pipe(sass({includePaths: ['./node_modules/bootstrap/scss']}).on('error', sass.logError))
     .pipe(concatCss('style.css'))
     .pipe(gulp.dest(directories.distribution + '/'));
 });
 
-gulp.task('sass:production', function() {
+gulp.task('sass:production', () => {
   return gulp.src(directories.source.style + '/main.scss')
     .pipe(sass({includePaths: ['./node_modules/bootstrap/scss']}).on('error', sass.logError))
     .pipe(concatCss('style.css'))
@@ -79,26 +85,26 @@ gulp.task('sass:production', function() {
     .pipe(gulp.dest(directories.distribution + '/'));
 });
 
-gulp.task('test', function() {
+gulp.task('test', () => {
   return gulp.src(directories.test + '/**/*.js', { read: false })
     .pipe(mocha({ reporter: 'nyan' }));
 });
 
-gulp.task('build', function() {
+gulp.task('build', () => {
   runSequence('lint', 'test', ['js', 'sass', 'html']);
 });
 
-gulp.task('build:production', function() {
+gulp.task('build:production', () => {
   runSequence('lint', 'test', ['js:production', 'sass:production', 'html']);
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', () => {
   return gulp.watch(
     [
       '*.js',
       directories.source.base + '/**/*',
       directories.test + '/**/*',
-      directories.server + '/**/*.js'
+      directories.server + '/**/*.js',
     ],
     ['build']
   );
