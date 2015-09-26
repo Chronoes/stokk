@@ -7,7 +7,15 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = AuthenticationStore.getState();
-    AuthenticationStore.listen(state => this.setState(state));
+    AuthenticationStore.listen(this.onAuthenticationStoreChange.bind(this));
+  }
+
+  onAuthenticationStoreChange(newState) {
+    this.setState(newState);
+  }
+
+  componentWillUnmount() {
+    AuthenticationStore.unlisten(this.onAuthenticationStoreChange.bind(this));
   }
 
   render() {

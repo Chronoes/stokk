@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import {register} from '../actions/RegistrationActions';
+
 class RegisterForm extends Component {
   static MINIMUM_PASSWORD_LENGTH = 8;
 
@@ -14,9 +16,13 @@ class RegisterForm extends Component {
 
   onSubmit(event) {
     event.preventDefault();
-    const email = this.refs.email.value.trim();
-    const passwordOnce = this.refs.passwordOnce.value;
-    const passwordTwice = this.refs.passwordTwice.value;
+    const emailNode = this.refs.email;
+    const passwordOnceNode = this.refs.passwordOnce;
+    const passwordTwiceNode = this.refs.passwordTwice;
+
+    const email = emailNode.value.trim();
+    const passwordOnce = passwordOnceNode.value;
+    const passwordTwice = passwordTwiceNode.value;
 
     const valids = {
       email: true,
@@ -47,7 +53,7 @@ class RegisterForm extends Component {
         errorMessage: errorMessages.shift(),
       });
     } else {
-      // register
+      register(email, passwordOnce);
       this.setState({
         isEmailValid: true,
         arePasswordsValid: true,
@@ -57,7 +63,9 @@ class RegisterForm extends Component {
   }
 
   render() {
-    const {isEmailValid, arePasswordsValid, errorMessage} = this.state;
+    const {isEmailValid, arePasswordsValid} = this.state;
+    const {isLoading} = this.props;
+    const errorMessage = this.props.errorMessage.length ? this.props.errorMessage : this.state.errorMessage;
     const errorNode = (
       <div className="alert alert-danger">
         {errorMessage}
@@ -98,7 +106,8 @@ class RegisterForm extends Component {
               <input
                 type="submit"
                 value="Submit"
-                className="btn btn-primary btn-block" />
+                className="btn btn-primary btn-block"
+                disabled={isLoading}/>
             </div>
           </form>
         </div>

@@ -2,9 +2,9 @@ import React from 'react';
 import {Route, Redirect} from 'react-router';
 
 import App from './components/App';
-import RegisterPage from './components/RegisterPage';
-import LoginPage from './components/LoginPage';
-import Dashboard from './components/Dashboard';
+import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/LoginPage';
+import DashboardPage from './pages/DashboardPage';
 
 import AuthenticationStore from './stores/AuthenticationStore';
 
@@ -17,7 +17,7 @@ function requireAuth(nextState, replaceState) {
 export default (
   <Route path="/" component={App}>
     <Redirect from="/" to="/dashboard" />
-    <Route path="dashboard" component={Dashboard} onEnter={requireAuth}/>
+    <Route path="dashboard" component={DashboardPage} onEnter={requireAuth}/>
     <Route path="login" component={LoginPage} />
     <Route path="register" component={RegisterPage} />
   </Route>
