@@ -1,6 +1,7 @@
 {
   "rules": {
-    "no-console": 2,
+  	"react/sort-comp": 0,
+    "no-console": 1,
     "new-cap": 2,
     "react/prop-types": 0,
   },

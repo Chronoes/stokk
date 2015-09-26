@@ -32,8 +32,15 @@ class Navbar extends Component {
       </li>
     );
 
+    const registerLink = (
+      <li className={this.getLinkState('/register')} key="registerLink">
+        <Link className="nav-link" to="/register">Register</Link>
+      </li>
+    );
+
     const unAuthenticatedLinks = [
       loginLink,
+      registerLink,
     ];
 
     return (

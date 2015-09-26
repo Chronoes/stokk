@@ -2,6 +2,7 @@ import React from 'react';
 import {Route, Redirect} from 'react-router';
 
 import App from './components/App';
+import RegisterPage from './components/RegisterPage';
 import LoginPage from './components/LoginPage';
 import Dashboard from './components/Dashboard';
 
@@ -18,5 +19,6 @@ export default (
     <Redirect from="/" to="/dashboard" />
     <Route path="dashboard" component={Dashboard} onEnter={requireAuth}/>
     <Route path="login" component={LoginPage} />
+    <Route path="register" component={RegisterPage} />
   </Route>
 );
