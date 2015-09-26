@@ -8,6 +8,7 @@ import minifyCss from 'gulp-minify-css';
 import eslint from 'gulp-eslint';
 import runSequence from 'run-sequence';
 import mocha from 'gulp-mocha';
+import minifyHtml from 'gulp-minify-html';
 
 const directories = {
   source: {
@@ -36,6 +37,12 @@ gulp.task('lint', () => {
 
 gulp.task('html', () => {
   return gulp.src(directories.source.base + '/index.html')
+    .pipe(gulp.dest(directories.distribution));
+});
+
+gulp.task('html:production', () => {
+  return gulp.src(directories.source.base + '/index.html')
+    .pipe(minifyHtml())
     .pipe(gulp.dest(directories.distribution));
 });
 
@@ -101,7 +108,7 @@ gulp.task('build', () => {
 });
 
 gulp.task('build:production', () => {
-  runSequence('lint', 'test', ['js:production', 'sass:production', 'html', 'images']);
+  runSequence('lint', 'test', ['js:production', 'sass:production', 'html:production', 'images']);
 });
 
 gulp.task('watch', () => {
