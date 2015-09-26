@@ -16,6 +16,12 @@ class Navbar extends Component {
   render() {
     const {loggedIn} = this.props;
 
+    const indexLink = (
+      <li className={this.getLinkState('/')} key="indexLink">
+        <Link className="navbar-brand" to="/"><img src="drawing.svg" /></Link>
+      </li>
+    );
+
     const dashboardLink = (
       <li className={this.getLinkState('/dashboard')} key="dashboardLink">
         <Link className="nav-link" to="/dashboard">Dashboard</Link>
@@ -23,6 +29,7 @@ class Navbar extends Component {
     );
 
     const authenticatedLinks = [
+      indexLink,
       dashboardLink,
     ];
 
@@ -33,13 +40,13 @@ class Navbar extends Component {
     );
 
     const unAuthenticatedLinks = [
+      indexLink,
       loginLink,
     ];
 
     return (
       <nav className="stokk-navbar">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">Stokk</Link>
           <ul className="nav navbar-nav">
             {loggedIn ? authenticatedLinks : unAuthenticatedLinks}
           </ul>

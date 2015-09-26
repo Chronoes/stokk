@@ -13,7 +13,8 @@ var directories = {
   source: {
     base: 'src/',
     script: 'src/scripts',
-    style: 'src/styles'
+    style: 'src/styles',
+    images: 'src/images'
   },
   test: 'test',
   server: 'server',
@@ -29,6 +30,11 @@ gulp.task('lint', function() {
 
 gulp.task('html', function() {
   return gulp.src(directories.source.base + '/index.html')
+    .pipe(gulp.dest(directories.distribution));
+});
+
+gulp.task('images', function() {
+  return gulp.src(directories.source.images + '/*.svg')
     .pipe(gulp.dest(directories.distribution));
 });
 
@@ -85,11 +91,11 @@ gulp.task('test', function() {
 });
 
 gulp.task('build', function() {
-  runSequence('lint', 'test', ['js', 'sass', 'html']);
+  runSequence('lint', 'test', ['js', 'sass', 'html', 'images']);
 });
 
 gulp.task('build:production', function() {
-  runSequence('lint', 'test', ['js:production', 'sass:production', 'html']);
+  runSequence('lint', 'test', ['js:production', 'sass:production', 'html', 'images']);
 });
 
 gulp.task('watch', function() {
