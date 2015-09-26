@@ -1,15 +1,7 @@
 const api = require('express').Router();
+const handle = require('./api-handlers');
 
-api.get('/', (req, res) => {
-  res.send('I am API page. There be dragons!');
-});
-
-api.post('/login', (req, res) => {
-  res.send('I am API login page.');
-});
-
-api.post('/register', (req, res) => {
-  res.send('I am API register page.');
-});
+api.post('/login', handle.login);
+api.post('/register', handle.register);
 
 module.exports = api;

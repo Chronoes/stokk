@@ -1,8 +1,11 @@
 const express = require('express');
 const path = require('path');
 const api = require('./server/api-router');
+const bodyParser = require('body-parser');
 
 const app = express();
+
+app.use(bodyParser.json());
 
 app.use(express.static('static'));
 app.use('/api', api);
