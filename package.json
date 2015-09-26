@@ -27,6 +27,7 @@
     "express": "^4.13.3",
     "history": "^1.9.1",
     "immutable": "^3.7.5",
+    "jsonwebtoken": "^5.0.5",
     "react": "^0.14.0-rc1",
     "react-dom": "^0.14.0-rc1",
     "react-router": "^1.0.0-rc1",
