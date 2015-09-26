@@ -3,11 +3,11 @@
   "version": "0.0.1",
   "description": "A stock tracker application",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
-    "url": "http://uku.tammet@hektor1.ttu.ee/git/scm/jekaterina_boys/stokk.git"
+    "url": "http://hektor1.ttu.ee/git/scm/jekaterina_boys/stokk.git"
   },
   "keywords": [
     "javascript",
@@ -23,6 +23,7 @@
     "alt": "^0.17.3",
     "axios": "^0.5.4",
     "bcrypt-as-promised": "^1.0.1",
+    "body-parser": "^1.14.0",
     "bootstrap": "https://github.com/twbs/bootstrap/tarball/v4.0.0-alpha",
     "express": "^4.13.3",
     "history": "^1.9.1",
@@ -41,7 +42,6 @@
     "chai": "^3.3.0",
     "eslint": "^1.5.0",
     "eslint-config-airbnb": "0.0.8",
-    "eslint-config-airbnb-es5": "^1.0.8",
     "eslint-plugin-mocha": "^1.0.0",
     "eslint-plugin-react": "^3.4.1",
     "gulp": "^3.9.0",
