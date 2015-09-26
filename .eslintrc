@@ -1,8 +1,7 @@
 {
-  "extends": "airbnb-es5",
+  "extends": "airbnb",
   "rules": {
-    "func-names": 0,
     "no-console": 0,
     "new-cap": 0,
-  },
+  }
 }

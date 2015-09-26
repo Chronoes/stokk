@@ -1,7 +1,7 @@
 {
-  "root": true,
-  "extends": "airbnb",
   "rules": {
-  	"react/prop-types": 0,
+    "no-console": 2,
+    "new-cap": 2,
+    "react/prop-types": 0,
   },
 }

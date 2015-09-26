@@ -1,16 +1,16 @@
-var Sequelize = require('sequelize');
-var sequelize = require('../database');
+const Sequelize = require('sequelize');
+const sequelize = require('../database');
 
-var User = sequelize.define('user', {
+const User = sequelize.define('user', {
   email: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
 
   password: {
     type: Sequelize.STRING,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 });
 
 module.exports = User;
