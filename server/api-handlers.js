@@ -8,8 +8,7 @@ exports.login = (req, res) => {
 exports.register = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-  User.sync()
-    .then(() => bcrypt.hash(password, 10))
+  bcrypt.hash(password, 10)
     .then(hash => {
       User
         .findOrCreate({where: {email: email}, defaults: {email: email, password: hash}})

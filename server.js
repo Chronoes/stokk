@@ -1,7 +1,8 @@
 const express = require('express');
 const path = require('path');
-const api = require('./server/api-router');
 const bodyParser = require('body-parser');
+const api = require('./server/api-router');
+const database = require('./server/database');
 
 const app = express();
 
@@ -18,8 +19,10 @@ app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/static/index.html'));
 });
 
-const server = app.listen(1337, () => {
-  const port = server.address().port;
+database.sync().then(() => {
+  const server = app.listen(1337, () => {
+    const port = server.address().port;
 
-  console.log('Listening on ' + port);
+    console.log('Listening on ' + port);
+  });
 });

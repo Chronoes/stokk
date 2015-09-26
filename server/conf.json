@@ -1,9 +1,0 @@
-{
-	"database": {
-		"dialect": "sqlite",
-		"name": "stokk",
-		"path": "../database.sqlite",
-		"user": "JBOY",
-		"password": "JEKATERINA_JAYLORD2"
-	}
-}
