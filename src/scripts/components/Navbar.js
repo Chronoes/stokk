@@ -46,7 +46,9 @@ class Navbar extends Component {
     return (
       <nav className="stokk-navbar">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/"><img src="drawing.svg" /></Link>
+          <Link className="navbar-brand" to="/">
+            <img className="navbar-brand-image" src="logo.svg" />
+          </Link>
           <ul className="nav navbar-nav">
             {loggedIn ? authenticatedLinks : unAuthenticatedLinks}
           </ul>
