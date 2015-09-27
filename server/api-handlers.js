@@ -13,7 +13,6 @@ exports.register = (req, res) => {
       User
         .findOrCreate({where: {email: email}, defaults: {email: email, password: hash}})
         .spread((user, created) => {
-          console.log(user.get({plain: true}));
           if (created) {
             res.status(200).json({
               message: `User created: ID ${user.get('id')}`,
