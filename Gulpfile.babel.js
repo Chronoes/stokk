@@ -84,14 +84,14 @@ gulp.task('js:production', () => {
 });
 
 gulp.task('sass', () => {
-  return gulp.src(directories.source.style + '/main.scss')
+  return gulp.src(directories.source.style + '/*.scss')
     .pipe(sass({includePaths: ['./node_modules/bootstrap/scss']}).on('error', sass.logError))
     .pipe(concatCss('style.css'))
     .pipe(gulp.dest(directories.distribution + '/'));
 });
 
 gulp.task('sass:production', () => {
-  return gulp.src(directories.source.style + '/main.scss')
+  return gulp.src(directories.source.style + '/*.scss')
     .pipe(sass({includePaths: ['./node_modules/bootstrap/scss']}).on('error', sass.logError))
     .pipe(concatCss('style.css'))
     .pipe(minifyCss({compatibility: 'ie9'}))

@@ -1,0 +1,13 @@
+.register-form-container {
+	@extend .col-xs-12;
+	@extend .col-sm-6;
+	@extend .col-sm-offset-3;
+	margin-top: 25px;
+}
+
+.stokk-card {
+	@extend .card; 
+	@extend .card-block; 
+	@extend .card-inverse;
+	border-width: 1px;
+}
