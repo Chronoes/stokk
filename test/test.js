@@ -1,12 +1,32 @@
-import {expect} from 'chai';
-// Delete this file later
+import bcrypt from 'bcrypt-as-promised';
+import User from '../server/models/User';
 
-function sum(n1, n2) {
-  return n1 + n2;
+function genHash(password) {
+  return bcrypt.hash(password, 10);
 }
 
-describe('sum', () => {
-  it('should return sum of two numbers', () => {
-    expect(sum(1, 1)).to.equal(2);
-  });
+before(done => {
+  User.sync({force: true}).then(() =>
+    genHash('testingpass1'))
+  .then(hash =>
+    User.create({
+      email: 'test1@stokk.io',
+      password: hash,
+    }))
+  .then(() =>
+    genHash('testingpass2'))
+  .then(hash =>
+    User.create({
+      email: 'test2@stokk.io',
+      password: hash,
+    }))
+  .then(() =>
+    genHash('testingpass2'))
+  .then(hash =>
+    User.create({
+      email: 'test3@stokk.io',
+      password: hash,
+    }))
+  .catch(console.error)
+  .then(() => done());
 });
