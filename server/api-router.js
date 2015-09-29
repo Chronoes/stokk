@@ -1,7 +1,8 @@
 const api = require('express').Router();
-const handle = require('./api-handlers');
+const loginHandler = require('./routes/login');
+const registerHandler = require('./routes/register');
 
-api.post('/login', handle.login);
-api.post('/register', handle.register);
+api.post('/login', loginHandler);
+api.post('/register', registerHandler);
 
 module.exports = api;

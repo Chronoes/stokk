@@ -8,6 +8,7 @@ const sequelize = new Sequelize(conf.name, conf.user, conf.password, {
     min: 0,
     idle: 10000,
   },
+  logging: conf.loggingEnabled,
   storage: conf.path,
 });
 
