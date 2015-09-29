@@ -23,6 +23,8 @@ database.sync().then(() => {
   const server = app.listen(1337, () => {
     const port = server.address().port;
 
+    /* eslint-disable */
     console.log('Listening on ' + port);
+    /* eslint-enable */
   });
 });

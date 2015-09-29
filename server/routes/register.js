@@ -1,11 +1,7 @@
-const User = require('./models/User');
+const User = require('../models/User');
 const bcrypt = require('bcrypt-as-promised');
 
-exports.login = (req, res) => {
-  res.send('I am login page');
-};
-
-exports.register = (req, res) => {
+module.exports = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   bcrypt.hash(password, 10)

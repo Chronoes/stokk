@@ -6,6 +6,7 @@ module.exports = {
     name: 'stokk',
     path: path.join(__dirname, '/database.sqlite'),
     user: 'JBOY',
+    loggingEnabled: false,
     password: 'JEKATERINA_JAYLORD2',
   },
 };
