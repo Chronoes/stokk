@@ -1,8 +1,9 @@
+import database from '../server/database';
 import User from '../server/models/User';
 import {genSaltyHash} from '../server/util';
 
 before(done => {
-  User.sync({force: true}).then(() =>
+  database.sync({ force: true }).then(() =>
     genSaltyHash('testingpass1'))
   .then(hash =>
     User.create({

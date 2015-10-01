@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
-const conf = require('./conf').database;
-
+const conf = require('./conf')[process.env.NODE_ENV].database;
+console.log(process.env.NODE_ENV);
 const sequelize = new Sequelize(conf.name, conf.user, conf.password, {
   dialect: conf.dialect,
   pool: {

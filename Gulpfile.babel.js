@@ -9,6 +9,7 @@ import eslint from 'gulp-eslint';
 import runSequence from 'run-sequence';
 import mocha from 'gulp-mocha';
 import minifyHtml from 'gulp-minify-html';
+import env from 'gulp-env';
 
 const directories = {
   source: {
@@ -99,8 +100,11 @@ gulp.task('sass:production', () => {
 });
 
 gulp.task('test', () => {
+  const envs = env.set({ NODE_ENV: 'testing' });
   return gulp.src(directories.test + '/**/*.js', { read: false })
-    .pipe(mocha({ reporter: 'nyan' }));
+    .pipe(envs)
+    .pipe(mocha({ reporter: 'nyan' }))
+    .pipe(envs.reset);
 });
 
 gulp.task('build', () => {

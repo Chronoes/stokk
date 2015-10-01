@@ -2,3 +2,4 @@ node_modules/
 static/
 server/database.sqlite
 server/secret
+test/testDatabase.sqlite
