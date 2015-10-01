@@ -67,21 +67,21 @@ class RegisterForm extends Component {
     const {isLoading} = this.props;
     const errorMessage = this.props.errorMessage.length ? this.props.errorMessage : this.state.errorMessage;
     const errorNode = (
-      <div className="alert alert-danger">
-        {errorMessage}
+      <div className="register-alert">
+        <strong>{errorMessage}</strong>
       </div>
     );
     return (
       <div className="register-form-container">
         <div className="stokk-card">
-          <h4 className="card-title">Register</h4>
+          <h4 className="card-title">Let's get started</h4>
           <form onSubmit={this.onSubmit.bind(this)}>
             <div className={'form-group' + (isEmailValid ? '' : ' has-error')}>
               <input
                 type="email"
                 ref="email"
                 className="form-control"
-                placeholder="email" />
+                placeholder="E-mail" />
             </div>
 
             <div className={'form-group' + (arePasswordsValid ? '' : ' has-error')}>
@@ -89,7 +89,7 @@ class RegisterForm extends Component {
                 type="password"
                 ref="passwordOnce"
                 className="form-control"
-                placeholder="password" />
+                placeholder="Password" />
             </div>
 
             <div className={'form-group' + (arePasswordsValid ? '' : ' has-error')}>
@@ -97,17 +97,18 @@ class RegisterForm extends Component {
                 type="password"
                 ref="passwordTwice"
                 className="form-control"
-                placeholder="password again" />
+                placeholder="Password again" />
             </div>
 
             {errorMessage ? errorNode : ''}
 
-            <div className="form-group">
+            <div className="form-group btn-register-form">
               <input
                 type="submit"
                 value="Submit"
                 className="btn btn-primary btn-block"
-                disabled={isLoading}/>
+                disabled={isLoading}
+                id="SubmitButton" />
             </div>
           </form>
         </div>

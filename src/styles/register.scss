@@ -1,13 +1,42 @@
+.card-title {
+	text-align: center;
+	margin-bottom: 25px;
+}
+
+
 .register-form-container {
 	@extend .col-xs-12;
 	@extend .col-sm-6;
 	@extend .col-sm-offset-3;
-	margin-top: 25px;
+	margin-top: 25vh;
+	
 }
 
 .stokk-card {
 	@extend .card; 
 	@extend .card-block; 
 	@extend .card-inverse;
+
 	border-width: 1px;
+	border-color: #434857;
+
+}
+
+.btn-register-form {
+	margin-bottom: 0;
+}
+
+
+.form-control {
+		background-color: #434857;
+		color:white;
+		border:none;
+	}
+
+.register-alert {
+	
+	@extend .alert;
+	@extend .alert-danger;
+	
+	margin-bottom: 15px;
 }
