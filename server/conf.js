@@ -4,11 +4,11 @@ module.exports = {
   testing: {
     database: {
       dialect: 'sqlite',
-      name: 'stokk',
+      name: 'stokk_test',
       path: './test/testDatabase.sqlite',
-      user: 'JBOY',
+      user: 'JBOYTEST',
       loggingEnabled: false,
-      password: 'JEKATERINA_JAYLORD2',
+      password: 'JEKATESTERINA_JAYLORD2',
     },
   },
   development: {

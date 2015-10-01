@@ -13,7 +13,9 @@ exports.signToken = payload => {
       expiresInSeconds: 3600 * 24 * 30,
     });
   } catch (err) {
+    /* eslint-disable */
     console.log('Go make your own secret file at ./server/');
+    /* eslint-enable */
     throw err;
   }
 };

@@ -23,6 +23,22 @@ const directories = {
   distribution: 'static',
 };
 
+gulp.task('env-testing', () => {
+  env({
+    vars: {
+      NODE_ENV: 'testing',
+    },
+  });
+});
+
+gulp.task('env-development', () => {
+  env({
+    vars: {
+      NODE_ENV: 'development',
+    },
+  });
+});
+
 gulp.task('lint', () => {
   return gulp.src(
     [
@@ -99,28 +115,25 @@ gulp.task('sass:production', () => {
     .pipe(gulp.dest(directories.distribution + '/'));
 });
 
-gulp.task('test', () => {
-  const envs = env.set({ NODE_ENV: 'testing' });
+gulp.task('test', ['env-testing'], () => {
   return gulp.src(directories.test + '/**/*.js', { read: false })
-    .pipe(envs)
-    .pipe(mocha({ reporter: 'nyan' }))
-    .pipe(envs.reset);
+    .pipe(mocha({ reporter: 'nyan' }));
 });
 
 gulp.task('build', () => {
-  runSequence('lint', 'test', ['js', 'sass', 'html', 'images']);
+  runSequence('lint', 'test', ['js', 'sass', 'html', 'images', 'env-development']);
 });
 
 gulp.task('build:production', () => {
   runSequence('lint', 'test', ['js:production', 'sass:production', 'html:production', 'images']);
 });
 
-gulp.task('watch', () => {
+gulp.task('watch', ['env-development'], () => {
   return gulp.watch(
     [
       '*.js',
-      directories.source.base + '/**/*',
-      directories.test + '/**/*',
+      directories.source.base + '/**/*.js',
+      directories.test + '/**/*.js',
       directories.server + '/**/*.js',
     ],
     ['build']
