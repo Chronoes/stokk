@@ -1,15 +1,15 @@
 import chai, {expect} from 'chai';
 import supertestChai, {request} from 'supertest-chai';
 import app from '../server';
+
 chai.use(supertestChai.httpAsserts);
 
-let server;
-
-before(() => {
-  server = app.listen(1338);
-});
-
 describe('Registration handler', () => {
+  let server;
+  before(() => {
+    server = app.listen(1338);
+  });
+
   it('should create a new user in database', done => {
     const mockRequest = {
       email: 'tester@stokk.io',
@@ -41,8 +41,13 @@ describe('Registration handler', () => {
         done();
       });
   });
+
+  it('should fail with missing/empty arguments or empty request');
+
+  it('should fail with incorrect email');
+
+  after(() => {
+    server.close();
+  });
 });
 
-after(() => {
-  server.close();
-});

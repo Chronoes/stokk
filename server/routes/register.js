@@ -11,7 +11,7 @@ module.exports = (req, res) => {
         .spread((user, created) => {
           if (created) {
             res.status(200).json({
-              message: `User created: ID ${user.get('id')}.`,
+              message: `User created: ID ${user.id}.`,
             });
           } else {
             res.status(409).json({

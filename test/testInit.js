@@ -3,26 +3,30 @@ import User from '../server/models/User';
 import {genSaltyHash} from '../server/util';
 
 before(done => {
-  database.sync({ force: true }).then(() =>
-    genSaltyHash('testingpass1'))
-  .then(hash =>
-    User.create({
+  const users = [
+    {
       email: 'test1@stokk.io',
-      password: hash,
-    }))
-  .then(() =>
-    genSaltyHash('testingpass2'))
-  .then(hash =>
-    User.create({
+      password: 'testingpass1',
+    },
+    {
       email: 'test2@stokk.io',
-      password: hash,
-    }))
-  .then(() =>
-    genSaltyHash('testingpass3'))
-  .then(hash =>
-    User.create({
+      password: 'testingpass2',
+    },
+    {
       email: 'test3@stokk.io',
-      password: hash,
-    }))
-  .then(() => done());
+      password: 'testingpass3',
+    },
+  ].map(user =>
+    genSaltyHash(user.password)
+    .then(hash => {
+      return {email: user.email, password: hash};
+    })
+  );
+  database.sync({ force: true })
+  .then(() =>
+    Promise.all(users))
+  .then(hashedUsers =>
+    User.bulkCreate(hashedUsers))
+  .then(() => done())
+  .catch(err => done(err));
 });

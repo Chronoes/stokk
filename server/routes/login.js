@@ -18,8 +18,6 @@ module.exports = (req, res) => {
           res.status(200).json({
             message: `User authorization successful.`,
             token: util.signToken({id: user.id, email: email}),
-            id: user.id,
-            email: email,
           });
         })
         .catch(() => {
