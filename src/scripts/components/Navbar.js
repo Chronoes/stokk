@@ -2,23 +2,12 @@ import React, {Component} from 'react';
 import {Link} from 'react-router';
 
 class Navbar extends Component {
-  getLinkState(linkName) {
-    const baseLinkClass = 'nav-item';
-    const activeLinkClass = 'active';
-
-    if (linkName === this.props.currentPath) {
-      return baseLinkClass + ' ' +  activeLinkClass;
-    }
-
-    return baseLinkClass;
-  }
-
   render() {
     const {loggedIn} = this.props;
 
     const dashboardLink = (
-      <li className={this.getLinkState('/dashboard')} key="dashboardLink">
-        <Link className="nav-link" to="/dashboard">Dashboard</Link>
+      <li className="nav-item" key="dashboardLink">
+        <Link className="nav-link" activeClassName="active" to="/dashboard">Dashboard</Link>
       </li>
     );
 
@@ -27,14 +16,14 @@ class Navbar extends Component {
     ];
 
     const loginLink = (
-      <li className={this.getLinkState('/login')} key="loginLink">
-        <Link className="nav-link" to="/login">Login</Link>
+      <li className="nav-item" key="loginLink">
+        <Link className="nav-link" activeClassName="active" to="/login">Login</Link>
       </li>
     );
 
     const registerLink = (
-      <li className={this.getLinkState('/register')} key="registerLink">
-        <Link className="nav-link" to="/register">Register</Link>
+      <li className="nav-item" key="registerLink">
+        <Link className="nav-link" activeClassName="active" to="/register">Register</Link>
       </li>
     );
 
