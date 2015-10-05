@@ -5,6 +5,8 @@ import app from '../server';
 chai.use(supertestChai.httpAsserts);
 
 describe('Registration handler', () => {
+  const route = '/api/register';
+
   let server;
   before(() => {
     server = app.listen(1338);
@@ -15,11 +17,14 @@ describe('Registration handler', () => {
       email: 'tester@stokk.io',
       password: '45tR0nGPa$$w0rD',
     };
+
     request(server)
-      .post('/api/register')
+      .post(route)
       .send(mockRequest)
       .end((err, res) => {
-        expect(err).to.be.null;
+        if (err) {
+          return done(err);
+        }
         expect(res).to.have.status(200);
         expect(res.body.message).to.have.length.above(0);
         done();
@@ -31,20 +36,81 @@ describe('Registration handler', () => {
       email: 'test1@stokk.io',
       password: '45tR0nGPa$$w0rD',
     };
+
     request(server)
-      .post('/api/register')
+      .post(route)
       .send(mockRequest)
       .end((err, res) => {
-        expect(err).to.be.null;
+        if (err) {
+          return done(err);
+        }
         expect(res).to.have.status(409);
         expect(res.body.message).to.have.length.above(0);
         done();
       });
   });
 
-  it('should fail with missing/empty arguments or empty request');
+  it('should fail with missing/empty arguments or empty request', done => {
+    const emptyRequest = {};
+    const emptyEmailRequest = {
+      email: '',
+      password: '45tR0nGPa$$w0rD',
+    };
+    const emptyPwRequest = {
+      email: 'emptypw@stokk.io',
+      password: '',
+    };
 
-  it('should fail with incorrect email');
+    request(server)
+      .post(route)
+      .send(emptyRequest)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res).to.have.status(400);
+      });
+
+    request(server)
+      .post(route)
+      .send(emptyEmailRequest)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res).to.have.status(400);
+      });
+
+    request(server)
+      .post(route)
+      .send(emptyPwRequest)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res).to.have.status(400);
+        done();
+      });
+  });
+
+  it('should fail with incorrect email', done => {
+    const mockRequest = {
+      email: 'stokk.io',
+      password: '45tR0nGPa$$w0rD',
+    };
+
+    request(server)
+      .post(route)
+      .send(mockRequest)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res).to.have.status(400);
+        expect(res.body.message).to.have.length.above(0);
+        done();
+      });
+  });
 
   after(() => {
     server.close();

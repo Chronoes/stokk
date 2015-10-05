@@ -18,6 +18,11 @@ module.exports = (req, res) => {
               message: `User with email ${email} exists.`,
             });
           }
+        })
+        .catch(() => {
+          res.status(400).json({
+            message: `Email "${email}" is incorrect.`,
+          });
         });
     })
     .catch(err => {
