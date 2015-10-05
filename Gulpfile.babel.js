@@ -117,7 +117,7 @@ gulp.task('sass:production', () => {
 
 gulp.task('test', ['env-testing'], () => {
   return gulp.src(directories.test + '/**/*.js', { read: false })
-    .pipe(mocha({ reporter: 'nyan' }));
+    .pipe(mocha({ reporter: 'spec' }));
 });
 
 gulp.task('build', () => {

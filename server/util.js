@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt-as-promised');
 const jwt = require('jsonwebtoken');
-// const fs = require('fs');
+const fs = require('fs');
 
 exports.genSaltyHash = password => bcrypt.hash(password, 10);
 
