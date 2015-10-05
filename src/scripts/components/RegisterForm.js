@@ -74,14 +74,14 @@ class RegisterForm extends Component {
     return (
       <div className="register-form-container">
         <div className="stokk-card">
-          <h4 className="card-title">Let's get started</h4>
+          <h4 className="card-title">register</h4>
           <form onSubmit={this.onSubmit.bind(this)}>
             <div className={'form-group' + (isEmailValid ? '' : ' has-error')}>
               <input
                 type="email"
                 ref="email"
                 className="form-control"
-                placeholder="E-mail" />
+                placeholder="e-mail" />
             </div>
 
             <div className={'form-group' + (arePasswordsValid ? '' : ' has-error')}>
@@ -89,7 +89,7 @@ class RegisterForm extends Component {
                 type="password"
                 ref="passwordOnce"
                 className="form-control"
-                placeholder="Password" />
+                placeholder="password" />
             </div>
 
             <div className={'form-group' + (arePasswordsValid ? '' : ' has-error')}>
@@ -97,7 +97,7 @@ class RegisterForm extends Component {
                 type="password"
                 ref="passwordTwice"
                 className="form-control"
-                placeholder="Password again" />
+                placeholder="password again" />
             </div>
 
             {errorMessage ? errorNode : ''}
@@ -105,7 +105,7 @@ class RegisterForm extends Component {
             <div className="form-group btn-register-form">
               <input
                 type="submit"
-                value="Submit"
+                value="submit"
                 className="btn btn-primary btn-block"
                 disabled={isLoading}
                 id="SubmitButton" />

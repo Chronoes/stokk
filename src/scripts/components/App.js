@@ -6,12 +6,16 @@ import AuthenticationStore from '../stores/AuthenticationStore';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = AuthenticationStore.getState();
+    this.state = {
+      loginState: AuthenticationStore.getState(),
+    };
     AuthenticationStore.listen(this.onAuthenticationStoreChange.bind(this));
   }
 
   onAuthenticationStoreChange(newState) {
-    this.setState(newState);
+    this.setState({
+      loginState: newState,
+    });
   }
 
   componentWillUnmount() {
@@ -19,8 +23,9 @@ class App extends Component {
   }
 
   render() {
+    const {loginState} = this.state;
+    const token = loginState.get('token');
     const {children} = this.props;
-    const token = this.state.get('token');
     const loggedIn = token.length > 0;
     // transferring props to children is not the same as usual nested components
     const childNodesWithProps = Children.map(children, child => {

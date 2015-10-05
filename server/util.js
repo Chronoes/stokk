@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt-as-promised');
 const jwt = require('jsonwebtoken');
-const fs = require('fs');
+// const fs = require('fs');
 
 exports.genSaltyHash = password => bcrypt.hash(password, 10);
 
@@ -10,7 +10,7 @@ exports.signToken = payload => {
   try {
     const secret = fs.readFileSync('./server/secret', 'utf8');
     return jwt.sign(payload, secret, {
-      expiresInSeconds: 3600 * 24 * 30,
+      expiresIn: 3600 * 24 * 30,
     });
   } catch (err) {
     /* eslint-disable */

@@ -18,7 +18,7 @@ export default (
   <Route path="/" component={App}>
     <Redirect from="/" to="/dashboard" />
     <Route path="dashboard" component={DashboardPage} onEnter={requireAuth}/>
-    <Route path="login" component={LoginPage} />
+    <Route path="login" component={LoginPage}/ >
     <Route path="register" component={RegisterPage} />
   </Route>
 );
