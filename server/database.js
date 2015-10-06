@@ -3,7 +3,7 @@ import conf from './conf';
 
 const database = conf[process.env.NODE_ENV].database;
 
-const sequelize = new Sequelize(database.name, database.user, database.password, {
+export default new Sequelize(database.name, database.user, database.password, {
   dialect: database.dialect,
   pool: {
     max: 5,
@@ -13,5 +13,3 @@ const sequelize = new Sequelize(database.name, database.user, database.password,
   logging: database.loggingEnabled,
   storage: database.path,
 });
-
-export default sequelize;
