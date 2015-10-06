@@ -1,5 +1,5 @@
-const User = require('../models/User');
-const util = require('../util');
+import User from '../models/User';
+import {compareSaltyHash, signToken} from '../util';
 
 function doesNotExist(res, email) {
   res.status(401).json({
@@ -7,17 +7,16 @@ function doesNotExist(res, email) {
   });
 }
 
-module.exports = (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  return User.findOne({where: {email: email}})
+export default (req, res) => {
+  const {email, password} = req.body;
+  return User.findOne({where: {email}})
     .then(user => {
       if (user !== null) {
-        util.compareSaltyHash(password, user.password)
+        compareSaltyHash(password, user.password)
         .then(() => {
           res.status(200).json({
             message: `User authorization successful.`,
-            token: util.signToken({id: user.id, email: email}),
+            token: signToken({id: user.id, email}),
           });
         })
         .catch(() => {

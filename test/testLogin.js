@@ -1,11 +1,13 @@
 // import chai, {expect} from 'chai';
 // import supertestChai, {request} from 'supertest-chai';
-import app from '../server';
+import app from '../server/app';
 
 // chai.use(supertestChai.httpAsserts);
 
 
 describe('Login handler', () => {
+  // const route = '/api/login';
+
   let server;
   before(() => {
     server = app.listen(1338);

@@ -1,15 +1,17 @@
-const Sequelize = require('sequelize');
-const conf = require('./conf')[process.env.NODE_ENV].database;
+import Sequelize from 'sequelize';
+import conf from './conf';
 
-const sequelize = new Sequelize(conf.name, conf.user, conf.password, {
-  dialect: conf.dialect,
+const database = conf[process.env.NODE_ENV].database;
+
+const sequelize = new Sequelize(database.name, database.user, database.password, {
+  dialect: database.dialect,
   pool: {
     max: 5,
     min: 0,
     idle: 10000,
   },
-  logging: conf.loggingEnabled,
-  storage: conf.path,
+  logging: database.loggingEnabled,
+  storage: database.path,
 });
 
-module.exports = sequelize;
+export default sequelize;

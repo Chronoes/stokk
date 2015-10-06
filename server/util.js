@@ -1,12 +1,16 @@
-const bcrypt = require('bcrypt-as-promised');
-const jwt = require('jsonwebtoken');
-const fs = require('fs');
+import bcrypt from 'bcrypt-as-promised';
+import jwt from 'jsonwebtoken';
+import fs from 'fs';
 
-exports.genSaltyHash = password => bcrypt.hash(password, 10);
+export function genSaltyHash(password) {
+  return bcrypt.hash(password, 10);
+}
 
-exports.compareSaltyHash = (password, hash) => bcrypt.compare(password, hash);
+export function compareSaltyHash(password, hash) {
+  return bcrypt.compare(password, hash);
+}
 
-exports.signToken = payload => {
+export function signToken(payload) {
   try {
     const secret = fs.readFileSync('./server/secret', 'utf8');
     return jwt.sign(payload, secret, {
@@ -18,4 +22,5 @@ exports.signToken = payload => {
     /* eslint-enable */
     throw err;
   }
-};
+}
+

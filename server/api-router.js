@@ -1,6 +1,8 @@
-const api = require('express').Router();
-const loginHandler = require('./routes/login');
-const registerHandler = require('./routes/register');
+import {Router} from 'express';
+import loginHandler from './routes/login';
+import registerHandler from './routes/register';
+
+const api = Router();
 
 api.use((req, res, next) => {
   if (Object.keys(req.body).length > 0) {
@@ -24,4 +26,4 @@ api.use((req, res, next) => {
 api.post('/login', loginHandler);
 api.post('/register', registerHandler);
 
-module.exports = api;
+export default api;

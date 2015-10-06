@@ -1,13 +1,12 @@
-const User = require('../models/User');
-const genSaltyHash = require('../util').genSaltyHash;
+import User from '../models/User';
+import {genSaltyHash} from '../util';
 
-module.exports = (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
+export default (req, res) => {
+  const {email, password} = req.body;
   return genSaltyHash(password)
     .then(hash => {
       User
-        .findOrCreate({where: {email: email}, defaults: {email: email, password: hash}})
+        .findOrCreate({where: {email}, defaults: {email, password: hash}})
         .spread((user, created) => {
           if (created) {
             res.status(200).json({
