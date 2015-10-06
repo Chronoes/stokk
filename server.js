@@ -2,7 +2,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 require('babel-core/register');
 
-const app = require('./server/app');
+const app = require('./app');
 const database = require('./server/database');
 
 database.sync().then(() => {

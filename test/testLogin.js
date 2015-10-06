@@ -1,6 +1,6 @@
 // import chai, {expect} from 'chai';
 // import supertestChai, {request} from 'supertest-chai';
-import app from '../server/app';
+import app from '../app';
 
 // chai.use(supertestChai.httpAsserts);
 
