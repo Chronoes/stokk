@@ -92,6 +92,7 @@ describe('Login handler', () => {
         expect(res.body.message).to.have.length.above(0);
         done();
       });
+  });
 
   it('should fail with incorrect email');
 
