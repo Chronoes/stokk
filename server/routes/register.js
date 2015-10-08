@@ -1,5 +1,5 @@
 import User from '../models/User';
-import {genSaltyHash} from '../util';
+import {genSaltyHash, signToken} from '../util';
 
 export default (req, res) => {
   const {email, password} = req.body;
@@ -10,7 +10,8 @@ export default (req, res) => {
         .spread((user, created) => {
           if (created) {
             res.status(200).json({
-              message: `User created: ID ${user.id}.`,
+              message: 'User created.',
+              token: signToken({id: user.id, email}),
             });
           } else {
             res.status(409).json({

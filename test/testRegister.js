@@ -1,6 +1,8 @@
 import chai, {expect} from 'chai';
 import supertestChai, {request} from 'supertest-chai';
 import app from '../app';
+import fs from 'fs';
+import jwt from 'jsonwebtoken';
 
 chai.use(supertestChai.httpAsserts);
 
@@ -13,6 +15,7 @@ describe('Registration handler', () => {
   });
 
   it('should create a new user in database', done => {
+    const secret = fs.readFileSync('./server/secret', 'utf8');
     const mockRequest = {
       email: 'tester@stokk.io',
       password: '45tR0nGPa$$w0rD',
@@ -27,6 +30,8 @@ describe('Registration handler', () => {
         }
         expect(res).to.have.status(200);
         expect(res.body.message).to.have.length.above(0);
+        expect(res.body.token).to.have.length.above(0);
+        expect(mockRequest.email).to.equal(jwt.verify(res.body.token, secret).email);
         done();
       });
   });

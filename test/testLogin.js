@@ -32,8 +32,7 @@ describe('Login handler', () => {
         }
         expect(res).to.have.status(200);
         expect(res.body.message).to.have.length.above(0);
-        expect(mockRequest.email).to.have
-          .equals(jwt.verify(res.body.token, secret).email);
+        expect(mockRequest.email).to.equal(jwt.verify(res.body.token, secret).email);
         done();
       });
   });
