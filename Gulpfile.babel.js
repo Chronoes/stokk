@@ -1,3 +1,7 @@
+require('babel-core/register')({
+  optional: ['es7'],
+});
+
 import gulp from 'gulp';
 import browserify from 'browserify';
 import babelify from 'babelify';

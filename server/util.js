@@ -24,3 +24,10 @@ export function signToken(payload) {
   }
 }
 
+export function renderReactIsomorphic(html, reactString) {
+  const targetName = '<div id="target">';
+  const target = html.indexOf(targetName) + targetName.length;
+  const start = html.slice(0, target);
+  const end = html.slice(target);
+  return start + reactString + end;
+}

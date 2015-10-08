@@ -1,6 +1,8 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-require('babel-core/register');
+require('babel-core/register')({
+  optional: ['es7'],
+});
 
 const app = require('./app');
 const database = require('./server/database');
