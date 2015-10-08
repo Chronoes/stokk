@@ -7,7 +7,7 @@ class Navbar extends Component {
 
     const dashboardLink = (
       <li className="nav-item" key="dashboardLink">
-        <Link className="nav-link" activeClassName="active" to="/dashboard">Dashboard</Link>
+        <Link className="nav-link" activeClassName="active" to="/">Dashboard</Link>
       </li>
     );
 

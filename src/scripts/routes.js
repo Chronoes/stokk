@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Redirect} from 'react-router';
+import {Route, IndexRoute} from 'react-router';
 
 import App from './components/App';
 import RegisterPage from './pages/RegisterPage';
@@ -7,8 +7,10 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 
 import AuthenticationStore from './stores/AuthenticationStore';
+import AuthenticationActions from './actions/AuthenticationActions';
 
 function requireAuth(nextState, replaceState) {
+  AuthenticationActions.getTokenFromStorage();
   if (!AuthenticationStore.getState().get('token').length) {
     replaceState({nextPathname: nextState.location.pathname}, '/login');
   }
@@ -16,8 +18,7 @@ function requireAuth(nextState, replaceState) {
 
 export default (
   <Route path="/" component={App}>
-    <Redirect from="/" to="/dashboard" />
-    <Route path="dashboard" component={DashboardPage} onEnter={requireAuth} />
+    <IndexRoute component={DashboardPage} onEnter={requireAuth} />
     <Route path="login" component={LoginPage} />
     <Route path="register" component={RegisterPage} />
   </Route>
