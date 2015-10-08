@@ -17,12 +17,16 @@ class AuthenticationStore {
     });
   }
 
+  onGetTokenFromStorage(token) {
+    this.setState(this.state.set('token', token));
+  }
+
   onLogin() {
     this.setState(this.state.set('isLoading', true));
   }
 
-  onLoginSuccess() {
-    this.setState(this.state.set('token', 'place_holder').set('errorMessage', '').set('isLoading', false));
+  onLoginSuccess(token) {
+    this.setState(this.state.set('token', token).set('errorMessage', '').set('isLoading', false));
   }
 
   onLoginError(errorMessage) {

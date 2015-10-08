@@ -2,6 +2,7 @@ import React, {Component, Children, cloneElement} from 'react';
 
 import Navbar from './Navbar';
 import AuthenticationStore from '../stores/AuthenticationStore';
+import {getTokenFromStorage} from '../actions/AuthenticationActions';
 
 class App extends Component {
   constructor(props) {
@@ -18,15 +19,17 @@ class App extends Component {
     });
   }
 
+  componentDidMount() {
+    getTokenFromStorage();
+  }
+
   componentWillUnmount() {
     AuthenticationStore.unlisten(this.onAuthenticationStoreChange.bind(this));
   }
 
   render() {
-    const {loginState} = this.state;
-    const token = loginState.get('token');
     const {children} = this.props;
-    const loggedIn = token.length > 0;
+    const loggedIn = this.state.loginState.get('token').length > 0;
     // transferring props to children is not the same as usual nested components
     const childNodesWithProps = Children.map(children, child => {
       return cloneElement(child, {loggedIn});

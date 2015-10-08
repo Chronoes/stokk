@@ -7,7 +7,7 @@ class AuthenticationActions {
     const {loginError, loginSuccess} = this.actions;
 
     login(email, password)
-      .then(loginSuccess)
+      .then(response => loginSuccess(response.data.token))
       .catch(response => {
         if (response instanceof Error) {
           loginError(response.message);
@@ -25,8 +25,14 @@ class AuthenticationActions {
     this.dispatch(error);
   }
 
-  loginSuccess() {
-    this.dispatch();
+  loginSuccess(token) {
+    localStorage.setItem('token', token);
+    this.dispatch(token);
+  }
+
+  getTokenFromStorage() {
+    const token = localStorage.getItem('token');
+    if (token) this.dispatch(token);
   }
 }
 
