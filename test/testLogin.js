@@ -75,7 +75,23 @@ describe('Login handler', () => {
       });
   });
 
-  it('should fail with missing/empty arguments or empty request');
+  it('should fail with missing/empty arguments or empty request', done => {
+    const mockRequest = {
+      email: '',
+      password: '',
+    };
+
+    request(server)
+      .post(route)
+      .send(mockRequest)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res).to.have.status(400);
+        expect(res.body.message).to.have.length.above(0);
+        done();
+      });
 
   it('should fail with incorrect email');
 
