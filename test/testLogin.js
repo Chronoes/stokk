@@ -94,7 +94,24 @@ describe('Login handler', () => {
       });
   });
 
-  it('should fail with incorrect email');
+  it('should fail with incorrect email', done => {
+    const mockRequest = {
+      email: 'notAnEmail',
+      password: 'swagWord',
+    };
+
+    request(server)
+      .post(route)
+      .send(mockRequest)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res).to.have.status(401);
+        expect(res.body.message).to.have.length.above(0);
+        done();
+      });
+  });
 
   after(() => {
     server.close();
