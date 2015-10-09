@@ -10,6 +10,7 @@ import sass from 'gulp-sass';
 import concatCss from 'gulp-concat';
 import minifyCss from 'gulp-minify-css';
 import eslint from 'gulp-eslint';
+import sasslint from 'gulp-sass-lint';
 import runSequence from 'run-sequence';
 import mocha from 'gulp-mocha';
 import minifyHtml from 'gulp-minify-html';
@@ -43,7 +44,14 @@ gulp.task('env-development', () => {
   });
 });
 
-gulp.task('lint', () => {
+gulp.task('lint:sass', () => {
+  return gulp.src(directories.source.style + '/**/*.scss')
+    .pipe(sasslint())
+    .pipe(sasslint.format())
+    .pipe(sasslint.failOnError());
+});
+
+gulp.task('lint:js', () => {
   return gulp.src(
     [
       './*.js',
@@ -55,6 +63,8 @@ gulp.task('lint', () => {
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
+
+gulp.task('lint', ['lint:js', 'lint:sass']);
 
 gulp.task('html', () => {
   return gulp.src(directories.source.base + '/index.html')
@@ -121,7 +131,7 @@ gulp.task('sass:production', () => {
 
 gulp.task('test', ['env-testing'], () => {
   return gulp.src(directories.test + '/**/*.js', { read: false })
-    .pipe(mocha({ reporter: 'spec' }));
+    .pipe(mocha({ reporter: 'nyan' }));
 });
 
 gulp.task('build', () => {
@@ -137,6 +147,7 @@ gulp.task('watch', ['env-development'], () => {
     [
       '*.js',
       directories.source.base + '/**/*.js',
+      directories.source.style + '/**/*.scss',
       directories.test + '/**/*.js',
       directories.server + '/**/*.js',
     ],

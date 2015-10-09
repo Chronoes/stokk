@@ -1,21 +1,21 @@
-@import "bootstrap";
-@import "register";
+@import 'bootstrap';
+@import 'register';
 
-$dark-background: rgb(26, 28, 34);
+$dark-background: #1a1c22;
 $main-background: #252830;
 
 .stokk-navbar {
-	@extend .navbar;
-	@extend .navbar-dark;
-	background-color: $dark-background;
-	border-radius: 0px;
+  @extend .navbar;
+  @extend .navbar-dark;
+  background-color: $dark-background;
+  border-radius: 0;
 }
 
 .navbar-brand-image {
-	padding-top: 5px;
-	max-width: 75px;
+  max-width: 75px;
+  padding-top: 5px;
 }
 
 body {
-	background-color: $main-background;
+  background-color: $main-background;
 }
