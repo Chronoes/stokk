@@ -4,9 +4,7 @@ import app from '../app';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 
-
 chai.use(supertestChai.httpAsserts);
-
 
 describe('Login handler', () => {
   const route = '/api/login';
