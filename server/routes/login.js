@@ -13,15 +13,15 @@ export default (req, res) => {
     .then(user => {
       if (user !== null) {
         compareSaltyHash(password, user.password)
-        .then(() => {
-          res.status(200).json({
-            message: `User authorization successful.`,
-            token: signToken({id: user.id, email}),
+          .then(() => {
+            res.status(200).json({
+              message: `User authorization successful.`,
+              token: signToken({id: user.id, email}),
+            });
+          })
+          .catch(() => {
+            doesNotExist(res, email);
           });
-        })
-        .catch(() => {
-          doesNotExist(res, email);
-        });
       } else {
         doesNotExist(res, email);
       }

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import Preloader from './Preloader';
 import {register} from '../actions/RegistrationActions';
 
 class RegisterForm extends Component {
@@ -71,6 +72,13 @@ class RegisterForm extends Component {
         <strong>{errorMessage}</strong>
       </div>
     );
+    const submitButton = (
+      <input
+        type="submit"
+        value="submit"
+        className="btn btn-primary btn-block"
+        id="SubmitButton" />
+    );
     return (
       <div className="register-form-container">
         <div className="stokk-card">
@@ -103,12 +111,7 @@ class RegisterForm extends Component {
             {errorMessage ? errorNode : ''}
 
             <div className="form-group btn-register-form">
-              <input
-                type="submit"
-                value="submit"
-                className="btn btn-primary btn-block"
-                disabled={isLoading}
-                id="SubmitButton" />
+              {isLoading ? <Preloader /> : submitButton}
             </div>
           </form>
         </div>
