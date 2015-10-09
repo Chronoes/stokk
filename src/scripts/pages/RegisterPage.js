@@ -9,6 +9,9 @@ class RegisterPage extends Component {
     this.state = {
       registrationState: RegistrationStore.getState(),
     };
+  }
+
+  componentWillMount() {
     RegistrationStore.listen(this.onRegistrationStoreChange.bind(this));
   }
 

@@ -9,6 +9,9 @@ class LoginPage extends Component {
     this.state = {
       loginState: AuthenticationStore.getState(),
     };
+  }
+
+  componentWillMount() {
     AuthenticationStore.listen(this.onAuthenticationStoreChange.bind(this));
   }
 
@@ -21,6 +24,7 @@ class LoginPage extends Component {
   componentWillUnmount() {
     AuthenticationStore.unlisten(this.onAuthenticationStoreChange.bind(this));
   }
+
   render() {
     const {loginState} = this.state;
     const errorMessage = loginState.get('errorMessage');
