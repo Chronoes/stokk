@@ -1,5 +1,6 @@
 import alt from '../altInstance';
 import {register} from '../services/apiService';
+import Router from '../Router';
 
 class RegistrationActions {
   register(email, password) {
@@ -7,7 +8,7 @@ class RegistrationActions {
     const {registrationError, registrationSuccess} = this.actions;
 
     register(email, password)
-      .then(registrationSuccess)
+      .then(response => registrationSuccess(response.data.token))
       .catch(response => {
         if (response instanceof Error) {
           registrationError(response.message);
@@ -25,8 +26,10 @@ class RegistrationActions {
     this.dispatch(error);
   }
 
-  registrationSuccess() {
-    this.dispatch();
+  registrationSuccess(token) {
+    localStorage.setItem('token', token);
+    this.dispatch(token);
+    Router.transitionTo('/');
   }
 }
 

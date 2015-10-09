@@ -4,10 +4,11 @@ import {Router} from 'react-router';
 import {createHistory} from 'history';
 
 import routes from './routes';
+import routerContainer from './Router';
 
 function main() {
   const target = document.getElementById('target');
-  render(<Router history={createHistory()}>{routes}</Router>, target);
+  routerContainer.set(render(<Router history={createHistory()}>{routes}</Router>, target));
 }
 
 window.onload = main;

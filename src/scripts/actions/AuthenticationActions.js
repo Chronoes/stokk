@@ -1,5 +1,6 @@
 import alt from '../altInstance';
 import {login} from '../services/apiService';
+import Router from '../Router';
 
 class AuthenticationActions {
   login(email, password) {
@@ -28,6 +29,7 @@ class AuthenticationActions {
   loginSuccess(token) {
     localStorage.setItem('token', token);
     this.dispatch(token);
+    Router.transitionTo('/');
   }
 
   getTokenFromStorage() {
