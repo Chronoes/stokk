@@ -16,6 +16,14 @@ $main-background: #252830;
   padding-top: 5px;
 }
 
+.preloader-image {
+  @extend .img-responsive;
+  height: 42px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 body {
   background-color: $main-background;
 }

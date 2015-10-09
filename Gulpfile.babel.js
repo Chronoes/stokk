@@ -78,7 +78,7 @@ gulp.task('html:production', () => {
 });
 
 gulp.task('images', () => {
-  return gulp.src(directories.source.images + '/*.svg')
+  return gulp.src(directories.source.images + '/*')
     .pipe(gulp.dest(directories.distribution));
 });
 
