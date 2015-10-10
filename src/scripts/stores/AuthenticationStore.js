@@ -17,8 +17,14 @@ class AuthenticationStore {
     });
   }
 
+  onLogout() {
+    this.setState(this.state.set('token', ''));
+  }
+
   onGetTokenFromStorage(token) {
-    this.setState(this.state.set('token', token));
+    if (token) {
+      this.setState(this.state.set('token', token));
+    }
   }
 
   onLogin() {

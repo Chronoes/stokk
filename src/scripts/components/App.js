@@ -1,4 +1,5 @@
-import React, {Component, Children, cloneElement} from 'react';
+import React, {Component} from 'react';
+import {decode} from 'jsonwebtoken';
 
 import Navbar from './Navbar';
 import AuthenticationStore from '../stores/AuthenticationStore';
@@ -28,19 +29,18 @@ class App extends Component {
   }
 
   render() {
+    const {loginState} = this.state;
     const {children} = this.props;
-    const loggedIn = this.state.loginState.get('token').length > 0;
-    // transferring props to children is not the same as usual nested components
-    const childNodesWithProps = Children.map(children, child => {
-      return cloneElement(child, {loggedIn});
-    });
+    const token = loginState.get('token');
+    const loggedIn = token.length > 0;
+    const email = loggedIn ? decode(token).email : '';
 
     return (
       <div>
         <Navbar
-          currentPath={this.props.location.pathname}
-          loggedIn={loggedIn}/>
-        {childNodesWithProps}
+          loggedIn={loggedIn}
+          email={email}/>
+        {children}
       </div>
     );
   }

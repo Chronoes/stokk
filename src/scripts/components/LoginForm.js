@@ -53,7 +53,7 @@ class LoginForm extends Component {
     return (
       <div className="register-form-container">
         <div className="stokk-card">
-          <h4 className="card-title">login</h4>
+          <h4 className="card-title">Login</h4>
           <form onSubmit={this.onSubmit.bind(this)}>
             <div className={'form-group'}>
               <input

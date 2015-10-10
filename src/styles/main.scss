@@ -1,19 +1,14 @@
 @import 'bootstrap';
-@import 'register';
+@import 'constants';
+@import 'forms';
+@import 'navbar';
 
-$dark-background: #1a1c22;
-$main-background: #252830;
-
-.stokk-navbar {
-  @extend .navbar;
-  @extend .navbar-dark;
-  background-color: $dark-background;
-  border-radius: 0;
-}
-
-.navbar-brand-image {
-  max-width: 75px;
-  padding-top: 5px;
+.stokk-card {
+  @extend .card;
+  @extend .card-block;
+  @extend .card-inverse;
+  border-color: $grey-accent;
+  border-width: 1px;
 }
 
 .preloader-image {

@@ -1,3 +1,5 @@
+@import 'constants';
+
 .card-title {
   margin-bottom: 25px;
   text-align: center;
@@ -10,21 +12,12 @@
   margin-top: 25vh;
 }
 
-.stokk-card {
-  @extend .card;
-  @extend .card-block;
-  @extend .card-inverse;
-  border-color: #434857;
-  border-width: 1px;
-}
-
 .btn-register-form {
   margin-bottom: 0;
 }
 
-
 .form-control {
-  background-color: #434857;
+  background-color: $grey-accent;
   border: 0;
   color: white;
 }

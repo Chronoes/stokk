@@ -1,0 +1,30 @@
+@import 'constants';
+
+.stokk-navbar {
+  @extend .navbar;
+  @extend .navbar-dark;
+  background-color: $dark-background;
+  border-radius: 0;
+}
+
+.navbar-brand-image {
+  max-width: 75px;
+  padding-top: 5px;
+}
+
+.nav-item-right {
+  @extend .nav-item;
+  @extend .pull-right;
+}
+
+.btn-navbar-dropdown {
+  @extend .dropdown-toggle;
+  background-color: transparent;
+  border-color: transparent;
+  color: rgba(255, 255, 255, 0.498039);
+  padding: 5px 0;
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.75);
+  }
+}

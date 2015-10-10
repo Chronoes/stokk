@@ -1,50 +1,55 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Link} from 'react-router';
 
-class Navbar extends Component {
-  render() {
-    const {loggedIn} = this.props;
+import UserDropdown from './UserDropdown';
 
-    const dashboardLink = (
-      <li className="nav-item" key="dashboardLink">
-        <Link className="nav-link" activeClassName="active" to="/">Dashboard</Link>
-      </li>
-    );
+export default function Navbar(props) {
+  const {loggedIn, email} = props;
 
-    const authenticatedLinks = [
-      dashboardLink,
-    ];
+  const dashboardLink = (
+    <li className="nav-item" key="dashboardLink">
+      <Link className="nav-link" activeClassName="active" to="/">Dashboard</Link>
+    </li>
+  );
 
-    const loginLink = (
-      <li className="nav-item" key="loginLink">
-        <Link className="nav-link" activeClassName="active" to="/login">Login</Link>
-      </li>
-    );
+  const dropdown = (
+    <li className="nav-item-right" key="dropdownLink">
+      <UserDropdown email={email} />
+    </li>
+  );
 
-    const registerLink = (
-      <li className="nav-item" key="registerLink">
-        <Link className="nav-link" activeClassName="active" to="/register">Register</Link>
-      </li>
-    );
+  const authenticatedLinks = [
+    dashboardLink,
+    dropdown,
+  ];
 
-    const unAuthenticatedLinks = [
-      loginLink,
-      registerLink,
-    ];
+  const loginLink = (
+    <li className="nav-item" key="loginLink">
+      <Link className="nav-link" activeClassName="active" to="/login">Login</Link>
+    </li>
+  );
 
-    return (
-      <nav className="stokk-navbar">
-        <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
-            <img className="navbar-brand-image" src="logo.svg" />
-          </Link>
-          <ul className="nav navbar-nav">
-            {loggedIn ? authenticatedLinks : unAuthenticatedLinks}
-          </ul>
-        </div>
-      </nav>
-    );
-  }
+  const registerLink = (
+    <li className="nav-item" key="registerLink">
+      <Link className="nav-link" activeClassName="active" to="/register">Register</Link>
+    </li>
+  );
+
+  const unAuthenticatedLinks = [
+    loginLink,
+    registerLink,
+  ];
+
+  return (
+    <nav className="stokk-navbar">
+      <div className="container-fluid">
+        <Link className="navbar-brand" to="/">
+          <img className="navbar-brand-image" src="logo.svg" />
+        </Link>
+        <ul className="nav navbar-nav">
+          {loggedIn ? authenticatedLinks : unAuthenticatedLinks}
+        </ul>
+      </div>
+    </nav>
+  );
 }
-
-export default Navbar;

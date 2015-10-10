@@ -32,9 +32,15 @@ class AuthenticationActions {
     routerContainer.transitionTo('/');
   }
 
+  logout() {
+    this.dispatch();
+    localStorage.removeItem('token');
+    routerContainer.transitionTo('/login');
+  }
+
   getTokenFromStorage() {
     const token = localStorage.getItem('token');
-    if (token) this.dispatch(token);
+    this.dispatch(token);
   }
 }
 
