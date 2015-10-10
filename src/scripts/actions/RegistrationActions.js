@@ -1,6 +1,6 @@
 import alt from '../altInstance';
 import {register} from '../services/apiService';
-import Router from '../Router';
+import routerContainer from '../routerContainer';
 
 class RegistrationActions {
   register(email, password) {
@@ -29,7 +29,7 @@ class RegistrationActions {
   registrationSuccess(token) {
     localStorage.setItem('token', token);
     this.dispatch(token);
-    Router.transitionTo('/');
+    routerContainer.transitionTo('/');
   }
 }
 

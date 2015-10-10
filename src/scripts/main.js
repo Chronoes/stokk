@@ -4,7 +4,7 @@ import {Router} from 'react-router';
 import {createHistory} from 'history';
 
 import routes from './routes';
-import routerContainer from './Router';
+import routerContainer from './routerContainer';
 
 function main() {
   const target = document.getElementById('target');

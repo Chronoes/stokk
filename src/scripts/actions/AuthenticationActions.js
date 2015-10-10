@@ -1,6 +1,6 @@
 import alt from '../altInstance';
 import {login} from '../services/apiService';
-import Router from '../Router';
+import routerContainer from '../routerContainer';
 
 class AuthenticationActions {
   login(email, password) {
@@ -29,7 +29,7 @@ class AuthenticationActions {
   loginSuccess(token) {
     localStorage.setItem('token', token);
     this.dispatch(token);
-    Router.transitionTo('/');
+    routerContainer.transitionTo('/');
   }
 
   getTokenFromStorage() {
