@@ -1,19 +1,17 @@
 class Router {
-  router = null;
+  static router = null;
 
-  get() {
-    return this.router;
+  static get() {
+    return Router.router;
   }
 
-  set(router) {
-    this.router = router;
+  static set(router) {
+    Router.router = router;
   }
 
-  transitionTo(path) {
-    this.router.props.history.pushState(null, path);
+  static transitionTo(path) {
+    Router.router.props.history.pushState(null, path);
   }
 }
 
-const routerInstance = new Router();
-
-export default routerInstance;
+export default Router;

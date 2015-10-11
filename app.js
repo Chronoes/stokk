@@ -1,18 +1,13 @@
 import express from 'express';
-import path from 'path';
 import bodyParser from 'body-parser';
-import {readFileSync} from 'fs';
-import {match, RoutingContext} from 'react-router';
+import {match} from 'react-router';
 import {createLocation} from 'history';
-import {renderToString} from 'react-dom/server';
-import React from 'react';
 
 import api from './server/api-router';
-import {renderReactIsomorphic} from './server/util';
 import routes from './src/scripts/routes';
+import {render} from './server/StaticRenderer';
 
 const app = express();
-const indexHtml = readFileSync(path.join(__dirname, '/static/index.html'));
 
 app.use(bodyParser.json());
 
@@ -29,9 +24,7 @@ app.get('/*', (req, res) => {
     } else if (redirectLocation) {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search);
     } else if (renderProps) {
-      const reactString = renderToString(<RoutingContext {...renderProps} />);
-      const reactPage = renderReactIsomorphic(indexHtml, reactString);
-      res.status(200).send(reactPage);
+      res.status(200).send(render(renderProps));
     } else {
       res.status(404).send('Not found');
     }
