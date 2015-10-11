@@ -4,13 +4,13 @@ import {Map} from 'immutable';
 import alt from '../altInstance';
 import RegistrationActions from '../actions/RegistrationActions';
 
+@alt.createStore
 @immutable
 class RegistrationStore {
   static displayName = 'RegistrationStore';
 
   constructor() {
     this.bindActions(RegistrationActions);
-
     this.state = new Map({
       errorMessage: '',
       isLoading: false,
@@ -30,4 +30,4 @@ class RegistrationStore {
   }
 }
 
-export default alt.createStore(RegistrationStore);
+export default RegistrationStore;

@@ -1,40 +1,33 @@
 import React, {Component} from 'react';
 
+import connectToStores from 'alt/utils/connectToStores';
 import LoginForm from '../components/LoginForm';
 import AuthenticationStore from '../stores/AuthenticationStore';
 
+@connectToStores
 class LoginPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loginState: AuthenticationStore.getState(),
-    };
   }
 
-  componentWillMount() {
-    AuthenticationStore.listen(this.onAuthenticationStoreChange.bind(this));
+  static getStores() {
+    return [AuthenticationStore];
   }
 
-  onAuthenticationStoreChange(newState) {
-    this.setState({
-      loginState: newState,
-    });
-  }
-
-  componentWillUnmount() {
-    AuthenticationStore.unlisten(this.onAuthenticationStoreChange.bind(this));
+  static getPropsFromStores() {
+    return {loginState: AuthenticationStore.getState()};
   }
 
   render() {
-    const {loginState} = this.state;
+    const {loginState} = this.props;
     const errorMessage = loginState.get('errorMessage');
     const isLoading = loginState.get('isLoading');
     return (
       <div className="container-fluid">
         <div className="row">
           <LoginForm
-          errorMessage={errorMessage}
-          isLoading={isLoading} />
+            errorMessage={errorMessage}
+            isLoading={isLoading} />
         </div>
       </div>
     );

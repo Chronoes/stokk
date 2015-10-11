@@ -1,32 +1,25 @@
 import React, {Component} from 'react';
 
+import connectToStores from 'alt/utils/connectToStores';
 import RegisterForm from '../components/RegisterForm';
 import RegistrationStore from '../stores/RegistrationStore';
 
+@connectToStores
 class RegisterPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      registrationState: RegistrationStore.getState(),
-    };
   }
 
-  componentWillMount() {
-    RegistrationStore.listen(this.onRegistrationStoreChange.bind(this));
+  static getStores() {
+    return [RegistrationStore];
   }
 
-  onRegistrationStoreChange(newState) {
-    this.setState({
-      registrationState: newState,
-    });
-  }
-
-  componentWillUnmount() {
-    RegistrationStore.unlisten(this.onRegistrationStoreChange.bind(this));
+  static getPropsFromStores() {
+    return {registrationState: RegistrationStore.getState()};
   }
 
   render() {
-    const {registrationState} = this.state;
+    const {registrationState} = this.props;
     const errorMessage = registrationState.get('errorMessage');
     const isLoading = registrationState.get('isLoading');
     return (

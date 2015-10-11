@@ -2,6 +2,7 @@ import alt from '../altInstance';
 import {register} from '../services/apiService';
 import routerContainer from '../routerContainer';
 
+@alt.createActions
 class RegistrationActions {
   register(email, password) {
     this.dispatch();
@@ -33,4 +34,4 @@ class RegistrationActions {
   }
 }
 
-export default alt.createActions(RegistrationActions);
+export default RegistrationActions;

@@ -11,13 +11,16 @@ class App extends Component {
     this.state = {
       loginState: AuthenticationStore.getState(),
     };
-    AuthenticationStore.listen(this.onAuthenticationStoreChange.bind(this));
   }
 
   onAuthenticationStoreChange(newState) {
     this.setState({
       loginState: newState,
     });
+  }
+
+  componentWillMount() {
+    AuthenticationStore.listen(this.onAuthenticationStoreChange.bind(this));
   }
 
   componentDidMount() {

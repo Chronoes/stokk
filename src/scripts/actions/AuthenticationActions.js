@@ -2,6 +2,7 @@ import alt from '../altInstance';
 import {login} from '../services/apiService';
 import routerContainer from '../routerContainer';
 
+@alt.createActions
 class AuthenticationActions {
   login(email, password) {
     this.dispatch();
@@ -44,4 +45,4 @@ class AuthenticationActions {
   }
 }
 
-export default alt.createActions(AuthenticationActions);
+export default AuthenticationActions;

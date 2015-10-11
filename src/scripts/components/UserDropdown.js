@@ -39,7 +39,7 @@ class UserDropdown extends Component {
         <a className="dropdown-item disabled">Settings</a>
         <button
           className="dropdown-item"
-          onClick={() => logout()}>
+          onClick={logout}>
           Logout
         </button>
       </div>
