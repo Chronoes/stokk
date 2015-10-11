@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-
 import connectToStores from 'alt/utils/connectToStores';
+
 import LoginForm from '../components/LoginForm';
 import AuthenticationStore from '../stores/AuthenticationStore';
 

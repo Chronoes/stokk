@@ -1,39 +1,31 @@
 import React, {Component} from 'react';
 import {decode} from 'jsonwebtoken';
+import connectToStores from 'alt/utils/connectToStores';
 
 import Navbar from './Navbar';
 import AuthenticationStore from '../stores/AuthenticationStore';
 import {getTokenFromStorage} from '../actions/AuthenticationActions';
 
+@connectToStores
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loginState: AuthenticationStore.getState(),
-    };
   }
 
-  onAuthenticationStoreChange(newState) {
-    this.setState({
-      loginState: newState,
-    });
+  static getStores() {
+    return [AuthenticationStore];
   }
 
-  componentWillMount() {
-    AuthenticationStore.listen(this.onAuthenticationStoreChange.bind(this));
+  static getPropsFromStores() {
+    return {loginState: AuthenticationStore.getState()};
   }
 
   componentDidMount() {
     getTokenFromStorage();
   }
 
-  componentWillUnmount() {
-    AuthenticationStore.unlisten(this.onAuthenticationStoreChange.bind(this));
-  }
-
   render() {
-    const {loginState} = this.state;
-    const {children} = this.props;
+    const {children, loginState} = this.props;
     const token = loginState.get('token');
     const loggedIn = token.length > 0;
     const email = loggedIn ? decode(token).email : '';
