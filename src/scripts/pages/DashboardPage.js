@@ -1,17 +1,52 @@
 import React, {Component} from 'react';
 
 class DashboardPage extends Component {
-  render() {
+  static createBlockquote(quote, index) {
+    const {text, name} = quote;
     return (
-      <div className="dashboard-welcome">
-        <div>WELCOME TO THE DASHBOARD</div>
-        <img className="dashboard-page-image" src="iconlogo.svg" />
-        <p>&quot;Stokking your Stokks is simply amazeballs.&quot; -Bill Gates</p>
-        <p>&quot;tra meie rakendus on nii awesome&quot; -Uku Tammet</p>
-        <p>&quot;I am the best.&quot; -Kanye West</p>
-        <p>&quot;Cool design&quot; -Rain Vink</p>
-        <p>&quot;I couldn&rsquo;t have designed it better myself.&quot; -Jony Ive</p>
-        <p>&quot;I believed in the holy React!&quot; -Marten Tarkin</p>
+      <blockquote
+        key={index}
+        className="dashboard-placeholder-blockquote">
+        <p>{text}</p>
+        <footer>{name}</footer>
+      </blockquote>
+    );
+  }
+
+  render() {
+    const {email} = this.props;
+    const quotes = [
+      {text: 'Stokking your Stokks is simply amazeballs.', name: 'Bill Gates'},
+      {text: 'Tra meie rakendus on nii awesome.', name: 'Uku Tammet'},
+      {text: 'I am the best', name: 'Kanye West'},
+      {text: 'Cool Design', name: 'Rain Vink'},
+      {text: 'I couldn’t have designed it better myself.', name: 'Jony Ive'},
+      {text: 'I believed in the holy React!', name: 'Marten Tarkin'},
+    ];
+    const slicePoint = Math.ceil(quotes.length / 2);
+    const leftQuoteNodes = quotes
+      .slice(slicePoint)
+      .map(DashboardPage.createBlockquote);
+    const rightQuoteNodes = quotes
+      .slice(0, slicePoint)
+      .map(DashboardPage.createBlockquote);
+    return (
+      <div className="container-fluid">
+        <div className="row">
+          <div className="dashboard-placeholder-container">
+            <div className="col-xs-12">
+              <h1 className="dashboard-placeholder-title">
+                Welcome to the future, {email}
+              </h1>
+            </div>
+            <div className="col-xs-12 col-sm-6">
+              {leftQuoteNodes}
+            </div>
+            <div className="col-xs-12 col-sm-6">
+              {rightQuoteNodes}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

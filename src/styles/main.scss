@@ -23,21 +23,19 @@ body {
   background-color: $main-background;
 }
 
-.dashboard-welcome {
+.dashboard-placeholder-container {
   @extend .col-xs-12;
-  @extend .col-sm-6;
-  @extend .col-sm-offset-3;
-  color: #aaa;
-  font-size: 36px;
+  @extend .col-md-6;
+  @extend .col-md-offset-3;
   margin-top: 5vh;
-  text-align: center;
-
-  & p {
-    font-size: 22px;
-  }
 }
 
-.dashboard-page-image {
-  padding: 10px;
-  width: 300px;
+.dashboard-placeholder-title {
+  color: #fff;
+  margin-bottom: 30px;
+}
+
+.dashboard-placeholder-blockquote {
+  @extend .blockquote;
+  color: #fff;
 }

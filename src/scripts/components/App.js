@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Children, cloneElement} from 'react';
 import {decode} from 'jsonwebtoken';
 import connectToStores from 'alt/utils/connectToStores';
 
@@ -29,13 +29,15 @@ class App extends Component {
     const token = loginState.get('token');
     const loggedIn = token.length > 0;
     const email = loggedIn ? decode(token).email : '';
-
+    const childrenWithProps = Children.map(children, child => {
+      return cloneElement(child, {email});
+    });
     return (
       <div>
         <Navbar
           loggedIn={loggedIn}
           email={email}/>
-        {children}
+        {childrenWithProps}
       </div>
     );
   }
