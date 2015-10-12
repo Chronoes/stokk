@@ -1,9 +1,11 @@
 {
   "name": "stokk",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A stock tracker application",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "start": "gulp build && node server &",
+    "stop": "pkill --signal SIGINT stokk"
   },
   "repository": {
     "type": "git",

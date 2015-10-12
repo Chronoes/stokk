@@ -1,3 +1,4 @@
+process.title = 'stokk';
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 require('babel-core/register')({
