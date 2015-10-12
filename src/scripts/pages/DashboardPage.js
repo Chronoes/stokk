@@ -10,7 +10,7 @@ class DashboardPage extends Component {
         <p>&quot;tra meie rakendus on nii awesome&quot; -Uku Tammet</p>
         <p>&quot;I am the best.&quot; -Kanye West</p>
         <p>&quot;Cool design&quot; -Rain Vink</p>
-        <p>&quot;I couldn&t have designed it better myself.&quot; -Jony Ive</p>
+        <p>&quot;I couldn&rsquo;t have designed it better myself.&quot; -Jony Ive</p>
         <p>&quot;I believed in the holy React!&quot; -Marten Tarkin</p>
       </div>
     );
