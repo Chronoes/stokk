@@ -1,7 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import {match} from 'react-router';
-import {createLocation} from 'history';
 
 import api from './server/api-router';
 import routes from './src/scripts/routes';
@@ -15,10 +14,7 @@ app.use(express.static('static'));
 app.use('/api', api);
 
 app.get('/*', (req, res) => {
-  // FIXME: Once history fixed https://github.com/rackt/history/issues/90,
-  // do not call createLocation statically.
-  const location = createLocation(req.url);
-  match({routes, location}, (error, redirectLocation, renderProps) => {
+  match({routes, location: req.url}, (error, redirectLocation, renderProps) => {
     if (error) {
       res.status(500).send(error.message);
     } else if (redirectLocation) {
