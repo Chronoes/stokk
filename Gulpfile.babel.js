@@ -15,16 +15,23 @@ import runSequence from 'run-sequence';
 import mocha from 'gulp-mocha';
 import minifyHtml from 'gulp-minify-html';
 import env from 'gulp-env';
+import sloc from 'gulp-sloc';
+import cache from 'gulp-cached';
+import remember from 'gulp-remember';
+import watchify from 'watchify';
 
 const directories = {
+  root: './*.js',
   source: {
-    base: 'src/',
-    script: 'src/scripts',
-    style: 'src/styles',
-    images: 'src/images',
+    base: 'src',
+    index: 'src/index.html',
+    scripts: 'src/scripts/**/*.js',
+    main: 'src/scripts/main.js',
+    styles: 'src/styles/**/*.scss',
+    images: 'src/images/**/*',
   },
-  test: 'test',
-  server: 'server',
+  test: 'test/**/*.js',
+  server: 'server/**/*.js',
   distribution: 'static',
 };
 
@@ -45,7 +52,8 @@ gulp.task('env-development', () => {
 });
 
 gulp.task('lint:sass', () => {
-  return gulp.src(directories.source.style + '/**/*.scss')
+  return gulp.src(directories.source.styles)
+    .pipe(cache('styles'))
     .pipe(sasslint())
     .pipe(sasslint.format())
     .pipe(sasslint.failOnError());
@@ -54,11 +62,12 @@ gulp.task('lint:sass', () => {
 gulp.task('lint:js', () => {
   return gulp.src(
     [
-      './*.js',
-      directories.source.script + '/**/*.js',
-      directories.test + '/**/*.js',
-      directories.server + '/**/*.js',
+      directories.root,
+      directories.source.scripts,
+      directories.test,
+      directories.server,
     ])
+    .pipe(cache('scripts'))
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
@@ -66,39 +75,56 @@ gulp.task('lint:js', () => {
 
 gulp.task('lint', ['lint:js', 'lint:sass']);
 
+gulp.task('line-count', () => {
+  return gulp.src(
+    [
+      directories.root,
+      directories.source.scripts,
+      directories.test,
+      directories.server,
+    ])
+    .pipe(remember('scripts'))
+    .pipe(sloc());
+});
+
 gulp.task('html', () => {
-  return gulp.src(directories.source.base + '/index.html')
+  return gulp.src(directories.source.index)
+    .pipe(cache('html'))
     .pipe(gulp.dest(directories.distribution));
 });
 
 gulp.task('html:production', () => {
-  return gulp.src(directories.source.base + '/index.html')
+  return gulp.src(directories.source.index)
     .pipe(minifyHtml())
     .pipe(gulp.dest(directories.distribution));
 });
 
 gulp.task('images', () => {
-  return gulp.src(directories.source.images + '/*')
+  return gulp.src(directories.source.images)
+    .pipe(cache('images'))
     .pipe(gulp.dest(directories.distribution));
 });
 
 gulp.task('js', () => {
-  return browserify({
-    entries: directories.source.script + '/main.js',
+  const opts = Object.assign({
+    entries: directories.source.main,
     extensions: ['.js'],
     debug: true,
-  })
-  .transform(babelify.configure({
-    optional: ['es7'],
-  }))
-  .bundle()
-  .pipe(source('bundle.js'))
-  .pipe(gulp.dest(directories.distribution));
+    transform: babelify.configure({
+      optional: ['es7'],
+    }),
+  }, watchify.args);
+  const watcher = watchify(browserify(opts));
+  // watcher.on('update', () => watcher.close());
+  return watcher
+    .bundle()
+    .pipe(source('bundle.js'))
+    .pipe(gulp.dest(directories.distribution));
 });
 
 gulp.task('js:production', () => {
   return browserify({
-    entries: directories.source.script + '/main.js',
+    entries: directories.source.main,
     extensions: ['.js'],
     debug: false,
   })
@@ -115,41 +141,44 @@ gulp.task('js:production', () => {
 });
 
 gulp.task('sass', () => {
-  return gulp.src(directories.source.style + '/*.scss')
+  return gulp.src(directories.source.styles)
+    .pipe(cache('styles'))
     .pipe(sass({includePaths: ['./node_modules/bootstrap/scss']}).on('error', sass.logError))
     .pipe(concatCss('style.css'))
-    .pipe(gulp.dest(directories.distribution + '/'));
+    .pipe(gulp.dest(directories.distribution));
 });
 
 gulp.task('sass:production', () => {
-  return gulp.src(directories.source.style + '/*.scss')
+  return gulp.src(directories.source.styles)
     .pipe(sass({includePaths: ['./node_modules/bootstrap/scss']}).on('error', sass.logError))
     .pipe(concatCss('style.css'))
     .pipe(minifyCss({compatibility: 'ie9'}))
-    .pipe(gulp.dest(directories.distribution + '/'));
+    .pipe(gulp.dest(directories.distribution));
 });
 
 gulp.task('test', ['env-testing'], () => {
-  return gulp.src(directories.test + '/**/*.js', { read: false })
-    .pipe(mocha({ reporter: 'nyan' }));
+  return gulp.src(directories.test, {read: false})
+    .pipe(remember('test'))
+    .pipe(mocha({reporter: 'nyan'}));
 });
 
 gulp.task('build', () => {
-  runSequence('lint', 'test', ['js', 'sass', 'html', 'images', 'env-development']);
+  runSequence(['line-count', 'lint'], 'test', ['js', 'sass', 'html', 'images', 'env-development']);
 });
 
 gulp.task('build:production', () => {
-  runSequence('lint', 'test', ['js:production', 'sass:production', 'html:production', 'images']);
+  runSequence(['line-count', 'lint'], 'test', ['js:production', 'sass:production', 'html:production', 'images']);
 });
 
 gulp.task('watch', ['env-development'], () => {
   return gulp.watch(
     [
-      '*.js',
-      directories.source.base + '/**/*.js',
-      directories.source.style + '/**/*.scss',
-      directories.test + '/**/*.js',
-      directories.server + '/**/*.js',
+      directories.root,
+      directories.source.scripts,
+      directories.source.styles,
+      directories.source.images,
+      directories.test,
+      directories.server,
     ],
     ['build']
   );
