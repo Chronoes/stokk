@@ -114,9 +114,7 @@ gulp.task('js', () => {
       optional: ['es7'],
     }),
   }, watchify.args);
-  const watcher = watchify(browserify(opts));
-  // watcher.on('update', () => watcher.close());
-  return watcher
+  return watchify(browserify(opts))
     .bundle()
     .pipe(source('bundle.js'))
     .pipe(gulp.dest(directories.distribution));
