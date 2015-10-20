@@ -55,7 +55,7 @@ class LoginForm extends Component {
         <div className="stokk-card">
           <h4 className="card-title">Login</h4>
           <form onSubmit={this.onSubmit.bind(this)}>
-            <div className={'form-group'}>
+            <div className="form-group">
               <input
                 type="email"
                 ref="email"
@@ -63,7 +63,7 @@ class LoginForm extends Component {
                 placeholder="e-mail" />
             </div>
 
-            <div className={'form-group'}>
+            <div className="form-group">
               <input
                 type="password"
                 ref="password"
