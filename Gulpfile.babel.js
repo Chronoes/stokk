@@ -53,7 +53,7 @@ gulp.task('env-development', () => {
 
 gulp.task('lint:sass', () => {
   return gulp.src(directories.source.styles)
-    .pipe(cache('styles'))
+    .pipe(remember('styles'))
     .pipe(sasslint())
     .pipe(sasslint.format())
     .pipe(sasslint.failOnError());
@@ -67,7 +67,7 @@ gulp.task('lint:js', () => {
       directories.test,
       directories.server,
     ])
-    .pipe(cache('scripts'))
+    .pipe(remember('scripts'))
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
@@ -106,6 +106,21 @@ gulp.task('images', () => {
 });
 
 gulp.task('js', () => {
+  const opts = {
+    entries: directories.source.main,
+    extensions: ['.js'],
+    debug: true,
+    transform: babelify.configure({
+      optional: ['es7'],
+    }),
+  };
+  return browserify(opts)
+    .bundle()
+    .pipe(source('bundle.js'))
+    .pipe(gulp.dest(directories.distribution));
+});
+
+gulp.task('js:watch', () => {
   const opts = Object.assign({
     entries: directories.source.main,
     extensions: ['.js'],
@@ -164,6 +179,10 @@ gulp.task('build', () => {
   runSequence(['line-count', 'lint'], 'test', ['js', 'sass', 'html', 'images', 'env-development']);
 });
 
+gulp.task('build:watch', () => {
+  runSequence(['line-count', 'lint'], 'test', ['js:watch', 'sass', 'html', 'images', 'env-development']);
+});
+
 gulp.task('build:production', () => {
   runSequence(['line-count', 'lint'], 'test', ['js:production', 'sass:production', 'html:production', 'images']);
 });
@@ -178,8 +197,8 @@ gulp.task('watch', ['env-development'], () => {
       directories.test,
       directories.server,
     ],
-    ['build']
+    ['build:watch']
   );
 });
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['build:watch', 'watch']);
