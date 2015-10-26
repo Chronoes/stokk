@@ -194,7 +194,7 @@ gulp.task('coverage', ['env-testing', 'coverage:init'], () => {
 
 gulp.task('coverage:init', () => {
   return gulp.src(directories.server)
-    .pipe(istanbul())
+    .pipe(istanbul({includeUntested: true}))
     .pipe(istanbul.hookRequire());
 });
 

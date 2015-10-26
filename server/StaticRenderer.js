@@ -9,6 +9,7 @@ import {isDev} from './util';
 const indexHtml = readFileSync(join(__dirname, '/../static/index.html'));
 const locationCache = {};
 
+/* istanbul ignore next */
 class StaticRenderer {
   static renderReactIsomorphic(html, reactString) {
     const targetNameDev = '<div id="target">';
