@@ -4,7 +4,7 @@
   "description": "A stock tracker application",
   "scripts": {
     "test": "gulp test",
-    "start": "gulp build && node server &",
+    "start": "gulp build && echo 'Starting server...' && node server &",
     "stop": "pkill --signal SIGINT stokk"
   },
   "repository": {
