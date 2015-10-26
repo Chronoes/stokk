@@ -1,5 +1,7 @@
 node_modules/
 static/
+coverage/
 server/database.sqlite
+server/databaseProd.sqlite
 server/secret
 test/testDatabase.sqlite

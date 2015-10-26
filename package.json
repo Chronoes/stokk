@@ -5,6 +5,7 @@
   "scripts": {
     "test": "gulp test",
     "start": "gulp build && echo 'Starting server...' && node server &",
+    "start-prod": "gulp build:production && echo 'Starting production server...' && NODE_ENV=production node server &",
     "stop": "pkill --signal SIGINT stokk"
   },
   "repository": {
@@ -48,6 +49,7 @@
     "eslint-plugin-mocha": "^1.0.0",
     "eslint-plugin-react": "^3.4.1",
     "gulp": "^3.9.0",
+    "gulp-babel-istanbul": "^0.10.1",
     "gulp-cached": "^1.1.0",
     "gulp-concat": "^2.6.0",
     "gulp-env": "^0.2.0",

@@ -10,6 +10,7 @@ export default {
       loggingEnabled: false,
       password: 'JEKATESTERINA_JAYLORD2',
     },
+    NODE_ENV: 'testing',
   },
   development: {
     database: {
@@ -20,5 +21,17 @@ export default {
       loggingEnabled: false,
       password: 'JEKATERINA_JAYLORD2',
     },
+    NODE_ENV: 'development',
+  },
+  production: {
+    database: {
+      dialect: 'sqlite',
+      name: 'stokk',
+      path: path.join(__dirname, './databaseProd.sqlite'),
+      user: 'JBOY',
+      loggingEnabled: false,
+      password: 'JEKATERINA_JAYLORD2',
+    },
+    NODE_ENV: 'production',
   },
 };

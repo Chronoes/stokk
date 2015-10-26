@@ -13,12 +13,15 @@ import eslint from 'gulp-eslint';
 import sasslint from 'gulp-sass-lint';
 import runSequence from 'run-sequence';
 import mocha from 'gulp-mocha';
+import istanbul from 'gulp-babel-istanbul';
 import minifyHtml from 'gulp-minify-html';
 import env from 'gulp-env';
 import sloc from 'gulp-sloc';
 import cache from 'gulp-cached';
 import remember from 'gulp-remember';
 import watchify from 'watchify';
+
+import conf from './server/conf';
 
 const directories = {
   root: './*.js',
@@ -39,7 +42,7 @@ const directories = {
 gulp.task('env-testing', () => {
   env({
     vars: {
-      NODE_ENV: 'testing',
+      NODE_ENV: conf.testing.NODE_ENV,
     },
   });
 });
@@ -47,7 +50,7 @@ gulp.task('env-testing', () => {
 gulp.task('env-development', () => {
   env({
     vars: {
-      NODE_ENV: 'development',
+      NODE_ENV: conf.development.NODE_ENV,
     },
   });
 });
@@ -176,22 +179,35 @@ gulp.task('sass:production', () => {
     .pipe(gulp.dest(directories.distribution));
 });
 
-gulp.task('test', ['env-testing'], () => {
+function runTest() {
   return gulp.src(directories.test, {read: false})
     .pipe(remember('test'))
     .pipe(mocha({reporter: 'nyan'}));
+}
+
+gulp.task('test', ['env-testing'], runTest);
+
+gulp.task('coverage', ['env-testing', 'coverage:init'], () => {
+  return runTest()
+    .pipe(istanbul.writeReports());
+});
+
+gulp.task('coverage:init', () => {
+  return gulp.src(directories.server)
+    .pipe(istanbul())
+    .pipe(istanbul.hookRequire());
 });
 
 gulp.task('build', () => {
-  runSequence(['line-count', 'lint'], 'test', ['js', 'sass', 'html', 'images', 'fonts', 'env-development']);
+  runSequence(['line-count', 'lint'], 'test', ['js', 'sass', 'html', 'images', 'fonts']);
 });
 
 gulp.task('build:watch', () => {
-  runSequence(['line-count', 'lint'], 'test', ['js:watch', 'sass', 'html', 'images', 'env-development']);
+  runSequence(['line-count', 'lint'], 'test', ['js:watch', 'sass', 'html', 'images', 'fonts', 'env-development']);
 });
 
 gulp.task('build:production', () => {
-  runSequence(['line-count', 'lint'], 'test', ['js:production', 'sass:production', 'html:production', 'images']);
+  runSequence(['line-count', 'lint'], 'test', ['js:production', 'sass:production', 'html:production', 'images', 'fonts']);
 });
 
 gulp.task('watch', ['env-development'], () => {

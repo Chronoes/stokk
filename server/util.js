@@ -2,6 +2,8 @@ import bcrypt from 'bcrypt-as-promised';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 
+import {development} from './conf';
+
 export function genSaltyHash(password) {
   return bcrypt.hash(password, 10);
 }
@@ -24,13 +26,6 @@ export function signToken(payload) {
   }
 }
 
-export function renderReactIsomorphic(html, reactString) {
-  const targetNameDev = '<div id="target">';
-  const targetNameMin = '<div id=target>';
-  const isDev = html.indexOf(targetNameDev) !== -1;
-  const targetName = isDev ? targetNameDev : targetNameMin;
-  const target = html.indexOf(targetName) + targetName.length;
-  const start = html.slice(0, target);
-  const end = html.slice(target);
-  return start + reactString + end;
+export function isDev() {
+  return process.env.NODE_ENV === development.NODE_ENV;
 }
