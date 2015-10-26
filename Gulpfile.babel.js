@@ -29,6 +29,7 @@ const directories = {
     main: 'src/scripts/main.js',
     styles: 'src/styles/**/*.scss',
     images: 'src/images/**/*',
+    fonts: 'src/styles/fonts/*.ttf',
   },
   test: 'test/**/*.js',
   server: 'server/**/*.js',
@@ -105,6 +106,12 @@ gulp.task('images', () => {
     .pipe(gulp.dest(directories.distribution));
 });
 
+gulp.task('fonts', () => {
+  return gulp.src(directories.source.fonts)
+    .pipe(cache('fonts'))
+    .pipe(gulp.dest(directories.distribution));
+});
+
 gulp.task('js', () => {
   const opts = Object.assign({
     entries: directories.source.main,
@@ -161,7 +168,7 @@ gulp.task('test', ['env-testing'], () => {
 });
 
 gulp.task('build', () => {
-  runSequence(['line-count', 'lint'], 'test', ['js', 'sass', 'html', 'images', 'env-development']);
+  runSequence(['line-count', 'lint'], 'test', ['js', 'sass', 'html', 'images', 'fonts', 'env-development']);
 });
 
 gulp.task('build:production', () => {

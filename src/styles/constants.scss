@@ -2,3 +2,23 @@ $dark-background: #1a1c22;
 $main-background: #252830;
 $grey-accent: #434857;
 $base-text: #a9aebd;
+
+@font-face {
+  font-family: SanFranciscoThin;
+  src: local('SFNS Display Thin'), url(SystemSanFranciscoDisplayThin.ttf);
+}
+
+@font-face {
+  font-family: SanFranciscoBold;
+  src: local('SFNS Display Bold'), url(SystemSanFranciscoDisplayBold.ttf);
+}
+
+@font-face {
+  font-family: SanFranciscoRegular;
+  src: local('SFNS Display Regular'), url(SystemSanFranciscoDisplayRegular.ttf);
+}
+
+@font-face {
+  font-family: SanFranciscoUltralight;
+  src: local('SFNS Display Ultralight'), url(SystemSanFranciscoDisplayUltralight.ttf);
+}

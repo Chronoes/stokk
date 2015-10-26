@@ -7,6 +7,7 @@
   padding-left: 0;
   padding-right: 0;
   border-radius: 0;
+  font-family: SanFranciscoUltralight;
 }
 
 .navbar-brand-image {
@@ -32,11 +33,11 @@
 }
 
 .dropdown-menu.dropdown-menu-right {
-  margin-top: 8px;
   background-color: $dark-background;
   border-color: $grey-accent;
-  border-width: 0px;
-  border-radius: 0px 0px 5px 5px;
+  border-radius: 0 0 5px 5px;
+  border-width: 0;
+  margin-top: 8px;
 }
 
 .dropdown-item {
