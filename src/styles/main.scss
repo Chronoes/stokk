@@ -32,10 +32,12 @@ body {
 
 .dashboard-placeholder-title {
   color: #fff;
+  font-family: SanFranciscoRegular;
   margin-bottom: 30px;
 }
 
 .dashboard-placeholder-blockquote {
   @extend .blockquote;
   color: #fff;
+  font-family: SanFranciscoRegular;
 }
