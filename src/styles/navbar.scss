@@ -30,9 +30,11 @@
 }
 
 .dropdown-menu.dropdown-menu-right {
-  background-color: $main-background;
+  margin-top: 8px;
+  background-color: $dark-background;
   border-color: $grey-accent;
-  border-width: 1px;
+  border-width: 0px;
+  border-radius: 0px 0px 5px 5px;
 }
 
 .dropdown-item {

@@ -140,7 +140,7 @@ gulp.task('js:production', () => {
 
 gulp.task('sass', () => {
   return gulp.src(directories.source.styles)
-    .pipe(cache('styles'))
+    .pipe(remember('styles'))
     .pipe(sass({includePaths: ['./node_modules/bootstrap/scss']}).on('error', sass.logError))
     .pipe(concatCss('style.css'))
     .pipe(gulp.dest(directories.distribution));
