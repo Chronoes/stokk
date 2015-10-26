@@ -1,6 +1,7 @@
 @import 'constants';
 
 .card-title {
+  font-family: SanFranciscoRegular;
   margin-bottom: 25px;
   text-align: center;
 }
@@ -13,6 +14,7 @@
 }
 
 .btn-register-form {
+  font-family: SanFranciscoRegular;
   margin-bottom: 0;
 }
 
@@ -20,6 +22,7 @@
   background-color: $grey-accent;
   border: 0;
   color: white;
+  font-family: SanFranciscoThin;
 }
 
 .register-alert {

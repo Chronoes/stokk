@@ -4,10 +4,10 @@
   @extend .navbar;
   @extend .navbar-dark;
   background-color: $dark-background;
+  border-radius: 0;
+  font-family: SanFranciscoRegular;
   padding-left: 0;
   padding-right: 0;
-  border-radius: 0;
-  font-family: SanFranciscoUltralight;
 }
 
 .navbar-brand-image {
@@ -37,6 +37,7 @@
   border-color: $grey-accent;
   border-radius: 0 0 5px 5px;
   border-width: 0;
+  font-family: SanFranciscoThin;
   margin-top: 8px;
 }
 
