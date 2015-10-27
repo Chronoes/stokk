@@ -6,14 +6,14 @@
   text-align: center;
 }
 
-.register-form-container {
+.form-container {
   @extend .col-xs-12;
   @extend .col-sm-6;
   @extend .col-sm-offset-3;
   margin-top: 25vh;
 }
 
-.btn-register-form {
+.btn-form {
   font-family: SanFranciscoRegular;
   margin-bottom: 0;
 }
@@ -25,7 +25,7 @@
   font-family: SanFranciscoThin;
 }
 
-.register-alert {
+.form-alert {
   @extend .alert;
   @extend .alert-danger;
   margin-bottom: 15px;

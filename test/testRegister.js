@@ -140,4 +140,3 @@ describe('Registration handler', () => {
     server.close();
   });
 });
-

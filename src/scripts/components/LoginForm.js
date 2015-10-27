@@ -39,7 +39,7 @@ class LoginForm extends Component {
     const {isLoading} = this.props;
     const errorMessage = this.props.errorMessage.length ? this.props.errorMessage : this.state.errorMessage;
     const errorNode = (
-      <div className="register-alert">
+      <div className="form-alert">
         <strong>{errorMessage}</strong>
       </div>
     );
@@ -51,7 +51,7 @@ class LoginForm extends Component {
         id="LoginButton" />
     );
     return (
-      <div className="register-form-container">
+      <div className="form-container">
         <div className="stokk-card">
           <h4 className="card-title">Login</h4>
           <form onSubmit={this.onSubmit.bind(this)}>
@@ -73,7 +73,7 @@ class LoginForm extends Component {
 
             {errorMessage ? errorNode : ''}
 
-            <div className="form-group btn-register-form">
+            <div className="form-group btn-form">
               {isLoading ? <Preloader /> : submitButton}
             </div>
           </form>
