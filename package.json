@@ -4,9 +4,8 @@
   "description": "A stock tracker application",
   "scripts": {
     "test": "gulp test",
-    "start": "gulp build && echo 'Starting server...' && node server &",
-    "start-prod": "gulp build:production && echo 'Starting production server...' && NODE_ENV=production node server &",
-    "stop": "pkill --signal SIGINT stokk"
+    "start": "gulp build && echo 'Starting server...' && node server",
+    "start-prod": "gulp build:production && echo 'Starting production server...' && NODE_ENV=production node server"
   },
   "repository": {
     "type": "git",

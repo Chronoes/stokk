@@ -1,10 +1,11 @@
-.dashboard-overview-heading {
+@import 'constants';
+
+.dashboard-heading {
   color: #fff;
-  font-family: SanFranciscoBold;
-  font-weight: 200;
+  font-family: SanFranciscoThin;
 }
 
-.dashboard-panel {
+.dashboard-section {
   font-family: SanFranciscoRegular;
-  margin-top: 20px;
+  padding: 50px 0;
 }

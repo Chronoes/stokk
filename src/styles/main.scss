@@ -24,18 +24,40 @@
   color: $base-text;
 }
 
+.striked-text-wrapper {
+  display: block;
+  overflow: hidden;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.striked-text {
+  @extend .base-text;
+
+  display: inline-block;
+  position: relative;
+
+  &:before,
+  &:after {
+    background: $grey-accent;
+    content: '';
+    height: 1px;
+    position: absolute;
+    top: 50%;
+    width: 9999px;
+  }
+
+  &:before {
+    margin-right: 15px;
+    right: 100%;
+  }
+
+  &:after {
+    left: 100%;
+    margin-left: 15px;
+  }
+}
+
 body {
   background-color: $main-background;
-}
-
-.dashboard-placeholder-title {
-  color: #fff;
-  font-family: SanFranciscoRegular;
-  margin-bottom: 30px;
-}
-
-.dashboard-placeholder-blockquote {
-  @extend .blockquote;
-  color: #fff;
-  font-family: SanFranciscoRegular;
 }

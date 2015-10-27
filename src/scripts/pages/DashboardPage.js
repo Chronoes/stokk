@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 
 import DashboardOverview from '../components/DashboardOverview';
+import DashboardStocks from '../components/DashboardStocks';
+import NewStockForm from '../components/NewStockForm';
 
 class DashboardPage extends Component {
   render() {
@@ -8,11 +10,11 @@ class DashboardPage extends Component {
 
     return (
       <div className="container-fluid">
-        <div className="row">
-          <DashboardOverview
-            email={email}
-            stockAmount={0} />
-        </div>
+        <DashboardOverview
+          email={email}
+          stockAmount={0} />
+        <DashboardStocks />
+        <NewStockForm />
       </div>
     );
   }
