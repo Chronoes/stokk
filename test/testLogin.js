@@ -7,7 +7,7 @@ import fs from 'fs';
 chai.use(supertestChai.httpAsserts);
 
 describe('Login handler', () => {
-  const route = '/api/login';
+  const route = '/api/users/login';
 
   let server;
   before(() => {
