@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 chai.use(supertestChai.httpAsserts);
 
 describe('Registration handler', () => {
-  const route = '/api/register';
+  const route = '/api/users/register';
 
   let server;
   before(() => {

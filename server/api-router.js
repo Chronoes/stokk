@@ -1,6 +1,5 @@
 import {Router} from 'express';
-import loginHandler from './routes/login';
-import registerHandler from './routes/register';
+import usersRouter from './routes/users-router';
 
 const api = Router();
 
@@ -14,16 +13,15 @@ api.use((req, res, next) => {
         return;
       }
     }
-  } else {
+  } else if (req.method === 'POST') {
     res.status(400).json({
-      message: 'Request cannot be empty.',
+      message: 'POST request cannot be empty.',
     });
     return;
   }
   next();
 });
 
-api.post('/login', loginHandler);
-api.post('/register', registerHandler);
+api.use('/users', usersRouter);
 
 export default api;

@@ -1,5 +1,5 @@
-import User from '../models/User';
-import {genSaltyHash, signToken} from '../util';
+import User from '../../models/User';
+import {genSaltyHash, signToken} from '../../util';
 
 export default (req, res) => {
   const {email, password} = req.body;

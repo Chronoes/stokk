@@ -1,5 +1,5 @@
-import User from '../models/User';
-import {compareSaltyHash, signToken} from '../util';
+import User from '../../models/User';
+import {compareSaltyHash, signToken} from '../../util';
 
 function doesNotExist(res, email) {
   res.status(401).json({
