@@ -1,7 +1,8 @@
 import Sequelize from 'sequelize';
-import sequelize from '../database';
+import database from '../database';
+import Stock from './Stock';
 
-export default sequelize.define('user', {
+const User = database.define('user', {
   email: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -16,3 +17,7 @@ export default sequelize.define('user', {
     allowNull: false,
   },
 });
+
+User.hasMany(Stock);
+
+export default User;
