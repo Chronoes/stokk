@@ -1,14 +1,13 @@
 import {post} from 'axios';
 
 class ApiService {
-  register(email, password) {
+  static register(email, password) {
     return post('/api/register', {email, password});
   }
 
-  login(email, password) {
+  static login(email, password) {
     return post('/api/login', {email, password});
   }
 }
 
-// singleton
-export default new ApiService();
+export default ApiService;
