@@ -10,23 +10,23 @@ const users = Router();
 users.post('/login', loginHandler);
 users.post('/register', registerHandler);
 
-function doesNotExist(res) {
-  res.status(401).json({
-    message: `User does not exist.`,
+function accessForbidden(res) {
+  return res.status(403).json({
+    message: 'Access is forbidden.',
   });
 }
 
 users.param('id', (req, res, next, id) => {
-  return User.findOne({where: {id}})
+  return User.findById(id)
     .then(user => {
       if (user !== null) {
         req.user = user;
         next();
       } else {
-        doesNotExist(res);
+        accessForbidden(res);
       }
     })
-    .catch(() => doesNotExist(res));
+    .catch(() => accessForbidden(res));
 });
 
 users.get('/:id/stocks', stocksHandler);

@@ -9,7 +9,7 @@ export default (req, res) => {
         .findOrCreate({where: {email}, defaults: {email, password: hash}})
         .spread((user, created) => {
           if (created) {
-            res.status(200).json({
+            res.status(201).json({
               message: 'User created.',
               token: signToken({id: user.id, email}),
             });
