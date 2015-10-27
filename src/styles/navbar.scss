@@ -22,13 +22,31 @@
 
 .btn-navbar-dropdown {
   @extend .dropdown-toggle;
+  @include breakpoint(xxxs) {
+    font-size: 0;
+  }
   background-color: transparent;
   border-color: transparent;
-  color: rgba(255, 255, 255, 0.498039);
+  color: $button-text;
   padding: 5px 0;
 
-  &:hover {
-    color: rgba(255, 255, 255, 0.75);
+  &:hover  {
+    color: $button-hover-text;
+  }
+
+  &:hover img {
+    background-color: $button-hover-text;
+  }
+}
+
+.menu-button-image {
+  background-color: $button-text;
+  display: none;
+  @include breakpoint(xxxs) {
+    display: block;
+    font-size: 0;
+    margin-top: 2px;
+    width: 24px;
   }
 }
 

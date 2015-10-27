@@ -52,6 +52,9 @@ class UserDropdown extends Component {
         <button
           className="btn-navbar-dropdown"
           onClick={this.toggleOpen.bind(this)}>
+          <img
+            className="menu-button-image"
+            src="menu-button.svg"/>
           {email}
         </button>
         {isOpen ? menu : ''}

@@ -2,6 +2,8 @@ $dark-background: #1a1c22;
 $main-background: #252830;
 $grey-accent: #434857;
 $base-text: #a9aebd;
+$button-text: rgba(255, 255, 255, 0.498039);
+$button-hover-text: rgba(255, 255, 255, 0.75);
 
 @font-face {
   font-family: SanFranciscoThin;
@@ -21,4 +23,31 @@ $base-text: #a9aebd;
 @font-face {
   font-family: SanFranciscoUltralight;
   src: local('SFNS Display Ultralight'), url(SystemSanFranciscoDisplayUltralight.ttf);
+}
+
+@mixin breakpoint($point) {
+
+  @if ($point == lg) {
+    @media (min-width: 1200px) { @content }
+  }
+
+  @else if ($point == md) {
+    @media (min-width: 992px) and (max-width: 1199px) { @content }
+  }
+
+  @else if ($point == sm) {
+    @media (min-width: 768px) and (max-width: 991px) { @content }
+  }
+
+  @else if ($point == xs) {
+    @media (max-width: 767px) and (min-width: 641px) { @content }
+  }
+
+  @else if ($point == xxs) {
+    @media (max-width: 640px) and (min-width: 481px) { @content }
+  }
+
+  @else if ($point == xxxs) {
+    @media  (max-width: 480px) { @content }
+  }
 }
