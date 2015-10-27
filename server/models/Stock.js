@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import database from '../database';
 
-export default database.define('stock', {
+const Stock = database.define('stock', {
   symbol: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -44,3 +44,5 @@ export default database.define('stock', {
     type: Sequelize.FLOAT,
   },
 });
+
+export default Stock;

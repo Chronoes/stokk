@@ -27,7 +27,7 @@ describe('Registration handler', () => {
         if (err) {
           return done(err);
         }
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(201);
         expect(res.body.message).to.have.length.above(0);
         expect(res.body.token).to.have.length.above(0);
         done();
@@ -48,7 +48,7 @@ describe('Registration handler', () => {
         if (err) {
           return done(err);
         }
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(201);
         expect(res.body.message).to.have.length.above(0);
         expect(mockRequest.email).to.equal(jwt.verify(res.body.token, secret).email);
         done();
@@ -74,17 +74,8 @@ describe('Registration handler', () => {
       });
   });
 
-  it('should fail with missing/empty arguments or empty request', done => {
+  it('should respond with Bad Request on empty request', done => {
     const emptyRequest = {};
-    const emptyEmailRequest = {
-      email: '',
-      password: '45tR0nGPa$$w0rD',
-    };
-    const emptyPwRequest = {
-      email: 'emptypw@stokk.io',
-      password: '',
-    };
-
     request(server)
       .post(route)
       .send(emptyRequest)
@@ -93,7 +84,15 @@ describe('Registration handler', () => {
           return done(err);
         }
         expect(res).to.have.status(400);
+        done();
       });
+  });
+
+  it('should respond with Bad Request on empty email', done => {
+    const emptyEmailRequest = {
+      email: '',
+      password: '45tR0nGPa$$w0rD',
+    };
 
     request(server)
       .post(route)
@@ -103,7 +102,15 @@ describe('Registration handler', () => {
           return done(err);
         }
         expect(res).to.have.status(400);
+        done();
       });
+  });
+
+  it('should respond with Bad Request on empty password', done => {
+    const emptyPwRequest = {
+      email: 'emptypw@stokk.io',
+      password: '',
+    };
 
     request(server)
       .post(route)
