@@ -4,7 +4,7 @@ import connectToStores from 'alt/utils/connectToStores';
 
 import Navbar from './Navbar';
 import AuthenticationStore from '../stores/AuthenticationStore';
-import {getTokenFromStorage} from '../actions/AuthenticationActions';
+
 
 @connectToStores
 class App extends Component {
@@ -17,20 +17,16 @@ class App extends Component {
   }
 
   static getPropsFromStores() {
-    return {loginState: AuthenticationStore.getState()};
-  }
-
-  componentDidMount() {
-    getTokenFromStorage();
+    return {authState: AuthenticationStore.getState()};
   }
 
   render() {
-    const {children, loginState} = this.props;
-    const token = loginState.get('token');
+    const {children, authState} = this.props;
+    const token = authState.get('token');
     const loggedIn = token.length > 0;
     const email = loggedIn ? decode(token).email : '';
     const childrenWithProps = Children.map(children, child => {
-      return cloneElement(child, {email});
+      return cloneElement(child, {email, authState});
     });
     return (
       <div>

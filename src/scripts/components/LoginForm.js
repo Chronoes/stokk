@@ -2,14 +2,13 @@ import React, {Component} from 'react';
 
 import Preloader from './Preloader';
 import {login} from '../actions/AuthenticationActions';
+import RegisterForm from './RegisterForm';
 
 class LoginForm extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      isEmailValid: true,
-      isPasswordValid: true,
       errorMessage: '',
     };
   }
@@ -22,22 +21,27 @@ class LoginForm extends Component {
     const email = emailNode.value.trim();
     const password = passwordNode.value;
 
-    const errorMessages = [];
+    const {errorMessages} = RegisterForm.validate(email, password);
 
     if (errorMessages.length) {
-      this.setState({
-        isEmailValid: valids.email,
-        arePasswordsValid: valids.passwords,
-        errorMessage: errorMessages.shift(),
-      });
+      this.setState({errorMessage: errorMessages.shift()});
     } else {
       login(email, password);
+      this.setState({errorMessage: ''});
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({errorMessage: nextProps.errorMessage});
+  }
+
+  componentWillUnmount() {
+    this.setState({errorMessage: ''});
   }
 
   render() {
     const {isLoading} = this.props;
-    const errorMessage = this.props.errorMessage.length ? this.props.errorMessage : this.state.errorMessage;
+    const {errorMessage} = this.state;
     const errorNode = (
       <div className="form-alert">
         <strong>{errorMessage}</strong>

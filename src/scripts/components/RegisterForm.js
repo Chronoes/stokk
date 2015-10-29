@@ -15,16 +15,7 @@ class RegisterForm extends Component {
     };
   }
 
-  onSubmit(event) {
-    event.preventDefault();
-    const emailNode = this.refs.email;
-    const passwordOnceNode = this.refs.passwordOnce;
-    const passwordTwiceNode = this.refs.passwordTwice;
-
-    const email = emailNode.value.trim();
-    const passwordOnce = passwordOnceNode.value;
-    const passwordTwice = passwordTwiceNode.value;
-
+  static validate(email, password) {
     const valids = {
       email: true,
       passwords: true,
@@ -37,10 +28,25 @@ class RegisterForm extends Component {
       errorMessages.push('Please input an email.');
     }
 
-    if (passwordOnce.length < RegisterForm.MINIMUM_PASSWORD_LENGTH) {
+    if (password.length < RegisterForm.MINIMUM_PASSWORD_LENGTH) {
       valids.passwords = false;
       errorMessages.push('Please input a password of at least 8 characters.');
     }
+
+    return {errorMessages, valids};
+  }
+
+  onSubmit(event) {
+    event.preventDefault();
+    const emailNode = this.refs.email;
+    const passwordOnceNode = this.refs.passwordOnce;
+    const passwordTwiceNode = this.refs.passwordTwice;
+
+    const email = emailNode.value.trim();
+    const passwordOnce = passwordOnceNode.value;
+    const passwordTwice = passwordTwiceNode.value;
+
+    const {errorMessages, valids} = RegisterForm.validate(email, passwordOnce);
 
     if (passwordOnce !== passwordTwice) {
       valids.passwords = false;
@@ -63,10 +69,17 @@ class RegisterForm extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({errorMessage: nextProps.errorMessage});
+  }
+
+  componentWillUnmount() {
+    this.setState({errorMessage: ''});
+  }
+
   render() {
-    const {isEmailValid, arePasswordsValid} = this.state;
+    const {errorMessage, isEmailValid, arePasswordsValid} = this.state;
     const {isLoading} = this.props;
-    const errorMessage = this.props.errorMessage.length ? this.props.errorMessage : this.state.errorMessage;
     const errorNode = (
       <div className="form-alert">
         <strong>{errorMessage}</strong>
