@@ -63,21 +63,28 @@ gulp.task('lint:sass', () => {
     .pipe(sasslint.failOnError());
 });
 
-gulp.task('lint:js', () => {
-  return gulp.src(
-    [
-      directories.root,
-      directories.source.scripts,
-      directories.test,
-      directories.server,
-    ])
+gulp.task('lint:scripts', () => {
+  return gulp.src(directories.source.scripts)
     .pipe(remember('scripts'))
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('lint', ['lint:js', 'lint:sass']);
+gulp.task('lint:server', () => {
+  return gulp.src(
+    [
+      directories.root,
+      directories.test,
+      directories.server,
+    ])
+    .pipe(remember('server'))
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+});
+
+gulp.task('lint', ['lint:scripts', 'lint:server', 'lint:sass']);
 
 gulp.task('line-count', () => {
   return gulp.src(
@@ -203,25 +210,36 @@ gulp.task('build', () => {
 });
 
 gulp.task('build:watch', () => {
-  runSequence(['line-count', 'lint'], 'test', ['js:watch', 'sass', 'html', 'images', 'fonts', 'env-development']);
+  runSequence(['line-count', 'lint:scripts', 'lint:sass'], ['js:watch', 'sass', 'html', 'images', 'fonts', 'env-development']);
+});
+
+gulp.task('build:watch:server', () => {
+  runSequence(['line-count', 'lint:server'], 'test', 'env-development');
 });
 
 gulp.task('build:production', () => {
   runSequence(['line-count', 'lint'], 'test', ['js:production', 'sass:production', 'html:production', 'images', 'fonts']);
 });
 
-gulp.task('watch', ['env-development'], () => {
+gulp.task('watch:src', () => {
   return gulp.watch(
     [
-      directories.root,
       directories.source.scripts,
       directories.source.styles,
       directories.source.images,
-      directories.test,
-      directories.server,
-    ],
-    ['build:watch']
-  );
+      directories.source.fonts,
+    ], ['build:watch']);
 });
 
-gulp.task('default', ['build:watch', 'watch']);
+gulp.task('watch:server', () => {
+  return gulp.watch(
+    [
+      directories.root,
+      directories.test,
+      directories.server,
+    ], ['build:watch:server']);
+});
+
+gulp.task('watch', ['env-development', 'watch:src', 'watch:server']);
+
+gulp.task('default', ['build', 'watch']);
