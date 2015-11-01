@@ -5,6 +5,8 @@ import loginHandler from './users/login';
 import registerHandler from './users/register';
 import stocksHandler from './users/stocks';
 import stockAddHandler from './users/stockAdd';
+import stockUpdateHandler from './users/stockUpdate';
+import stockRemoveHandler from './users/stockRemove';
 
 const users = Router();
 
@@ -16,6 +18,10 @@ function accessForbidden(res) {
     message: 'Access is forbidden.',
   });
 }
+
+users.all('/:id', (req, res, next) => {
+  next();
+});
 
 users.param('id', (req, res, next, id) => {
   return User.findById(id)
@@ -30,7 +36,10 @@ users.param('id', (req, res, next, id) => {
     .catch(() => accessForbidden(res));
 });
 
-users.get('/:id/stocks', stocksHandler);
-users.post('/:id/stocks', stockAddHandler);
+users.route('/:id/stocks')
+  .get(stocksHandler)
+  .post(stockAddHandler)
+  .put(stockUpdateHandler)
+  .delete(stockRemoveHandler);
 
 export default users;

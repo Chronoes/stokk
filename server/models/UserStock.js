@@ -7,7 +7,7 @@ const UserStock = database.define('user_stock', {
     defaultValue: 'active',
     validate: {
       notEmpty: true,
-      isIn: ['active', 'passive'],
+      isIn: [['active', 'passive']],
     },
   },
 });

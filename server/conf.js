@@ -5,7 +5,7 @@ export default {
     database: {
       dialect: 'sqlite',
       name: 'stokk_test',
-      path: './test/testDatabase.sqlite',
+      path: path.join(__dirname, '../test/testDatabase.sqlite'),
       user: 'JBOYTEST',
       loggingEnabled: false,
       password: 'JEKATESTERINA_JAYLORD2',

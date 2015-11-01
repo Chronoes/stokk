@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import {match} from 'react-router';
+import {readFile} from 'fs';
 
 import api from './server/api-router';
 import routes from './src/scripts/routes';
@@ -12,6 +13,13 @@ app.use(bodyParser.json());
 
 app.use(express.static('static'));
 app.use('/api', api);
+
+readFile('./server/secret', 'utf8', (err, secret) => {
+  if (err || secret.trim() === '') {
+    throw new Error('Make sure you have secret at ./server/secret');
+  }
+  app.set('secret', secret);
+});
 
 app.get('/*', (req, res) => {
   match({routes, location: req.url}, (error, redirectLocation, renderProps) => {

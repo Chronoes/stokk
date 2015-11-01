@@ -5,7 +5,6 @@ import app from '../app';
 import User from '../server/models/User';
 import Stock from '../server/models/Stock';
 
-
 chai.use(supertestChai.httpAsserts);
 
 describe('User stock handler', () => {
@@ -14,6 +13,38 @@ describe('User stock handler', () => {
   let server;
   before(() => {
     server = app.listen(1338);
+  });
+
+  context('"any" request', () => {
+    it('should deny access with unknown ID', done => {
+      const route = makeRoute(15);
+
+      request(server)
+        .get(route)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res).to.have.status(403);
+          expect(res.body.message).to.have.length.above(0);
+          done();
+        });
+    });
+
+    it('should deny access with non-integer ID', done => {
+      const route = makeRoute('iamnotaninteger');
+
+      request(server)
+        .get(route)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res).to.have.status(403);
+          expect(res.body.message).to.have.length.above(0);
+          done();
+        });
+    });
   });
 
   context('GET request', () => {
@@ -36,36 +67,6 @@ describe('User stock handler', () => {
           done();
         });
     });
-
-    it('should deny access with unknown ID', done => {
-      const route = makeRoute(15);
-
-      request(server)
-        .get(route)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res).to.have.status(403);
-          expect(res.body.message).to.have.length.above(0);
-          done();
-        });
-    });
-
-    it('should deny access with non-integer ID', done => {
-      const route = makeRoute('iamnotaninteger');
-
-      request(server)
-        .get(route)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res).to.have.status(403);
-          expect(res.body.message).to.have.length.above(0);
-          done();
-        });
-    });
   });
 
   context('POST request', () => {
@@ -81,7 +82,7 @@ describe('User stock handler', () => {
           .send(mockRequest)
           .end((err, res) => {
             if (err) {
-              reject(err);
+              return reject(err);
             }
             expect(res).to.have.status(200);
             expect(res.body.message).to.have.length.above(0);
@@ -102,45 +103,54 @@ describe('User stock handler', () => {
         .catch(done);
     });
 
-    it('should fail to add stock with unknown symbol');
+    it('should return Bad Request when adding stock with unknown symbol');
+  });
 
-    it('should deny access with unknown ID', done => {
-      const route = makeRoute(15);
+  context('PUT request', () => {
+    it('should change status of an existing stock', done => {
+      const route = makeRoute(1);
       const mockRequest = {
-        symbol: 'GOOG',
+        symbol: 'YHOO',
+        status: 'passive',
       };
 
-      request(server)
-        .post(route)
-        .send(mockRequest)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res).to.have.status(403);
-          expect(res.body.message).to.have.length.above(0);
+      const waitRequest = new Promise((resolve, reject) => {
+        request(server)
+          .put(route)
+          .send(mockRequest)
+          .end((err, res) => {
+            if (err) {
+              return reject(err);
+            }
+            expect(res).to.have.status(200);
+            expect(res.body.message).to.have.length.above(0);
+            resolve();
+          });
+      });
+
+      waitRequest
+        .then(() =>
+          User.findById(1))
+        .then(user =>
+          user.getStocks({where: {symbol: mockRequest.symbol}}))
+        .then(stocks => {
+          expect(stocks).to.be.an('array');
+          expect(stocks).to.have.length(1);
+          expect(stocks[0].user_stock.status).to.equal(mockRequest.status);
           done();
-        });
+        })
+        .catch(done);
     });
 
-    it('should deny access with non-integer ID', done => {
-      const route = makeRoute('iamnotaninteger');
-      const mockRequest = {
-        symbol: 'GOOG',
-      };
+    it('should return Bad Request if user does not have the existing stock');
 
-      request(server)
-        .post(route)
-        .send(mockRequest)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res).to.have.status(403);
-          expect(res.body.message).to.have.length.above(0);
-          done();
-        });
-    });
+    it('should return Bad Request when incorrect status is supplied');
+  });
+
+  context('DELETE request', () => {
+    it('should remove stock from user');
+
+    it('should return Not Found when stock does not exist for user');
   });
 
   after(() => {

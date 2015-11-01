@@ -8,7 +8,7 @@ export default (req, res) => {
       stock.addUser(user))
     .then(() =>
       res.status(200).json({
-        message: `Stock ${symbol} added succesfully.`,
+        message: `Stock ${symbol} added successfully.`,
       }))
     .catch(() =>
       res.status(500).json({
