@@ -1,6 +1,8 @@
 import chai from 'chai';
 
 import {symbolCheck} from '../server/queries';
+import {getStockBySymbol} from '../server/queries';
+import {getStockByDate} from '../server/queries';
 
 chai.should();
 
@@ -10,6 +12,13 @@ describe('Stock queries', () => {
     symbolCheck('aapl').should.be.true;
     symbolCheck('aa-s').should.be.true;
     symbolCheck('aa.s').should.be.true;
+    symbolCheck('ASa.s').should.be.true;
+  });
+
+  it('should return false if symbol is invalid', () => {
+    symbolCheck('1234').should.be.false;
+    symbolCheck('aas\'asd').should.be.false;
+    symbolCheck('¹@££@£').should.be.false;
   });
 
   it('should return symbolCheck boolean value', () => {
@@ -17,11 +26,33 @@ describe('Stock queries', () => {
     symbolCheck('aapl').should.be.a('boolean');
     symbolCheck('aa-s').should.be.a('boolean');
     symbolCheck('aa.s').should.be.a('boolean');
+    symbolCheck('1234').should.be.a('boolean');
+    symbolCheck('aas\'asd').should.be.a('boolean');
+    symbolCheck('¹@££@£').should.be.a('boolean');
   });
 
-  it('should stock by symbol');
+  it('should return stock by symbol', () => {
+    getStockBySymbol('AAPL', (data) => {
+      (data.results.quote.symbol).should.be.equal('AAPL');
+    });
+    getStockBySymbol('GOOG', (data) => {
+      (data.results.quote.symbol).should.be.equal('GOOG');
+    });
+  });
 
-  it('should return stock by date and symbol');
+  it('should return stock by date and symbol', () => {
+    getStockByDate('YHOO', '2009-09-11', '2010-03-10', function(history) {
+      (history.results.quote[0].symbol).should.be.equal('YHOO');
+      (history.results.quote[0].date).should.be.equal('2009-09-11');
+    });
+  });
 
-  it('should return false if symbol is not correct');
+  it('should return null if symbol is not correct or does', () => {
+    getStockBySymbol('1234', (data) => {
+      (data).should.be.null;
+    });
+    getStockByDate('1234', '2009-09-11', '2010-03-10', function(history) {
+      (history).should.be.null;
+    });
+  });
 });

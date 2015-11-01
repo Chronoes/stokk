@@ -6,7 +6,6 @@ function doesNotExist(res, email) {
     message: `User ${email} does not exist or password is wrong.`,
   });
 }
-
 export default (req, res) => {
   const {email, password} = req.body;
   return User.findOne({where: {email}})
