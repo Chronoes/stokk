@@ -6,9 +6,6 @@ const Stock = database.define('stock', {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true,
-    validate: {
-      isUppercase: true,
-    },
   },
 
   name: {

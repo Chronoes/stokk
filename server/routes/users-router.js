@@ -4,6 +4,7 @@ import User from '../models/User';
 import loginHandler from './users/login';
 import registerHandler from './users/register';
 import stocksHandler from './users/stocks';
+import stockAddHandler from './users/stockAdd';
 
 const users = Router();
 
@@ -30,5 +31,6 @@ users.param('id', (req, res, next, id) => {
 });
 
 users.get('/:id/stocks', stocksHandler);
+users.post('/:id/stocks', stockAddHandler);
 
 export default users;
