@@ -21,5 +21,6 @@ const User = database.define('user', {
 
 User.belongsToMany(Stock, {through: UserStock});
 Stock.belongsToMany(User, {through: UserStock});
+User.belongsToMany(Stock, {through: UserStock.scope('passive'), as: 'passiveStocks'});
 
 export default User;

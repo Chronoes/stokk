@@ -1,5 +1,22 @@
 export default (req, res) => {
-  return res.status(501).json({
-    message: 'Not yet implemented.',
-  });
+  const {user} = req;
+  const {symbol} = req.body;
+  return user.getStocks({where: {symbol}})
+    .then(stocks => {
+      if (stocks.length === 0) {
+        return res.status(404).json({
+          message: `Stock "${symbol}" does not exist for user."`,
+        });
+      }
+      return stocks[0].user_stock.update({active: false})
+        .then(() =>
+          res.status(200).json({
+            message: `Stock "${symbol}" removed.`,
+          }));
+    })
+    .catch(() =>
+      res.status(500).json({
+        message: 'Something happened.',
+      })
+    );
 };

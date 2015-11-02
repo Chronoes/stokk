@@ -3,7 +3,6 @@ import supertestChai, {request} from 'supertest-chai';
 
 import app from '../app';
 import User from '../server/models/User';
-import Stock from '../server/models/Stock';
 
 chai.use(supertestChai.httpAsserts);
 
@@ -57,13 +56,14 @@ describe('User stock handler', () => {
           if (err) {
             return done(err);
           }
-          const {message, stocks} = res.body;
           expect(res).to.have.status(200);
+          const {message, stocks} = res.body;
           expect(message).to.have.length.above(0);
           expect(stocks).to.be.an('array');
-          expect(stocks).to.have.length(4);
+          expect(stocks).to.have.length.of.at.least(1);
           expect(stocks[0]).to.be.an('object');
-          expect(stocks[0]).to.have.any.keys('symbol', 'name', 'currentPrice');
+          expect(stocks[0]).to.have.any.keys('symbol', 'name', 'currentPrice', 'user_stock');
+          expect(stocks[0].user_stock.active).to.be.true;
           done();
         });
     });
@@ -94,29 +94,46 @@ describe('User stock handler', () => {
         .then(() =>
           User.findById(2))
         .then(user =>
-          Stock.findOne({where: {symbol: mockRequest.symbol}})
-            .then(stock => user.hasStock(stock)))
-        .then(exists => {
-          expect(exists).to.be.true;
+          user.getStocks({where: {symbol: mockRequest.symbol}}))
+        .then(stocks => {
+          expect(stocks).to.be.an('array');
+          expect(stocks).to.have.length(1);
+          expect(stocks[0].user_stock.active).to.be.true;
           done();
         })
         .catch(done);
     });
 
-    it('should return Bad Request when adding stock with unknown symbol');
+    it('should return Bad Request when adding stock with unknown symbol', done => {
+      const route = makeRoute(3);
+      const mockRequest = {
+        symbol: 'JBOYS',
+      };
+
+      request(server)
+        .post(route)
+        .send(mockRequest)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res).to.have.status(400);
+          expect(res.body.message).to.have.length.above(0);
+          done();
+        });
+    });
   });
 
-  context('PUT request', () => {
-    it('should change status of an existing stock', done => {
+  context('DELETE request', () => {
+    it('should passivate stock for user', done => {
       const route = makeRoute(1);
       const mockRequest = {
         symbol: 'YHOO',
-        status: 'passive',
       };
 
       const waitRequest = new Promise((resolve, reject) => {
         request(server)
-          .put(route)
+          .del(route)
           .send(mockRequest)
           .end((err, res) => {
             if (err) {
@@ -132,25 +149,53 @@ describe('User stock handler', () => {
         .then(() =>
           User.findById(1))
         .then(user =>
-          user.getStocks({where: {symbol: mockRequest.symbol}}))
+          user.getPassiveStocks({where: {symbol: mockRequest.symbol}}))
         .then(stocks => {
           expect(stocks).to.be.an('array');
           expect(stocks).to.have.length(1);
-          expect(stocks[0].user_stock.status).to.equal(mockRequest.status);
+          expect(stocks[0].user_stock.active).to.be.false;
           done();
         })
         .catch(done);
     });
 
-    it('should return Bad Request if user does not have the existing stock');
+    it('should return Not Found when stock is passive for user', done => {
+      const route = makeRoute(1);
+      const mockRequest = {
+        symbol: 'MSFT',
+      };
 
-    it('should return Bad Request when incorrect status is supplied');
-  });
+      request(server)
+        .del(route)
+        .send(mockRequest)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res).to.have.status(404);
+          expect(res.body.message).to.have.length.above(0);
+          done();
+        });
+    });
 
-  context('DELETE request', () => {
-    it('should remove stock from user');
+    it('should return Not Found when stock does not exist for user', done => {
+      const route = makeRoute(3);
+      const mockRequest = {
+        symbol: 'GOOG',
+      };
 
-    it('should return Not Found when stock does not exist for user');
+      request(server)
+        .del(route)
+        .send(mockRequest)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res).to.have.status(404);
+          expect(res.body.message).to.have.length.above(0);
+          done();
+        });
+    });
   });
 
   after(() => {

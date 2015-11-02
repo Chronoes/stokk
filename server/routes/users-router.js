@@ -5,7 +5,6 @@ import loginHandler from './users/login';
 import registerHandler from './users/register';
 import stocksHandler from './users/stocks';
 import stockAddHandler from './users/stockAdd';
-import stockUpdateHandler from './users/stockUpdate';
 import stockRemoveHandler from './users/stockRemove';
 
 const users = Router();
@@ -39,7 +38,6 @@ users.param('id', (req, res, next, id) => {
 users.route('/:id/stocks')
   .get(stocksHandler)
   .post(stockAddHandler)
-  .put(stockUpdateHandler)
   .delete(stockRemoveHandler);
 
 export default users;

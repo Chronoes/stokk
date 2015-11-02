@@ -2,12 +2,23 @@ import Sequelize from 'sequelize';
 import database from '../database';
 
 const UserStock = database.define('user_stock', {
-  status: {
-    type: Sequelize.STRING,
-    defaultValue: 'active',
-    validate: {
-      notEmpty: true,
-      isIn: [['active', 'passive']],
+  active: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
+}, {
+  defaultScope: {
+    where: {
+      active: true,
+    },
+  },
+
+  scopes: {
+    passive: {
+      where: {
+        active: false,
+      },
     },
   },
 });
