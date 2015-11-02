@@ -1,7 +1,6 @@
 import Sequelize from 'sequelize';
 import database from '../database';
 import Stock from './Stock';
-import UserStock from './UserStock';
 
 const User = database.define('user', {
   email: {
@@ -19,8 +18,7 @@ const User = database.define('user', {
   },
 });
 
-User.belongsToMany(Stock, {through: UserStock});
-Stock.belongsToMany(User, {through: UserStock});
-User.belongsToMany(Stock, {through: UserStock.scope('passive'), as: 'passiveStocks'});
+User.belongsToMany(Stock, {through: 'user_stock'});
+Stock.belongsToMany(User, {through: 'user_stock'});
 
 export default User;

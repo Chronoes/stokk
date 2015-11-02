@@ -5,7 +5,7 @@ export default (req, res) => {
   const {symbol} = req.body;
   return Stock.findOne({where: {symbol}})
     .then(stock => stock !== null ?
-        stock.addUser(user)
+        user.addStock(stock)
           .then(() =>
             res.status(200).json({
               message: `Stock "${symbol}" added successfully.`,

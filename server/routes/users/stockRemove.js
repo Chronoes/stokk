@@ -8,7 +8,7 @@ export default (req, res) => {
           message: `Stock "${symbol}" does not exist for user."`,
         });
       }
-      return stocks[0].user_stock.update({active: false})
+      return user.removeStock(stocks[0])
         .then(() =>
           res.status(200).json({
             message: `Stock "${symbol}" removed.`,

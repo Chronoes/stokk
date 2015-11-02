@@ -3,6 +3,7 @@ import supertestChai, {request} from 'supertest-chai';
 
 import app from '../app';
 import User from '../server/models/User';
+import Stock from '../server/models/Stock';
 
 chai.use(supertestChai.httpAsserts);
 
@@ -63,7 +64,6 @@ describe('User stock handler', () => {
           expect(stocks).to.have.length.of.at.least(1);
           expect(stocks[0]).to.be.an('object');
           expect(stocks[0]).to.have.any.keys('symbol', 'name', 'currentPrice', 'user_stock');
-          expect(stocks[0].user_stock.active).to.be.true;
           done();
         });
     });
@@ -98,7 +98,6 @@ describe('User stock handler', () => {
         .then(stocks => {
           expect(stocks).to.be.an('array');
           expect(stocks).to.have.length(1);
-          expect(stocks[0].user_stock.active).to.be.true;
           done();
         })
         .catch(done);
@@ -125,7 +124,7 @@ describe('User stock handler', () => {
   });
 
   context('DELETE request', () => {
-    it('should passivate stock for user', done => {
+    it('should delete stock for user', done => {
       const route = makeRoute(1);
       const mockRequest = {
         symbol: 'YHOO',
@@ -149,33 +148,13 @@ describe('User stock handler', () => {
         .then(() =>
           User.findById(1))
         .then(user =>
-          user.getPassiveStocks({where: {symbol: mockRequest.symbol}}))
-        .then(stocks => {
-          expect(stocks).to.be.an('array');
-          expect(stocks).to.have.length(1);
-          expect(stocks[0].user_stock.active).to.be.false;
+          Stock.findOne({where: {symbol: mockRequest.symbol}})
+            .then(stock => user.hasStock(stock)))
+        .then(exists => {
+          expect(exists).to.be.false;
           done();
         })
         .catch(done);
-    });
-
-    it('should return Not Found when stock is passive for user', done => {
-      const route = makeRoute(1);
-      const mockRequest = {
-        symbol: 'MSFT',
-      };
-
-      request(server)
-        .del(route)
-        .send(mockRequest)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res).to.have.status(404);
-          expect(res.body.message).to.have.length.above(0);
-          done();
-        });
     });
 
     it('should return Not Found when stock does not exist for user', done => {

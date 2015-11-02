@@ -78,10 +78,7 @@ before(done => {
     User.findOne({where: {email: 'test1@stokk.io'}}))
   .then(user =>
     Stock.findAll()
-      .then(userStocks =>
-        user.setStocks(userStocks.slice(0, 2))
-          .then(() => user.addStock(userStocks.slice(2), {active: false}))
-      ))
+      .then(userStocks => user.setStocks(userStocks)))
   .then(() => done())
   .catch(err => Array.isArray(err) ?
     done(err[0].errors) :
