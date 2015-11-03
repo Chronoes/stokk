@@ -1,7 +1,5 @@
 node_modules/
 static/
 coverage/
-server/database.sqlite
-server/databaseProd.sqlite
+*.sqlite
 server/secret
-test/testDatabase.sqlite

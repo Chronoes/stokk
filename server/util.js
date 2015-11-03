@@ -18,6 +18,20 @@ export function signToken(payload) {
   });
 }
 
+export function verifyToken(token) {
+  return new Promise((resolve, reject) =>
+    jwt.verify(token, app.get('secret'), (err, decoded) =>
+      err ? reject('Token is invalid.') : resolve(decoded)));
+}
+
+export function verifyAuthorization(auth) {
+  if (auth) {
+    const token = auth.replace('Bearer ', '');
+    return verifyToken(token);
+  }
+  return Promise.reject('No Authorization header.');
+}
+
 export function isDev() {
   return app.get('env') === development.NODE_ENV;
 }

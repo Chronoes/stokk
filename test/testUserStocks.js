@@ -1,26 +1,35 @@
 import chai, {expect} from 'chai';
 import supertestChai, {request} from 'supertest-chai';
+import jwt from 'jsonwebtoken';
 
 import app from '../app';
 import User from '../server/models/User';
 import Stock from '../server/models/Stock';
 
+import {signToken} from '../server/util';
+
 chai.use(supertestChai.httpAsserts);
 
 describe('User stock handler', () => {
   const makeRoute = id => `/api/users/${id}/stocks`;
+  const tokens = {1: '', 2: '', 3: '', 15: '', 'iamnotaninteger': ''};
 
   let server;
   before(() => {
+    Object.keys(tokens)
+      .map(key => tokens[key] = signToken({id: key}));
     server = app.listen(1338);
   });
 
   context('"any" request', () => {
     it('should deny access with unknown ID', done => {
-      const route = makeRoute(15);
+      const id = 15;
+      const route = makeRoute(id);
+      const token = tokens[id];
 
       request(server)
         .get(route)
+        .set('Authorization', `Bearer ${token}`)
         .end((err, res) => {
           if (err) {
             return done(err);
@@ -32,10 +41,13 @@ describe('User stock handler', () => {
     });
 
     it('should deny access with non-integer ID', done => {
-      const route = makeRoute('iamnotaninteger');
+      const id = 'iamnotaninteger';
+      const route = makeRoute(id);
+      const token = tokens[id];
 
       request(server)
         .get(route)
+        .set('Authorization', `Bearer ${token}`)
         .end((err, res) => {
           if (err) {
             return done(err);
@@ -45,14 +57,50 @@ describe('User stock handler', () => {
           done();
         });
     });
+
+    it('should return Unauthorized if token is invalid', done => {
+      const id = 3;
+      const route = makeRoute(id);
+      const token = jwt.sign({id}, 'shhhhh...');
+
+      request(server)
+        .get(route)
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res).to.have.status(401);
+          expect(res.body.message).to.have.length.above(0);
+          done();
+        });
+    });
+
+    it('should return Unauthorized if Authorization header is not set', done => {
+      const route = makeRoute(3);
+
+      request(server)
+        .get(route)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res).to.have.status(401);
+          expect(res.body.message).to.have.length.above(0);
+          done();
+        });
+    });
   });
 
   context('GET request', () => {
     it('should return an array of stocks based on ID', done => {
-      const route = makeRoute(1);
+      const id = 1;
+      const route = makeRoute(id);
+      const token = tokens[id];
 
       request(server)
         .get(route)
+        .set('Authorization', `Bearer ${token}`)
         .end((err, res) => {
           if (err) {
             return done(err);
@@ -71,7 +119,9 @@ describe('User stock handler', () => {
 
   context('POST request', () => {
     it('should add a new stock to user', done => {
-      const route = makeRoute(2);
+      const id = 2;
+      const route = makeRoute(id);
+      const token = tokens[id];
       const mockRequest = {
         symbol: 'GOOG',
       };
@@ -79,6 +129,7 @@ describe('User stock handler', () => {
       const waitRequest = new Promise((resolve, reject) => {
         request(server)
           .post(route)
+          .set('Authorization', `Bearer ${token}`)
           .send(mockRequest)
           .end((err, res) => {
             if (err) {
@@ -92,7 +143,7 @@ describe('User stock handler', () => {
 
       waitRequest
         .then(() =>
-          User.findById(2))
+          User.findById(id))
         .then(user =>
           user.getStocks({where: {symbol: mockRequest.symbol}}))
         .then(stocks => {
@@ -104,13 +155,16 @@ describe('User stock handler', () => {
     });
 
     it('should return Bad Request when adding stock with unknown symbol', done => {
-      const route = makeRoute(3);
+      const id = 3;
+      const route = makeRoute(id);
+      const token = tokens[id];
       const mockRequest = {
         symbol: 'JBOYS',
       };
 
       request(server)
         .post(route)
+        .set('Authorization', `Bearer ${token}`)
         .send(mockRequest)
         .end((err, res) => {
           if (err) {
@@ -125,7 +179,9 @@ describe('User stock handler', () => {
 
   context('DELETE request', () => {
     it('should delete stock for user', done => {
-      const route = makeRoute(1);
+      const id = 1;
+      const route = makeRoute(id);
+      const token = tokens[id];
       const mockRequest = {
         symbol: 'YHOO',
       };
@@ -133,6 +189,7 @@ describe('User stock handler', () => {
       const waitRequest = new Promise((resolve, reject) => {
         request(server)
           .del(route)
+          .set('Authorization', `Bearer ${token}`)
           .send(mockRequest)
           .end((err, res) => {
             if (err) {
@@ -146,7 +203,7 @@ describe('User stock handler', () => {
 
       waitRequest
         .then(() =>
-          User.findById(1))
+          User.findById(id))
         .then(user =>
           Stock.findOne({where: {symbol: mockRequest.symbol}})
             .then(stock => user.hasStock(stock)))
@@ -158,13 +215,16 @@ describe('User stock handler', () => {
     });
 
     it('should return Not Found when stock does not exist for user', done => {
-      const route = makeRoute(3);
+      const id = 3;
+      const route = makeRoute(id);
+      const token = tokens[id];
       const mockRequest = {
         symbol: 'GOOG',
       };
 
       request(server)
         .del(route)
+        .set('Authorization', `Bearer ${token}`)
         .send(mockRequest)
         .end((err, res) => {
           if (err) {
