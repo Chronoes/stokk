@@ -1,5 +1,6 @@
 import {Router} from 'express';
 import usersRouter from './routes/users-router';
+import stocksRouter from './routes/stocks-router';
 
 const api = Router();
 
@@ -21,5 +22,6 @@ api.use((req, res, next) => {
 });
 
 api.use('/users', usersRouter);
+api.use('/stocks', stocksRouter);
 
 export default api;
