@@ -26,7 +26,7 @@ class App extends Component {
     const loggedIn = token.length > 0;
     const email = loggedIn ? decode(token).email : '';
     const childrenWithProps = Children.map(children, child => {
-      return cloneElement(child, {email, authState});
+      return cloneElement(child, {authState});
     });
     return (
       <div>
