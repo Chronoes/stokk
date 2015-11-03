@@ -2,7 +2,6 @@ import chai, {expect} from 'chai';
 import supertestChai, {request} from 'supertest-chai';
 
 import app from '../app';
-// import Stock from '../server/models/Stock';
 
 chai.use(supertestChai.httpAsserts);
 
@@ -41,21 +40,23 @@ describe('Stock handler', () => {
             done(err);
           }
           expect(res).to.have.status(200);
-          const {message, stock} = res.body;
+          const {message, stocks} = res.body;
           expect(message).to.have.length.above(0);
-          expect(stock).to.have.any.keys('symbol', 'change', 'currentPrice');
+          expect(stocks).to.be.an('array');
+          expect(stocks).to.have.length.of.at.least(1);
+          expect(stocks[0]).to.have.all.keys('symbol', 'name');
           done();
         });
     });
 
-    it('should return Bad Request with unknown symbol', done => {
+    it('should return Not Found with no results', done => {
       request(server)
         .get(symbolRoute('JBOYS'))
         .end((err, res) => {
           if (err) {
             done(err);
           }
-          expect(res).to.have.status(400);
+          expect(res).to.have.status(404);
           expect(res.body.message).to.have.length.above(0);
           done();
         });

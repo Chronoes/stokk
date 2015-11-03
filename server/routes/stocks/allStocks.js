@@ -1,13 +1,7 @@
 import Stock from '../../models/Stock';
 
-export default (req, res) => {
-  if (req.stock) {
-    return res.status(200).json({
-      message: `Retrieved "${req.symbol}".`,
-      stock: req.stock,
-    });
-  }
-  return Stock.findAll()
+export default (req, res) =>
+  Stock.findAll()
     .then(stocks =>
       res.status(200).json({
         message: `Retrieved ${stocks.length} stocks.`,
@@ -18,4 +12,3 @@ export default (req, res) => {
       message: 'Something happened.',
     })
   );
-};
