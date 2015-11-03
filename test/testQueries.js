@@ -1,8 +1,6 @@
-import chai from 'chai';
+import chai, {expect} from 'chai';
 
-import {symbolCheck} from '../server/queries';
-import {getStockBySymbol} from '../server/queries';
-import {getStockByDate} from '../server/queries';
+import {symbolCheck, getStockBySymbol, getStockByDate} from '../server/queries';
 
 chai.should();
 
@@ -42,8 +40,8 @@ describe('Stock queries', () => {
 
   it('should return stock by date and symbol', () => {
     getStockByDate('YHOO', '2009-09-11', '2010-03-10', function(history) {
-      (history.results.quote[0].symbol).should.be.equal('YHOO');
-      (history.results.quote[0].date).should.be.equal('2009-09-11');
+      expect(history.results.quote[0].Symbol).to.be.equal('YHOO');
+      expect(history.results.quote[0].Date).to.be.equal('2010-03-10');
     });
   });
 
