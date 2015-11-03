@@ -29,6 +29,7 @@ class AuthenticationActions {
 
   loginSuccess(token) {
     localStorage.setItem('token', token);
+
     this.dispatch(token);
     routerContainer.transitionTo('/');
   }
