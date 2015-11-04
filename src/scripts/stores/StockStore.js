@@ -11,10 +11,23 @@ class StockStore {
 
   constructor() {
     this.bindActions(StockActions);
-
     this.state = new Map({
-
+      stock: '',
+      errorMessage: '',
+      isLoading: false,
     });
+  }
+
+  onSearchStocks() {
+    this.setState(this.state.set('errorMessage', '').set('isLoading', true));
+  }
+
+  onSearchSuccess(stock) {
+    this.setState(this.state.set('stock', stock).set('errorMessage', '').set('isLoading', false));
+  }
+
+  onSearchError(errorMessage) {
+    this.setState(this.state.set('errorMessage', errorMessage).set('isLoading', false));
   }
 }
 

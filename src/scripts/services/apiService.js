@@ -21,6 +21,10 @@ class ApiService {
     }
     throw new Error('Need token to get stocks!');
   }
+
+  static searchStocks(searchString) {
+    return get(`api/stocks/${searchString}`);
+  }
 }
 
 export default ApiService;

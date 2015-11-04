@@ -20,6 +20,7 @@ class DashboardPage extends Component {
 
   render() {
     const {authState} = this.props;
+    const {stockState} = this.props;
     const {email} = decode(authState.get('token'));
 
     return (
@@ -28,7 +29,7 @@ class DashboardPage extends Component {
           email={email}
           stockAmount={0} />
         <DashboardStocks />
-        <NewStockForm />
+        <NewStockForm stockState={stockState} />
       </div>
     );
   }

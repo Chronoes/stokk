@@ -9,3 +9,24 @@
   font-family: SanFranciscoRegular;
   padding: 50px 0;
 }
+
+.search-preview {
+  float: none;
+  font-family: SanFranciscoRegular;
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+.stock-preview {
+  color: #fff;
+  margin: 5px 10px 5px 10px;
+  text-align: left;
+}
+
+.preview-add-button {
+  @extend .pull-right;
+  background-color: transparent;
+  border: 0;
+  color: #77f;
+  font-family: SanFranciscoRegular;
+}
