@@ -3,7 +3,7 @@ import {decode} from 'jsonwebtoken';
 
 class ApiService {
   static createAuthenticatedConfig(token) {
-    return {headers: [{Authorization: `Bearer ${token}`}]};
+    return {headers: {Authorization: `Bearer ${token}`}};
   }
 
   static register(email, password) {

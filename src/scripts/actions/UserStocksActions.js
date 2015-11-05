@@ -3,7 +3,7 @@ import {getStocksWithToken} from '../services/apiService';
 import createGenericErrorHandler from '../services/genericErrorHandlerFactory';
 
 @alt.createActions
-class StockActions {
+class UserStocksActions {
   getUserStocksWithToken(token) {
     this.dispatch();
     const {getUserStocksSuccess, getUserStocksError} = this.actions;
@@ -22,4 +22,4 @@ class StockActions {
   }
 }
 
-export default StockActions;
+export default UserStocksActions;

@@ -12,7 +12,7 @@ class UserStocksStore {
   constructor() {
     this.bindActions(UserStocksActions);
     this.state = new Map({
-      stocks: '',
+      stocks: [],
       errorMessage: '',
       isLoading: false,
     });
