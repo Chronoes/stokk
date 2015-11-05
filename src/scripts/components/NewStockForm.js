@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import Preloader from './Preloader';
 import StrikedText from './StrikedText';
 import StockPreview from './StockPreview';
-import {searchStocks} from '../actions/StockActions';
+import {searchStocks} from '../actions/SearchStocksActions';
 
 class NewStockForm extends Component {
 
@@ -16,10 +16,6 @@ class NewStockForm extends Component {
     this.isHovering = false;
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({errorMessage: nextProps.errorMessage});
-  }
-
   componentWillUnmount() {
     this.setState({errorMessage: ''});
   }
@@ -28,7 +24,7 @@ class NewStockForm extends Component {
     event.preventDefault();
     const searchString = this.refs.searchStock.value.trim();
     searchStocks(searchString);
-    this.setState({errormessage: '', isOpen: true});
+    this.setState({isOpen: true});
   }
 
   componentDidMount() {
@@ -50,13 +46,11 @@ class NewStockForm extends Component {
   }
 
   render() {
-    // const previews = stocks.map(stock => <StockPreview stock={stock} key={stock.symbol} />);
-    const {isLoading} = this.props;
-    const {stockState} = this.props;
-    const {errorMessage} = this.state;
-    const {isOpen} = this.state;
+    const {searchStocksState, isLoading} = this.props;
+    const {errorMessage, isOpen} = this.state;
+    const stock = searchStocksState.get('stock');
     const preview = (
-      <StockPreview stock={stockState.get('stock')} />
+      <StockPreview stock={stock.length > 0 ? stock : null} />
     );
     const errorNode = (
       <div className="form-alert">
@@ -79,7 +73,7 @@ class NewStockForm extends Component {
                   ref="searchStock"
                   className="form-control"
                   placeholder="search stocks" />
-                  {stockState.get('stock') && isOpen ? preview : ''}
+                  {stock.length > 0 && isOpen ? preview : ''}
                   {errorMessage ? errorNode : ''}
                   {isLoading ? <Preloader /> : ''}
               </div>

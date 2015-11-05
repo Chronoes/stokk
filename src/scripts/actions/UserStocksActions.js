@@ -1,5 +1,5 @@
 import alt from '../altInstance';
-import {searchStocks, getStocksWithToken} from '../services/apiService';
+import {getStocksWithToken} from '../services/apiService';
 import createGenericErrorHandler from '../services/genericErrorHandlerFactory';
 
 @alt.createActions
@@ -19,23 +19,6 @@ class StockActions {
 
   getUserStocksError(message) {
     this.dispatch(message);
-  }
-
-  searchStocks(searchString) {
-    this.dispatch();
-    const {searchError, searchSuccess} = this.actions;
-
-    searchStocks(searchString)
-      .then(response => searchSuccess(response.data.stocks))
-      .catch(createGenericErrorHandler(searchError));
-  }
-
-  searchError(message) {
-    this.dispatch(message);
-  }
-
-  searchSuccess(stocks) {
-    this.dispatch(stocks);
   }
 }
 

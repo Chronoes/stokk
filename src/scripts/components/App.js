@@ -4,7 +4,6 @@ import connectToStores from 'alt/utils/connectToStores';
 
 import Navbar from './Navbar';
 import AuthenticationStore from '../stores/AuthenticationStore';
-import StockStore from '../stores/StockStore';
 
 
 @connectToStores
@@ -14,20 +13,20 @@ class App extends Component {
   }
 
   static getStores() {
-    return [AuthenticationStore, StockStore];
+    return [AuthenticationStore];
   }
 
   static getPropsFromStores() {
-    return {authState: AuthenticationStore.getState(), stockState: StockStore.getState()};
+    return {authState: AuthenticationStore.getState()};
   }
 
   render() {
-    const {children, authState, stockState} = this.props;
+    const {children, authState} = this.props;
     const token = authState.get('token');
     const loggedIn = token.length > 0;
     const email = loggedIn ? decode(token).email : '';
     const childrenWithProps = Children.map(children, child => {
-      return cloneElement(child, {authState, stockState});
+      return cloneElement(child, {authState});
     });
     return (
       <div>

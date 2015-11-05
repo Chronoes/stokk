@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import connectToStores from 'alt/utils/connectToStores';
 import {decode} from 'jsonwebtoken';
 
-import StockStore from '../stores/StockStore';
+import SearchStocksStore from '../stores/SearchStocksStore';
 
 import DashboardOverview from '../components/DashboardOverview';
 import DashboardStocks from '../components/DashboardStocks';
@@ -11,16 +11,15 @@ import NewStockForm from '../components/NewStockForm';
 @connectToStores
 class DashboardPage extends Component {
   static getStores() {
-    return [StockStore];
+    return [SearchStocksStore];
   }
 
   static getPropsFromStores() {
-    return {stockState: StockStore.getState()};
+    return {searchStocksState: SearchStocksStore.getState()};
   }
 
   render() {
-    const {authState} = this.props;
-    const {stockState} = this.props;
+    const {authState, searchStocksState} = this.props;
     const {email} = decode(authState.get('token'));
 
     return (
@@ -29,7 +28,7 @@ class DashboardPage extends Component {
           email={email}
           stockAmount={0} />
         <DashboardStocks />
-        <NewStockForm stockState={stockState} />
+        <NewStockForm searchStocksState={searchStocksState} />
       </div>
     );
   }

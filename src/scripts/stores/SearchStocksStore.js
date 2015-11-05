@@ -2,17 +2,17 @@ import immutable from 'alt/utils/ImmutableUtil';
 import {Map} from 'immutable';
 
 import alt from '../altInstance';
-import StockActions from '../actions/StockActions';
+import SearchStocksActions from '../actions/SearchStocksActions';
 
 @alt.createStore
 @immutable
-class StockStore {
-  static displayName = 'StockStore';
+class SearchStocksStore {
+  static displayName = 'SearchStocksStore';
 
   constructor() {
-    this.bindActions(StockActions);
+    this.bindActions(SearchStocksActions);
     this.state = new Map({
-      stock: '',
+      stock: [],
       errorMessage: '',
       isLoading: false,
     });
@@ -31,4 +31,4 @@ class StockStore {
   }
 }
 
-export default StockStore;
+export default SearchStocksStore;
