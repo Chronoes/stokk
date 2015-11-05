@@ -1,5 +1,5 @@
 import immutable from 'alt/utils/ImmutableUtil';
-import {Map} from 'immutable';
+import {Map, List} from 'immutable';
 
 import alt from '../altInstance';
 import UserStocksActions from '../actions/UserStocksActions';
@@ -12,22 +12,42 @@ class UserStocksStore {
   constructor() {
     this.bindActions(UserStocksActions);
     this.state = new Map({
-      stocks: '',
+      stocks: new List(),
       errorMessage: '',
       isLoading: false,
     });
   }
 
   onGetUserStocksWithToken() {
-    this.setState(this.state.set('errorMessage', '').set('isLoading', true));
+    this.setState(this.state
+      .set('errorMessage', '')
+      .set('isLoading', true));
   }
 
   onGetUserStocksSuccess(stocks) {
-    this.setState(this.state.set('stocks', stocks).set('errorMessage', '').set('isLoading', false));
+    this.setState(this.state
+      .set('stocks', stocks)
+      .set('errorMessage', '')
+      .set('isLoading', false));
   }
 
   onGetUserStocksError(errorMessage) {
-    this.setState(this.state.set('errorMessage', errorMessage).set('isLoading', false));
+    this.setState(this.state
+      .set('errorMessage', errorMessage)
+      .set('isLoading', false));
+  }
+
+  onAddNewStockWithToken() {
+    this.setState(this.state
+      .set('errorMessage', '')
+      .set('isLoading', true));
+  }
+
+  onAddNewStockSuccess(stock) {
+    this.setState(this.state
+      .set('stocks', this.state.get('stocks').unshift(stock))
+      .set('errorMessage', '')
+      .set('isLoading', false));
   }
 }
 

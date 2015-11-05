@@ -136,7 +136,10 @@ describe('User stock handler', () => {
               return reject(err);
             }
             expect(res).to.have.status(200);
-            expect(res.body.message).to.have.length.above(0);
+            const {message, stock} = res.body;
+            expect(message).to.have.length.above(0);
+            expect(stock).to.have.any.keys('symbol', 'name', 'change');
+            expect(stock.change).to.not.be.null;
             resolve();
           });
       });

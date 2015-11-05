@@ -1,5 +1,5 @@
 function createGenericErrorHandler(errorHandlerFunction) {
-  return (response) => {
+  return response => {
     if (response instanceof Error) {
       errorHandlerFunction(response.message);
     } else {

@@ -19,7 +19,7 @@ users.param('id', (req, res, next, id) =>
   .then(payload =>
     User.findById(id)
     .then(user => {
-      if (user !== null && user.id.toString() === payload.id) {
+      if (user !== null && user.id === parseInt(payload.id, 10)) {
         req.user = user;
         next();
       } else {

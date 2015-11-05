@@ -1,9 +1,9 @@
 import alt from '../altInstance';
-import {getStocksWithToken} from '../services/apiService';
+import {getStocksWithToken, addNewStockWithToken} from '../services/apiService';
 import createGenericErrorHandler from '../services/genericErrorHandlerFactory';
 
 @alt.createActions
-class StockActions {
+class UserStocksActions {
   getUserStocksWithToken(token) {
     this.dispatch();
     const {getUserStocksSuccess, getUserStocksError} = this.actions;
@@ -20,6 +20,24 @@ class StockActions {
   getUserStocksError(message) {
     this.dispatch(message);
   }
+
+  addNewStockWithToken(stockSymbol, token) {
+    this.dispatch();
+    const {addNewStockSuccess, addNewStockError} = this.actions;
+
+    addNewStockWithToken(stockSymbol, token)
+      .then(response => addNewStockSuccess(response.data.stock))
+      .catch(createGenericErrorHandler(addNewStockError));
+  }
+
+  addNewStockSuccess(stock) {
+    this.dispatch(stock);
+  }
+
+  addNewStockError(message) {
+    this.dispatch(message);
+  }
+
 }
 
-export default StockActions;
+export default UserStocksActions;
