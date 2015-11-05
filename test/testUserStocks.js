@@ -52,7 +52,7 @@ describe('User stock handler', () => {
           if (err) {
             return done(err);
           }
-          expect(res).to.have.status(403);
+          expect(res).to.have.status(401);
           expect(res.body.message).to.have.length.above(0);
           done();
         });

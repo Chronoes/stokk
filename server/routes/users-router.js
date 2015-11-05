@@ -29,7 +29,7 @@ users.param('id', (req, res, next, id) =>
       }
     }))
   .catch(err => res.status(401).json({
-    message: err,
+    message: err.toString(),
   }))
 );
 
