@@ -48,6 +48,7 @@ export function updateDatabase(stock) {
   return Promise.resolve(stock);
 }
 
+/* istanbul ignore next */
 export function getDataFromDropbox(link) {
   return new Promise((resolve, reject) => {
     request(link).then(response => {
@@ -57,6 +58,7 @@ export function getDataFromDropbox(link) {
   });
 }
 
+/* istanbul ignore next */
 export function isDev() {
   return app.get('env') === development.NODE_ENV || process.env.NODE_ENV === development.NODE_ENV;
 }

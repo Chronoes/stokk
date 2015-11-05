@@ -60,13 +60,13 @@ describe('Utility functions', () => {
   context('#updateDatabase()', () => {
     it('should update info in database if no data yet', done => {
       const mockStock = {
-        symbol: 'JBOY$$',
+        symbol: 'GOOG',
         updatedAt: moment(),
         currentPrice: null,
-        update: () => new Promise.resolve({
-          symbol: 'JBOY$$',
+        update: result => Promise.resolve({
+          symbol: result.symbol,
           updatedAt: moment(),
-          currentPrice: '715.23',
+          currentPrice: result.currentPrice,
         }),
       };
 
@@ -74,7 +74,8 @@ describe('Utility functions', () => {
       .then(updatedStock => {
         expect(updatedStock).to.have.all.keys('symbol', 'updatedAt', 'currentPrice');
         expect(updatedStock.symbol).to.equal(mockStock.symbol);
-        expect(updatedStock.currentPrice).to.not.be.null;
+        expect(updatedStock.currentPrice).to.be.ok;
+        done();
       })
       .catch(done);
     });
@@ -83,8 +84,8 @@ describe('Utility functions', () => {
       const mockStock = {
         symbol: 'JBOY$$',
         updatedAt: moment.utc().subtract(2, 'days'),
-        currentPrice: '43.24',
-        update: () => new Promise.resolve({
+        currentPrice: 'novalue',
+        update: () => Promise.resolve({
           symbol: 'JBOY$$',
           updatedAt: moment(),
           currentPrice: '715.23',
@@ -97,6 +98,7 @@ describe('Utility functions', () => {
         expect(updatedStock.symbol).to.equal(mockStock.symbol);
         expect(updatedStock.currentPrice).to.not.equal(mockStock.currentPrice);
         expect(updatedStock.updatedAt).to.be.above(mockStock.updatedAt);
+        done();
       })
       .catch(done);
     });
@@ -106,7 +108,7 @@ describe('Utility functions', () => {
         symbol: 'JBOY$$',
         updatedAt: moment(),
         currentPrice: '715.23',
-        update: () => new Promise.resolve({
+        update: () => Promise.resolve({
           symbol: 'JBOY$$',
           updatedAt: moment(),
           currentPrice: '715.23',
