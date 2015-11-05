@@ -22,6 +22,14 @@ class ApiService {
     throw new Error('Need token to get stocks!');
   }
 
+  static addNewStockWithToken(symbol, token) {
+    if (token) {
+      const {id} = decode(token);
+      return post(`/api/users/${id}/stocks`, {symbol}, ApiService.createAuthenticatedConfig(token));
+    }
+    throw new Error('Need token to get stocks!');
+  }
+
   static searchStocks(searchString) {
     return get(`api/stocks/${searchString}`);
   }
