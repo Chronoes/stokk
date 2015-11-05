@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt-as-promised';
 import jwt from 'jsonwebtoken';
+import moment from 'moment';
 
 import app from '../app';
 import {getStockBySymbol} from './queries';
@@ -34,12 +35,12 @@ export function verifyAuthorization(authHeader) {
 }
 
 export function updateDatabase(stock) {
-  const updatedAt = Date.UTC(stock.updatedAt);
+  const updatedAt = moment.utc(stock.updatedAt);
   const limit = 1000 * 3600 * 24;
-  if (stock.currentPrice === null || updatedAt < (Date.now() - limit)) {
+  if (stock.currentPrice === null || updatedAt < (moment() - limit)) {
     return new Promise((resolve, reject) =>
       getStockBySymbol(stock.symbol)
-      .then(results => stock.update({...results}))
+      .then(result => stock.update(result))
       .then(resolve)
       .catch(reject));
   }
