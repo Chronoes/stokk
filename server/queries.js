@@ -5,20 +5,36 @@ export function symbolCheck(symbol) {
   return pattern.test(symbol);
 }
 
-export function getStockBySymbol(symbol, callback) {
+export function getStockBySymbol(symbol) {
   if (symbolCheck(symbol)) {
     const query = new YQL(`select * from yahoo.finance.quote where symbol in ("${symbol}")`);
-    query.exec((error, response) => {
-      if (typeof callback === 'function') callback(response.query);
+    return new Promise((resolve, reject) => {
+      query.exec((error, response) => {
+        if (error) reject(error);
+        const data = response.query.results.quote;
+        resolve({
+          symbol: data.Symbol,
+          name: data.Name,
+          change: data.Change,
+          currentPrice: data.LastTradePriceOnly,
+          daysLow: data.DaysLow,
+          daysHigh: data.DaysHigh,
+          yearLow: data.YearLow,
+          yearHigh: data.YearHigh,
+        });
+      });
     });
   }
 }
 
-export function getStockByDate(symbol, startDate, endDate, callback) {
+export function getStockByDate(symbol, startDate, endDate) {
   if (symbolCheck(symbol)) {
     const query = new YQL(`select * from yahoo.finance.historicaldata where symbol = "${symbol}" and startDate = "${startDate}" and endDate = "${endDate}"`);
-    query.exec((error, response) => {
-      if (typeof callback === 'function') callback(response.query);
+    return new Promise((resolve, reject) => {
+      query.exec((error, response) => {
+        if (error) reject(error);
+        resolve(response.query.results.quote);
+      });
     });
   }
 }
