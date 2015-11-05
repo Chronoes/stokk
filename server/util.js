@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt-as-promised';
 import jwt from 'jsonwebtoken';
 import moment from 'moment';
+import request from 'request-promise';
 
 import app from '../app';
 import {getStockBySymbol} from './queries';
@@ -23,7 +24,7 @@ export function signToken(payload) {
 export function verifyToken(token) {
   return new Promise((resolve, reject) =>
     jwt.verify(token, app.get('secret'), (err, decoded) =>
-      err ? reject('Token is invalid.') : resolve(decoded)));
+      err ? reject(new Error('Token is invalid.')) : resolve(decoded)));
 }
 
 export function verifyAuthorization(authHeader) {
@@ -31,7 +32,7 @@ export function verifyAuthorization(authHeader) {
     const token = authHeader.replace('Bearer ', '');
     return verifyToken(token);
   }
-  return Promise.reject('No Authorization header.');
+  return Promise.reject(new Error('No Authorization header.'));
 }
 
 export function updateDatabase(stock) {
@@ -47,6 +48,15 @@ export function updateDatabase(stock) {
   return Promise.resolve(stock);
 }
 
+export function getDataFromDropbox(link) {
+  return new Promise((resolve, reject) => {
+    request(link).then(response => {
+      resolve(JSON.parse(response));
+    })
+    .catch(reject);
+  });
+}
+
 export function isDev() {
-  return app.get('env') === development.NODE_ENV;
+  return app.get('env') === development.NODE_ENV || process.env.NODE_ENV === development.NODE_ENV;
 }

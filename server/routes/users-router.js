@@ -17,7 +17,7 @@ users.post('/register', registerHandler);
 users.param('id', (req, res, next, id) =>
   verifyAuthorization(req.headers.authorization)
   .then(payload =>
-    User.findById(id)
+    User.findById(parseInt(id, 10))
     .then(user => {
       if (user !== null && user.id === parseInt(payload.id, 10)) {
         req.user = user;

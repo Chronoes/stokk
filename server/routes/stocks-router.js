@@ -15,6 +15,8 @@ stocks.param('symbol', (req, res, next, symbol) => {
         name: {$like: `%${symbol}%`},
       },
     },
+    order: `CASE WHEN \`symbol\` LIKE '${symbol.toUpperCase()}%' THEN 1 ELSE 2 END`,
+    limit: 10,
   })
   .then(foundStocks => {
     if (foundStocks.length !== 0) {

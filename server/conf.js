@@ -34,4 +34,6 @@ export default {
     },
     NODE_ENV: 'production',
   },
+  stockList: 'https://dl.dropboxusercontent.com/s/j4hutvxzy7jc97r/out.json?dl=1',
+  stockCount: 8379,
 };
