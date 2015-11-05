@@ -1,8 +1,6 @@
-import chai, {expect} from 'chai';
+import {expect} from 'chai';
 
-import {symbolCheck, getStockBySymbol, getStockByDate} from '../server/queries';
-
-chai.should();
+import {symbolCheck, getStockBySymbol, getStockByDate, arrayToString} from '../server/queries';
 
 describe('Stock queries', () => {
   it('should return true if symbol is valid', () => {
@@ -38,19 +36,69 @@ describe('Stock queries', () => {
       .catch(done);
   });
 
-  it('should return stock by date and symbol', () => {
-    getStockByDate('YHOO', '2009-09-11', '2010-03-10', function(history) {
-      expect(history.quote[0].Symbol).to.be.equal('YHOO');
-      expect(history.quote[0].Date).to.be.equal('2010-03-10');
-    });
+  it('should return stock by date and symbol', done => {
+    getStockByDate('YHOO', '2009-09-11', '2010-03-10')
+      .then(history => {
+        expect(history[0].symbol).to.be.equal('YHOO');
+        expect(history[0].date).to.be.equal('2010-03-10');
+        done();
+      })
+      .catch(done);
   });
 
-  it('should return null if symbol is not correct or does', () => {
-    getStockBySymbol('1234', (data) => {
-      expect(data).to.be.null;
-    });
-    getStockByDate('1234', '2009-09-11', '2010-03-10', function(history) {
-      expect(history).to.be.null;
-    });
+  it('should return null if symbol is not correct', done => {
+    getStockBySymbol('1234')
+      .then(data => {
+        expect(data).to.be.null;
+        done();
+      })
+      .catch(done);
+  });
+
+  it('should return null if symbol is valid but does not exist', done => {
+    getStockBySymbol('aaaaaaaa')
+      .then(data => {
+        expect(data).to.be.null;
+        done();
+      })
+      .catch(done);
+  });
+
+  it('should return null when symbol with date is not valid', done => {
+    getStockByDate('1234', '2009-09-11', '2010-03-10')
+      .then(history => {
+        expect(history).to.be.null;
+        done();
+      })
+      .catch(done);
+  });
+
+  it('should return null when symbol with date is valid but does not exist', done => {
+    getStockByDate('aaaaaaaa', '2009-09-11', '2010-03-10')
+      .then(history => {
+        expect(history).to.be.null;
+        done();
+      })
+      .catch(done);
+  });
+
+  it('should return symbol if it is not array', done => {
+    expect(arrayToString('AAPL')).to.be.equal('AAPL');
+    done();
+  });
+
+  it('should return string of multiple symbols', done => {
+    expect(arrayToString(['AAPL', 'AAPL'])).to.be.equal('\'AAPL\',\'AAPL\'');
+    done();
+  });
+
+  it('should return all stocks what were asked', done => {
+    getStockBySymbol(['AAPL', 'GOOG'])
+      .then(data => {
+        expect(data[0].symbol).to.be.equal('AAPL');
+        expect(data[1].symbol).to.be.equal('GOOG');
+        done();
+      })
+      .catch(done);
   });
 });
