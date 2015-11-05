@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 import {addNewStockWithToken} from '../actions/UserStocksActions';
 
@@ -14,13 +14,11 @@ class NewStockPreview extends Component {
     return (
       <div className="stock-preview">
         {`${symbol} ${name}`}
-        <form onSubmit={this.onAddStockSubmit.bind(this)}>
         <button
-          className="stock-preview__add-button"
-          type="submit">
+          onClick={this.onAddStockSubmit.bind(this)}
+          className="stock-preview__add-button">
           add
         </button>
-        </form>
       </div>
     );
   }

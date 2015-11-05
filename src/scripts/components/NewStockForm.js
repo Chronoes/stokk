@@ -63,21 +63,20 @@ class NewStockForm extends Component {
           <StrikedText>
             Add stocks
           </StrikedText>
-          <div className="search-preview col-centered">
+          <div
+            className="search-preview col-centered"
+            onMouseOver={() => this.isHovering = true}
+            onMouseOut={() => this.isHovering = false}>
             <form onSubmit={this.onSearchSubmit.bind(this)}>
-              <div
-                onMouseOver={() => this.isHovering = true}
-                onMouseOut={() => this.isHovering = false}>
-                <input
-                  type="text"
-                  ref="searchStock"
-                  className="form-control"
-                  placeholder="search stocks" />
-                  {stocks.length > 0 && isOpen ? preview : ''}
-                  {errorMessage ? errorNode : ''}
-                  {isLoading ? <Preloader /> : ''}
-              </div>
+              <input
+                type="text"
+                ref="searchStock"
+                className="form-control"
+                placeholder="search stocks" />
             </form>
+            {stocks.length > 0 && isOpen ? preview : ''}
+            {errorMessage ? errorNode : ''}
+            {isLoading ? <Preloader /> : ''}
           </div>
         </div>
       </div>
