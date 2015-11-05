@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import Preloader from './Preloader';
 import StrikedText from './StrikedText';
-import StockPreview from './StockPreview';
+import NewStockList from './NewStockList';
 import {searchStocks} from '../actions/SearchStocksActions';
 
 class NewStockForm extends Component {
@@ -46,11 +46,11 @@ class NewStockForm extends Component {
   }
 
   render() {
-    const {searchStocksState, isLoading} = this.props;
+    const {searchStocksState, isLoading, authState} = this.props;
     const {errorMessage, isOpen} = this.state;
-    const stock = searchStocksState.get('stock');
+    const stocks = searchStocksState.get('stock');
     const preview = (
-      <StockPreview stock={stock.length > 0 ? stock : null} />
+      <NewStockList stocks={stocks.length > 0 ? stocks : null} authState={authState}/>
     );
     const errorNode = (
       <div className="form-alert">
@@ -73,7 +73,7 @@ class NewStockForm extends Component {
                   ref="searchStock"
                   className="form-control"
                   placeholder="search stocks" />
-                  {stock.length > 0 && isOpen ? preview : ''}
+                  {stocks.length > 0 && isOpen ? preview : ''}
                   {errorMessage ? errorNode : ''}
                   {isLoading ? <Preloader /> : ''}
               </div>

@@ -28,7 +28,7 @@ class DashboardPage extends Component {
           email={email}
           stockAmount={0} />
         <DashboardStocks />
-        <NewStockForm searchStocksState={searchStocksState} />
+        <NewStockForm searchStocksState={searchStocksState} authState={authState}/>
       </div>
     );
   }
