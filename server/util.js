@@ -5,7 +5,7 @@ import request from 'request-promise';
 
 import app from '../app';
 import {getStockBySymbol} from './queries';
-import {development} from './conf';
+import {development, stockQueryTimeLimit} from './conf';
 
 export function genSaltyHash(password) {
   return bcrypt.hash(password, 10);
@@ -35,10 +35,25 @@ export function verifyAuthorization(authHeader) {
   return Promise.reject(new Error('No Authorization header.'));
 }
 
+function isStockUpdateNeeded(stock) {
+  return stock.currentPrice === null || moment.utc(stock.updatedAt) < (moment.utc() - stockQueryTimeLimit);
+}
+
+export function bulkUpdateDatabase(stocks) {
+  const stocksToUpdate = stocks.filter(isStockUpdateNeeded);
+  if (stocksToUpdate.length) {
+    return new Promise((resolve, reject) =>
+      getStockBySymbol(stocksToUpdate.map(stock => stock.symbol))
+      .then(results =>
+        Promise.all(stocksToUpdate.map((stock, i) => stock.update(results[i]))))
+      .then(resolve)
+      .catch(reject));
+  }
+  return Promise.resolve(stocks);
+}
+
 export function updateDatabase(stock) {
-  const updatedAt = moment.utc(stock.updatedAt);
-  const limit = 1000 * 3600 * 24;
-  if (stock.currentPrice === null || updatedAt < (moment() - limit)) {
+  if (isStockUpdateNeeded(stock)) {
     return new Promise((resolve, reject) =>
       getStockBySymbol(stock.symbol)
       .then(result => stock.update(result))

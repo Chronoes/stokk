@@ -61,11 +61,11 @@ describe('Utility functions', () => {
     it('should update info in database if no data yet', done => {
       const mockStock = {
         symbol: 'GOOG',
-        updatedAt: moment(),
+        updatedAt: 0,
         currentPrice: null,
         update: result => Promise.resolve({
           symbol: result.symbol,
-          updatedAt: moment(),
+          updatedAt: 0,
           currentPrice: result.currentPrice,
         }),
       };
@@ -118,6 +118,76 @@ describe('Utility functions', () => {
       util.updateDatabase(mockStock)
       .then(updatedStock => {
         expect(updatedStock).to.deep.equal(mockStock);
+        done();
+      })
+      .catch(done);
+    });
+  });
+
+  context('#bulkUpdateDatabase()', () => {
+    it('should update info in database if no data yet or is old', done => {
+      const mockStocks = [
+        {
+          symbol: 'GOOG',
+          updatedAt: 0,
+          currentPrice: null,
+          update: result => Promise.resolve({
+            symbol: result.symbol,
+            updatedAt: 0,
+            currentPrice: result.currentPrice,
+          }),
+        }, {
+          symbol: 'MSFT',
+          updatedAt: moment.utc().subtract(2, 'days'),
+          currentPrice: '300.00',
+          update: result => Promise.resolve({
+            symbol: result.symbol,
+            updatedAt: moment(),
+            currentPrice: result.currentPrice,
+          }),
+        },
+      ];
+
+      util.bulkUpdateDatabase(mockStocks)
+      .then(updatedStocks => {
+        expect(updatedStocks).to.be.an('array');
+        expect(updatedStocks).to.have.length(2);
+        expect(updatedStocks[0]).to.have.all.keys('symbol', 'updatedAt', 'currentPrice');
+        expect(updatedStocks[0].symbol).to.equal(mockStocks[0].symbol);
+        expect(updatedStocks[1].symbol).to.equal(mockStocks[1].symbol);
+        expect(updatedStocks[0].currentPrice).to.be.ok;
+        expect(updatedStocks[1].updatedAt).to.be.above(mockStocks[1].updatedAt);
+        done();
+      })
+      .catch(done);
+    });
+
+    it('should not update if data is current', done => {
+      const mockStocks = [
+        {
+          symbol: 'GOOG',
+          updatedAt: moment(),
+          currentPrice: '232.23',
+          update: () => Promise.resolve({
+            symbol: 'GOOG',
+            updatedAt: moment(),
+            currentPrice: '232.23',
+          }),
+        }, {
+          symbol: 'MSFT',
+          updatedAt: moment(),
+          currentPrice: '300.00',
+          update: () => Promise.resolve({
+            symbol: 'MSFT',
+            updatedAt: moment(),
+            currentPrice: '300.00',
+          }),
+        },
+      ];
+
+      util.bulkUpdateDatabase(mockStocks)
+      .then(updatedStocks => {
+        expect(updatedStocks).to.deep.equal(mockStocks);
         done();
       })
       .catch(done);

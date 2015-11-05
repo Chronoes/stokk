@@ -20,7 +20,7 @@ const Stock = database.define('stock', {
   change: {
     type: Sequelize.STRING,
     validate: {
-      is: /^[+-][0-9]+\.[0-9]{2}/,
+      is: /^[+-][0-9]+\.[0-9]+/,
     },
   },
 

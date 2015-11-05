@@ -36,4 +36,5 @@ export default {
   },
   stockList: 'https://dl.dropboxusercontent.com/s/j4hutvxzy7jc97r/out.json?dl=1',
   stockCount: 8379,
+  stockQueryTimeLimit: 1000 * 3600 * 24,
 };
