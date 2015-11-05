@@ -1,25 +1,33 @@
 import alt from '../altInstance';
-import {searchStocks} from '../services/apiService';
+import {searchStocks, getStocksWithToken} from '../services/apiService';
+import createGenericErrorHandler from '../services/genericErrorHandlerFactory';
 
 @alt.createActions
 class StockActions {
+  getUserStocksWithToken(token) {
+    this.dispatch();
+    const {getUserStocksSuccess, getUserStocksError} = this.actions;
+
+    getStocksWithToken(token)
+      .then(response => getUserStocksSuccess(response.data.stocks))
+      .catch(createGenericErrorHandler(getUserStocksError));
+  }
+
+  getUserStocksSuccess(stocks) {
+    this.dispatch(stocks);
+  }
+
+  getUserStocksError(message) {
+    this.dispatch(message);
+  }
+
   searchStocks(searchString) {
     this.dispatch();
     const {searchError, searchSuccess} = this.actions;
 
     searchStocks(searchString)
       .then(response => searchSuccess(response.data.stocks))
-      .catch(response => {
-        if (response instanceof Error) {
-          searchError(response.data.message);
-        } else {
-          if (response.data.message) {
-            searchError(response.data.message);
-          } else {
-            searchError('Something went wrong. Please try again.');
-          }
-        }
-      });
+      .catch(createGenericErrorHandler(searchError));
   }
 
   searchError(message) {

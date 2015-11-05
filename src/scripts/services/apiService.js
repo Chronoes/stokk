@@ -14,7 +14,7 @@ class ApiService {
     return post('/api/users/login', {email, password});
   }
 
-  static getStocksWithAuthentication(token) {
+  static getStocksWithToken(token) {
     if (token) {
       const {id} = decode(token);
       return get(`/api/users/${id}/stocks`, ApiService.createAuthenticatedConfig(token));
