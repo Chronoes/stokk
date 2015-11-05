@@ -7,22 +7,22 @@ $button-hover-text: rgba(255, 255, 255, 0.75);
 
 @font-face {
   font-family: SanFranciscoThin;
-  src: local('SFNS Display Thin'), url('SystemSanFranciscoDisplayThin.ttf');
+  src: local('SFNS Display Thin'), url('/fonts/SystemSanFranciscoDisplayThin.ttf');
 }
 
 @font-face {
   font-family: SanFranciscoBold;
-  src: local('SFNS Display Bold'), url('SystemSanFranciscoDisplayBold.ttf');
+  src: local('SFNS Display Bold'), url('/fonts/SystemSanFranciscoDisplayBold.ttf');
 }
 
 @font-face {
   font-family: SanFranciscoRegular;
-  src: local('SFNS Display Regular'), url('SystemSanFranciscoDisplayRegular.ttf');
+  src: local('SFNS Display Regular'), url('/fonts/SystemSanFranciscoDisplayRegular.ttf');
 }
 
 @font-face {
   font-family: SanFranciscoUltralight;
-  src: local('SFNS Display Ultralight'), url('SystemSanFranciscoDisplayUltralight.ttf');
+  src: local('SFNS Display Ultralight'), url('/fonts/SystemSanFranciscoDisplayUltralight.ttf');
 }
 
 @mixin breakpoint($point) {

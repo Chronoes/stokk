@@ -1,3 +1,5 @@
+$fa-font-path: '/fonts';
+@import '../../node_modules/font-awesome/scss/font-awesome';
 @import 'constants';
 
 .stokk-navbar {
@@ -22,31 +24,34 @@
 
 .btn-navbar-dropdown {
   @extend .dropdown-toggle;
-  @include breakpoint(xxxs) {
-    font-size: 0;
-  }
   background-color: transparent;
   border-color: transparent;
   color: $button-text;
   padding: 5px 0;
 
+  &:after {
+    display: none;
+  }
+
   &:hover  {
     color: $button-hover-text;
   }
+}
 
-  &:hover img {
-    background-color: $button-hover-text;
+.email-dropdown {
+  display: block;
+  @include breakpoint(xxxs) {
+    display: none;
   }
 }
 
-.menu-button-image {
-  background-color: $button-text;
+.icon-dropdown {
+  @extend .fa;
+  @extend .fa-bars;
   display: none;
+  font-size: (10em / 7);
   @include breakpoint(xxxs) {
     display: block;
-    font-size: 0;
-    margin-top: 2px;
-    width: 24px;
   }
 }
 

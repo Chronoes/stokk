@@ -50,6 +50,7 @@
     "eslint-config-airbnb": "0.0.8",
     "eslint-plugin-mocha": "^1.0.0",
     "eslint-plugin-react": "^3.4.1",
+    "font-awesome": "^4.4.0",
     "gulp": "^3.9.0",
     "gulp-babel-istanbul": "^0.10.1",
     "gulp-cached": "^1.1.0",

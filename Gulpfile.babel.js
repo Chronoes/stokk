@@ -31,7 +31,7 @@ const directories = {
     main: 'src/scripts/main.js',
     styles: 'src/styles/**/*.scss',
     images: 'src/images/**/*',
-    fonts: 'src/styles/fonts/*.ttf',
+    fonts: 'src/styles/fonts/*',
   },
   test: 'test/**/*.js',
   server: 'server/**/*.js',
@@ -118,7 +118,7 @@ gulp.task('images', () => {
 gulp.task('fonts', () => {
   return gulp.src(directories.source.fonts)
     .pipe(cache('fonts'))
-    .pipe(gulp.dest(directories.distribution));
+    .pipe(gulp.dest(directories.distribution + '/fonts'));
 });
 
 gulp.task('js', () => {
