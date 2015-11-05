@@ -32,7 +32,6 @@ describe('Stock queries', () => {
   it('should return stock by symbol', done => {
     getStockBySymbol('AAPL')
       .then(data => {
-        console.log(data);
         expect(data.symbol).to.be.equal('AAPL');
         done();
       })

@@ -40,6 +40,24 @@ describe('User stock handler', () => {
         });
     });
 
+    it('should deny access with non-integer ID', done => {
+      const id = 'iamnotaninteger';
+      const route = makeRoute(id);
+      const token = tokens[id];
+
+      request(server)
+        .get(route)
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res).to.have.status(401);
+          expect(res.body.message).to.have.length.above(0);
+          done();
+        });
+    });
+
     it('should return Unauthorized if token is invalid', done => {
       const id = 3;
       const route = makeRoute(id);
