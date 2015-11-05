@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-class StockPreview extends Component {
-  render() {
-    const {stock} = this.props;
-    return (
-      <div className="stock-preview">
-        {stock[0].symbol}&emsp;{stock[0].name}&emsp;
-        <button className="preview-add-button">
-          add
-        </button>
-      </div>
-    );
-  }
-}
+const StockPreview = ({stock}) => {
+  const {symbol, name} = stock[0];
+  return (
+    <div className="stock-preview">
+      {`${symbol}  ${name}  `}
+      <button className="preview-add-button">
+        add
+      </button>
+    </div>
+  );
+};
+
+StockPreview.displayName = 'StockPreview';
 
 export default StockPreview;
