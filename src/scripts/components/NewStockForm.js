@@ -10,21 +10,28 @@ class NewStockForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      errorMessage: '',
       isOpen: false,
+      errorMessage: '',
     };
     this.isHovering = false;
   }
 
-  componentWillUnmount() {
-    this.setState({errorMessage: ''});
+  componentWillReceiveProps(nextProps) {
+    const {searchStocksState} = nextProps;
+    const errorMessage = searchStocksState.get('errorMessage');
+    const isLoading = searchStocksState.get('isLoading');
+    this.setState({isOpen: !isLoading, errorMessage: errorMessage});
   }
 
   onSearchSubmit(event) {
     event.preventDefault();
     const searchString = this.refs.searchStock.value.trim();
-    searchStocks(searchString);
-    this.setState({isOpen: true});
+    if (searchString.length === 0) {
+      this.setState({isOpen: false, errorMessage: 'Please enter a stock symbol or a part of it\'s name.'});
+    } else {
+      searchStocks(searchString);
+      this.setState({isOpen: false});
+    }
   }
 
   componentDidMount() {
@@ -38,11 +45,12 @@ class NewStockForm extends Component {
   }
 
   componentWillUnmount() {
+    this.setState({isOpen: false, errorMessage: ''});
     window.removeEventListener('mousedown', this.onPageClick.bind(this));
   }
 
   close() {
-    this.setState({isOpen: false});
+    this.setState({isOpen: false, errorMessage: ''});
   }
 
   render() {
@@ -53,7 +61,7 @@ class NewStockForm extends Component {
       <NewStockList stocks={stocks.length > 0 ? stocks : null} authState={authState}/>
     );
     const errorNode = (
-      <div className="form-alert">
+      <div className="form-alert-dark">
         <strong>{errorMessage}</strong>
       </div>
     );
@@ -74,7 +82,7 @@ class NewStockForm extends Component {
                 className="form-control"
                 placeholder="search stocks" />
             </form>
-            {stocks.length > 0 && isOpen ? preview : ''}
+            {stocks.length > 0 && isOpen && !errorMessage ? preview : ''}
             {errorMessage ? errorNode : ''}
             {isLoading ? <Preloader /> : ''}
           </div>

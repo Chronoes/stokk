@@ -30,3 +30,11 @@
   @extend .alert-danger;
   margin-bottom: 15px;
 }
+
+.form-alert-dark {
+  @extend .alert;
+  @extend .alert-danger;
+  background-color: $main-background;
+  border-color: $grey-accent;
+  margin-top: 5px;
+}
