@@ -20,13 +20,20 @@
 .stock-preview {
   color: #fff;
   margin: 5px 10px 5px 10px;
-  text-align: left;
+
+  &__symbol {
+    float: left;
+    width: 70px;
+  }
 
   &__add-button {
     @extend .pull-right;
     background-color: transparent;
     border: 0;
     color: #77f;
+    float: left;
     font-family: SanFranciscoRegular;
+    padding-right: 0;
+    text-align: right;
   }
 }

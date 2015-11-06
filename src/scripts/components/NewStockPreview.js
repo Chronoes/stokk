@@ -13,7 +13,10 @@ class NewStockPreview extends Component {
     const {symbol, name} = stock;
     return (
       <div className="stock-preview">
-        {`${symbol} ${name}`}
+        <div className="stock-preview__symbol">{`${symbol}`}</div>
+        <span className="stock-preview__name">
+          {`${name.length > 40 ? name.substring(0, 40) + '...' : name}`}
+        </span>
         <button
           onClick={this.onAddStockSubmit.bind(this)}
           className="stock-preview__add-button">
