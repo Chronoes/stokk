@@ -47,7 +47,6 @@ class UserStocksStore {
     this.setState(this.state
       .update('stocks', currentStocks => {
         const index = currentStocks.findIndex(oldStock => stock.id === oldStock.id);
-        console.log(index);
         return index === -1 ? currentStocks.unshift(stock) : currentStocks.delete(index).unshift(stock);
       })
       .set('errorMessage', '')
