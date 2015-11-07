@@ -37,13 +37,17 @@ class DashboardPage extends Component {
     } = this.props;
     const token = authState.get('token');
     const {email} = decode(token);
-
     const stocks = userStocksState.get('stocks');
+
+    const stockAverage = (stocks.reduce((acc, current) => (
+        acc + parseFloat(current.change)
+      ), 0) / stocks.size).toFixed(3);
     return (
       <div className="dashboard container-fluid">
         <DashboardOverview
           email={email}
-          stockAmount={stocks.size} />
+          stockAmount={stocks.size}
+          stockAverage={stockAverage} />
         <DashboardStocks stocks={stocks}/>
         <NewStockForm searchStocksState={searchStocksState} token={token}/>
       </div>

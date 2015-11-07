@@ -1,11 +1,9 @@
-import React from 'react';
+import React, {PropTypes as Types} from 'react';
 import {Link} from 'react-router';
 
 import UserDropdown from './UserDropdown';
 
-export default function Navbar(props) {
-  const {loggedIn, email} = props;
-
+const Navbar = ({loggedIn, email}) => {
   const dashboardLink = (
     <li className="nav-item" key="dashboardLink">
       <Link className="nav-link" activeClassName="active" to="/">Dashboard</Link>
@@ -52,4 +50,12 @@ export default function Navbar(props) {
       </div>
     </nav>
   );
-}
+};
+
+Navbar.displayName = 'Navbar';
+Navbar.propTypes = {
+  loggedIn: Types.bool.isRequired,
+  email: Types.string.isRequired,
+};
+
+export default Navbar;

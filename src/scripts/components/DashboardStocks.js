@@ -1,9 +1,15 @@
 import React from 'react';
 
 import StrikedText from './StrikedText';
-import DashboardStock from './DashboardStock';
+import StockCard from './StockCard';
 
 const DashboardStocks = ({stocks}) => {
+  const stockNodes = stocks.map(stock => (
+    <StockCard
+      stock={stock}
+      key={stock.id} />
+  ));
+
   return (
     <div className="row">
       <div className="col-xs-12">
@@ -11,7 +17,7 @@ const DashboardStocks = ({stocks}) => {
           Your stocks
         </StrikedText>
         <div className="dashboard__section">
-          {stocks.map(stock => (<DashboardStock stock={stock} key={stock.id} />))}
+          {stockNodes}
         </div>
       </div>
     </div>
