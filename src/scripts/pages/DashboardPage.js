@@ -35,15 +35,17 @@ class DashboardPage extends Component {
       searchStocksState,
       userStocksState,
     } = this.props;
-    const {email} = decode(authState.get('token'));
+    const token = authState.get('token');
+    const {email} = decode(token);
 
+    const stocks = userStocksState.get('stocks');
     return (
       <div className="container-fluid">
         <DashboardOverview
           email={email}
-          stockAmount={0} />
-        <DashboardStocks stocks={userStocksState.get('stocks')}/>
-        <NewStockForm searchStocksState={searchStocksState} authState={authState}/>
+          stockAmount={stocks.size} />
+        <DashboardStocks stocks={stocks}/>
+        <NewStockForm searchStocksState={searchStocksState} token={token}/>
       </div>
     );
   }

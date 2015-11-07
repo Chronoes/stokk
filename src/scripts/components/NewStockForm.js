@@ -54,11 +54,11 @@ class NewStockForm extends Component {
   }
 
   render() {
-    const {searchStocksState, isLoading, authState} = this.props;
+    const {searchStocksState, isLoading, token} = this.props;
     const {errorMessage, isOpen} = this.state;
-    const stocks = searchStocksState.get('stock');
+    const stocks = searchStocksState.get('stocks');
     const preview = (
-      <NewStockList stocks={stocks.length > 0 ? stocks : null} authState={authState}/>
+      <NewStockList stocks={stocks} token={token} />
     );
     const errorNode = (
       <div className="form-alert-dark">
@@ -82,7 +82,7 @@ class NewStockForm extends Component {
                 className="form-control"
                 placeholder="search stocks" />
             </form>
-            {stocks.length > 0 && isOpen && !errorMessage ? preview : ''}
+            {stocks.size > 0 && isOpen && !errorMessage ? preview : ''}
             {errorMessage ? errorNode : ''}
             {isLoading ? <Preloader /> : ''}
           </div>
