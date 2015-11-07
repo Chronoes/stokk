@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt-as-promised';
 import jwt from 'jsonwebtoken';
 import moment from 'moment';
-import request from 'request-promise';
+import axios from 'axios';
 
 import app from '../app';
 import {getStockBySymbol} from './queries';
@@ -66,9 +66,8 @@ export function updateDatabase(stock) {
 /* istanbul ignore next */
 export function getDataFromDropbox(link) {
   return new Promise((resolve, reject) => {
-    request(link).then(response => {
-      resolve(JSON.parse(response));
-    })
+    axios.get(link)
+    .then(response => resolve(response.data))
     .catch(reject);
   });
 }
