@@ -1,5 +1,5 @@
 import immutable from 'alt/utils/ImmutableUtil';
-import {Map} from 'immutable';
+import {Map, List} from 'immutable';
 
 import alt from '../altInstance';
 import SearchStocksActions from '../actions/SearchStocksActions';
@@ -12,22 +12,29 @@ class SearchStocksStore {
   constructor() {
     this.bindActions(SearchStocksActions);
     this.state = new Map({
-      stock: [],
+      stocks: new List(),
       errorMessage: '',
       isLoading: false,
     });
   }
 
   onSearchStocks() {
-    this.setState(this.state.set('errorMessage', '').set('isLoading', true));
+    this.setState(this.state
+      .set('errorMessage', '')
+      .set('isLoading', true));
   }
 
-  onSearchSuccess(stock) {
-    this.setState(this.state.set('stock', stock).set('errorMessage', '').set('isLoading', false));
+  onSearchSuccess(stocks) {
+    this.setState(this.state
+      .set('stocks', new List(stocks))
+      .set('errorMessage', '')
+      .set('isLoading', false));
   }
 
   onSearchError(errorMessage) {
-    this.setState(this.state.set('errorMessage', errorMessage).set('isLoading', false));
+    this.setState(this.state
+      .set('errorMessage', errorMessage)
+      .set('isLoading', false));
   }
 }
 

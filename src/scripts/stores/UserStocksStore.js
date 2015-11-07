@@ -26,7 +26,7 @@ class UserStocksStore {
 
   onGetUserStocksSuccess(stocks) {
     this.setState(this.state
-      .set('stocks', stocks)
+      .set('stocks', new List(stocks))
       .set('errorMessage', '')
       .set('isLoading', false));
   }
@@ -45,7 +45,11 @@ class UserStocksStore {
 
   onAddNewStockSuccess(stock) {
     this.setState(this.state
-      .set('stocks', this.state.get('stocks').unshift(stock))
+      .update('stocks', currentStocks => {
+        const index = currentStocks.findIndex(oldStock => stock.id === oldStock.id);
+        console.log(index);
+        return index === -1 ? currentStocks.unshift(stock) : currentStocks.delete(index).unshift(stock);
+      })
       .set('errorMessage', '')
       .set('isLoading', false));
   }

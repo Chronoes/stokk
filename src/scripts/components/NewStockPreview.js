@@ -5,7 +5,7 @@ import {addNewStockWithToken} from '../actions/UserStocksActions';
 class NewStockPreview extends Component {
 
   onAddStockSubmit() {
-    addNewStockWithToken(this.props.stock.symbol, this.props.authState.get('token'));
+    addNewStockWithToken(this.props.stock.symbol, this.props.token);
   }
 
   render() {
@@ -13,9 +13,9 @@ class NewStockPreview extends Component {
     const {symbol, name} = stock;
     return (
       <div className="stock-preview">
-        <div className="stock-preview__symbol">{`${symbol}`}</div>
+        <div className="stock-preview__symbol">{symbol}</div>
         <span className="stock-preview__name">
-          {`${name}`}
+          {name}
         </span>
         <button
           onClick={this.onAddStockSubmit.bind(this)}
