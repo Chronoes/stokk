@@ -50,4 +50,12 @@ $button-hover-text: rgba(255, 255, 255, 0.75);
   @else if ($point == xxxs) {
     @media  (max-width: 480px) { @content }
   }
+
+  @else if ($point == xxxxs) {
+    @media  (max-width: 400px) { @content }
+  }
+
+  @else if ($point == xxxxxs) {
+    @media  (max-width: 300px) { @content }
+  }
 }

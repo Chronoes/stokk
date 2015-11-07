@@ -40,7 +40,7 @@ class DashboardPage extends Component {
 
     const stocks = userStocksState.get('stocks');
     return (
-      <div className="container-fluid">
+      <div className="dashboard container-fluid">
         <DashboardOverview
           email={email}
           stockAmount={stocks.size} />

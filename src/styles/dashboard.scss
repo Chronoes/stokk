@@ -1,51 +1,13 @@
 @import 'constants';
 
-.dashboard-heading {
-  color: #fff;
-  font-family: SanFranciscoThin;
-}
-
-.dashboard-section {
-  font-family: SanFranciscoRegular;
-  padding: 50px 0;
-}
-
-.search-preview {
-  font-family: SanFranciscoRegular;
-  margin: 25px auto;
-  max-width: 500px;
-}
-
-.stock-preview {
-  color: #fff;
-  margin: 5px 10px 5px 10px;
-  text-align: right;
-
-  &__symbol {
-    float: left;
-    text-align: left;
-    width: 70px;
+.dashboard {
+  &__heading {
+    color: #fff;
+    font-family: SanFranciscoThin;
   }
 
-  &__name {
-    -o-text-overflow: ellipsis;
-    float: left;
-    overflow: hidden;
-    text-align: left;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 70%;
-    @include breakpoint(xxxs) {
-      width: 60%;
-    }
-  }
-
-  &__add-button {
-    background-color: transparent;
-    border: 0;
-    color: #77f;
+  &__section {
     font-family: SanFranciscoRegular;
-    padding-left: 0;
-    padding-right: 0;
+    padding: 50px 0;
   }
 }

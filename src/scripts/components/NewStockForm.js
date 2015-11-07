@@ -61,31 +61,29 @@ class NewStockForm extends Component {
       <NewStockList stocks={stocks} token={token} />
     );
     const errorNode = (
-      <div className="form-alert-dark">
+      <div className="form-alert--dark">
         <strong>{errorMessage}</strong>
       </div>
     );
     return (
-      <div className="row">
-        <div className="dashboard-section">
-          <StrikedText>
-            Add stocks
-          </StrikedText>
-          <div
-            className="search-preview col-centered"
-            onMouseOver={() => this.isHovering = true}
-            onMouseOut={() => this.isHovering = false}>
-            <form onSubmit={this.onSearchSubmit.bind(this)}>
-              <input
-                type="text"
-                ref="searchStock"
-                className="form-control"
-                placeholder="search stocks" />
-            </form>
-            {stocks.size > 0 && isOpen && !errorMessage ? preview : ''}
-            {errorMessage ? errorNode : ''}
-            {isLoading ? <Preloader /> : ''}
-          </div>
+      <div>
+        <StrikedText>
+          Add stocks
+        </StrikedText>
+        <div
+          className="new-stock-form"
+          onMouseOver={() => this.isHovering = true}
+          onMouseOut={() => this.isHovering = false}>
+          <form onSubmit={this.onSearchSubmit.bind(this)}>
+            <input
+              type="text"
+              ref="searchStock"
+              className="new-stock-form__search form-control"
+              placeholder="search stocks" />
+          </form>
+          {stocks.size > 0 && isOpen && !errorMessage ? preview : ''}
+          {errorMessage ? errorNode : ''}
+          {isLoading ? <Preloader /> : ''}
         </div>
       </div>
     );

@@ -4,12 +4,12 @@ const DashboardOverview = ({email, stockAmount}) => {
   return (
     <div className="row">
       <div className="col-xs-12">
-        <div className="dashboard-section">
-          <h4 className="dashboard-heading">
+        <div className="dashboard__section">
+          <h4 className="dashboard__heading">
             Welcome back, {email}
           </h4>
           <p className="base-text">
-            You have {stockAmount} currently selected stocks.
+            You currently have {stockAmount} selected stocks.
           </p>
         </div>
       </div>

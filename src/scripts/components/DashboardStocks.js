@@ -10,7 +10,7 @@ const DashboardStocks = ({stocks}) => {
         <StrikedText>
           Your stocks
         </StrikedText>
-        <div className="dashboard-section">
+        <div className="dashboard__section">
           {stocks.map(stock => (<DashboardStock stock={stock} key={stock.id} />))}
         </div>
       </div>

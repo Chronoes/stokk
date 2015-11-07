@@ -19,7 +19,7 @@ class NewStockPreview extends Component {
         </span>
         <button
           onClick={this.onAddStockSubmit.bind(this)}
-          className="stock-preview__add-button">
+          className="stock-preview__add-button btn btn-primary-outline">
           add
         </button>
       </div>
