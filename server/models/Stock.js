@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import database from '../database';
+import StockHistory from './StockHistory';
 
 const Stock = database.define('stock', {
   symbol: {
@@ -44,5 +45,7 @@ const Stock = database.define('stock', {
     type: Sequelize.FLOAT,
   },
 });
+
+Stock.hasMany(StockHistory);
 
 export default Stock;
