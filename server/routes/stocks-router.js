@@ -1,40 +1,19 @@
 import {Router} from 'express';
 
-import Stock from '../models/Stock';
 import allStocksHandler from './stocks/allStocks';
 import queryStocksHandler from './stocks/queryStocks';
+import queryStocksHistoryHandler from './stocks/queryStocksHistory';
+import paramDateHandler from './stocks/paramDate';
 
 const stocks = Router();
 
-stocks.param('symbol', (req, res, next, symbol) => {
-  return Stock.findAll({
-    attributes: ['symbol', 'name'],
-    where: {
-      $or: {
-        symbol: {$like: `${symbol.toUpperCase()}%`},
-        name: {$like: `%${symbol}%`},
-      },
-    },
-    order: `CASE WHEN \`symbol\` LIKE '${symbol.toUpperCase()}%' THEN 1 ELSE 2 END`,
-    limit: 10,
-  })
-  .then(foundStocks => {
-    if (foundStocks.length !== 0) {
-      req.stocks = foundStocks;
-      next();
-    } else {
-      res.status(404).json({
-        message: `Stock "${symbol}" does not exist.`,
-      });
-    }
-  })
-  .catch(() =>
-    res.status(500).json({
-      message: 'Something happened.',
-    }));
-});
+stocks.param('startDate', paramDateHandler);
+stocks.param('endDate', paramDateHandler);
 
 stocks.get('/', allStocksHandler);
-stocks.get('/:symbol', queryStocksHandler);
+stocks.get('/:searchString', queryStocksHandler);
+stocks.get('/:symbol', queryStocksHistoryHandler);
+stocks.get('/:symbol/:startDate', queryStocksHistoryHandler);
+stocks.get('/:symbol/:startDate/:endDate', queryStocksHistoryHandler);
 
 export default stocks;

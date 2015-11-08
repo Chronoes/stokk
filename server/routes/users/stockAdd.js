@@ -1,5 +1,5 @@
 import Stock from '../../models/Stock';
-import {updateDatabase} from '../../util';
+import {updateDatabase, reloadFromDatabase} from '../../util';
 
 export default (req, res) => {
   const {user} = req;
@@ -9,14 +9,14 @@ export default (req, res) => {
     if (stock !== null) {
       return updateDatabase(stock)
       .then(updatedStock => user.addStock(updatedStock))
-      .then(() => stock.reload())
+      .then(() => reloadFromDatabase(stock))
       .then(() =>
         res.status(200).json({
           message: `Stock "${symbol}" added successfully.`,
           stock,
         }));
     }
-    return res.status(400).json({
+    return res.status(404).json({
       message: `Stock "${symbol}" does not exist.`,
     });
   })

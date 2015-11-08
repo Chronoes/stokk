@@ -7,10 +7,9 @@ export function symbolCheck(symbol) {
 
 export function arrayToString(symbol) {
   if (Array.isArray(symbol)) {
-    return symbol.map(element => "'" + element + "'" )
-      .join(',');
+    return symbol.map(element => `'${element}'`).join(',');
   }
-  return symbol;
+  return `'${symbol}'`;
 }
 
 function resolveData(data) {
@@ -28,16 +27,14 @@ function resolveData(data) {
 
 export function getStockBySymbol(symbol) {
   if (symbolCheck(symbol)) {
-    const query = new YQL(`select * from yahoo.finance.quote where symbol in ("${arrayToString(symbol)}")`);
+    const query = new YQL(`select * from yahoo.finance.quote where symbol in (${arrayToString(symbol)})`);
     return new Promise((resolve, reject) => {
       query.exec((error, response) => {
         if (error) return reject(error);
-        if (response.query.results.quote.Name === null) return reject(null);
-        const data = response.query.results.quote;
-        if (Array.isArray(data)) {
-          resolve(data.map(resolveData));
-        }
-        resolve(resolveData(data));
+        const results = response.query.results;
+        if (results === null || results.quote.Name === null) return reject(null);
+        const data = results.quote;
+        return Array.isArray(data) ? resolve(data.map(resolveData)) : resolve(resolveData(data));
       });
     });
   }
@@ -46,22 +43,25 @@ export function getStockBySymbol(symbol) {
 
 export function getStockByDate(symbol, startDate, endDate) {
   if (symbolCheck(symbol)) {
-    const query = new YQL(`select * from yahoo.finance.historicaldata where symbol = "${symbol}" and startDate = "${startDate}" and endDate = "${endDate}"`);
+    const query = new YQL(`select * from yahoo.finance.historicaldata where symbol in (${arrayToString(symbol)}) and startDate = "${startDate}" and endDate = "${endDate}"`);
     return new Promise((resolve, reject) => {
       query.exec((error, response) => {
         if (error) return reject(error);
-        if (response.query.results === null) return reject(null);
-        const data = response.query.results.quote;
-        resolve(data.map((object) => {
-          return {
-            symbol: object.Symbol,
+        const results = response.query.results;
+        if (results === null) return reject(null);
+        resolve(results.quote.reduce((grouped, object) => {
+          if (!grouped[object.Symbol]) {
+            grouped[object.Symbol] = [];
+          }
+          grouped[object.Symbol].push({
             date: object.Date,
             open: object.Open,
             high: object.High,
             low: object.Low,
             close: object.Close,
-          };
-        }));
+          });
+          return grouped;
+        }, {}));
       });
     });
   }

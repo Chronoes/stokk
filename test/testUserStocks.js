@@ -157,7 +157,7 @@ describe('User stock handler', () => {
         .catch(done);
     });
 
-    it('should return Bad Request when adding stock with unknown symbol', done => {
+    it('should return Not Found when adding stock with unknown symbol', done => {
       const id = 3;
       const route = makeRoute(id);
       const token = tokens[id];
@@ -173,7 +173,7 @@ describe('User stock handler', () => {
           if (err) {
             return done(err);
           }
-          expect(res).to.have.status(400);
+          expect(res).to.have.status(404);
           expect(res.body.message).to.have.length.above(0);
           done();
         });
