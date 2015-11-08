@@ -36,7 +36,7 @@ export function verifyAuthorization(authHeader) {
 }
 
 function isStockUpdateNeeded(stock) {
-  return stock.currentPrice === null || moment.utc(stock.updatedAt) < (moment.utc() - stockQueryTimeLimit);
+  return stock.currentPrice === null || moment.utc(stock.updatedAt) < moment.utc().subtract(stockQueryTimeLimit);
 }
 
 export function bulkUpdateDatabase(stocks) {

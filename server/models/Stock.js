@@ -46,6 +46,6 @@ const Stock = database.define('stock', {
   },
 });
 
-Stock.hasMany(StockHistory);
+Stock.hasMany(StockHistory, {as: 'history'});
 
 export default Stock;

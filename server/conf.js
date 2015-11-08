@@ -1,4 +1,5 @@
 import path from 'path';
+import moment from 'moment';
 
 export default {
   testing: {
@@ -36,5 +37,6 @@ export default {
   },
   stockList: 'https://dl.dropboxusercontent.com/s/j4hutvxzy7jc97r/out.json?dl=1',
   stockCount: 8379,
-  stockQueryTimeLimit: 1000 * 3600 * 24,
+  stockQueryTimeLimit: moment.duration(1, 'days'),
+  stockHistoryTimeLimit: moment.duration(30, 'days'),
 };
