@@ -9,9 +9,7 @@ export default (req, res) => {
   .then(stock => {
     if (stock !== null) {
       return stock.getHistory({
-        where: {
-          date: {$between: betweenDates.map(date => date.format('YYYY-MM-DD'))},
-        },
+        where: {date: {$between: betweenDates.map(date => date.format('YYYY-MM-DD'))}},
       })
       .then(history => {
         if (history.length < stockHistoryTimeLimit.days()) {

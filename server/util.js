@@ -4,7 +4,8 @@ import moment from 'moment';
 import request from 'request-promise';
 
 import app from '../app';
-import {getStockBySymbol} from './queries';
+import database from './database';
+import {getStockBySymbol, getStockByDate} from './queries';
 import {development, stockQueryTimeLimit} from './conf';
 
 export function genSaltyHash(password) {
@@ -61,6 +62,52 @@ export function updateDatabase(stock) {
       .catch(reject));
   }
   return Promise.resolve(stock);
+}
+
+function weekdaysCount(startDate, endDate) {
+  const start = moment(startDate);
+  const end = moment(endDate);
+  const weekdays = moment.duration();
+  while (end.isAfter(start)) {
+    const day = start.isoWeekday();
+    if (day !== 6 && day !== 7) {
+      weekdays.add(1, 'days');
+    }
+    start.add(1, 'days');
+  }
+  return weekdays.days();
+}
+
+function isHistoryUpdateNeeded(history, startDate, endDate) {
+  const weekdays = weekdaysCount(startDate, endDate);
+  return history.length < weekdays;
+}
+
+export function bulkUpdateHistory(stocks, betweenDates) {
+  return Promise.all(stocks.map(stock => stock.getHistory({
+    where: {date: {$between: betweenDates}},
+  })))
+  .then(histories => {
+    if (histories.some(history => isHistoryUpdateNeeded(history, ...betweenDates))) {
+      return new Promise((resolve, reject) =>
+        getStockByDate(stocks.map(stock => stock.symbol), ...betweenDates)
+        .then(results => database.transaction(act =>
+            Promise.all(stocks.map((stock, i) => {
+              const history = histories[i];
+              const historyDates = history.map(object => moment.utc(object.date));
+              return results[stock.symbol]
+                .filter(result => !historyDates.some(date => date.isSame(result.date, 'day')))
+                .map(result => stock.createHistory(result, {transaction: act}));
+            }))))
+        .then(resolve)
+        .catch(reject));
+    }
+    return Promise.resolve(histories);
+  });
+}
+
+export function reloadFromDatabase(items) {
+  return Array.isArray(items) ? Promise.all(items.map(item => item.reload())) : items.reload();
 }
 
 /* istanbul ignore next */

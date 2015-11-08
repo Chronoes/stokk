@@ -1,16 +1,16 @@
 import Stock from '../../models/Stock';
 
 export default (req, res) => {
-  const {symbol} = req.params;
+  const {searchString} = req.params;
   return Stock.findAll({
     attributes: ['symbol', 'name'],
     where: {
       $or: {
-        symbol: {$like: `${symbol.toUpperCase()}%`},
-        name: {$like: `%${symbol}%`},
+        symbol: {$like: `${searchString.toUpperCase()}%`},
+        name: {$like: `%${searchString}%`},
       },
     },
-    order: `CASE WHEN \`symbol\` LIKE '${symbol.toUpperCase()}%' THEN 1 ELSE 2 END`,
+    order: `CASE WHEN \`symbol\` LIKE '${searchString.toUpperCase()}%' THEN 1 ELSE 2 END`,
     limit: 10,
   })
   .then(stocks => {
@@ -21,7 +21,7 @@ export default (req, res) => {
       });
     }
     return res.status(404).json({
-      message: `Stock "${symbol}" does not exist.`,
+      message: `Stock "${searchString}" does not exist.`,
     });
   })
   .catch(() =>

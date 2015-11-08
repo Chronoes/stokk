@@ -74,8 +74,8 @@ describe('Stock queries', () => {
     it('should return stock by date and symbol', done => {
       getStockByDate('YHOO', '2009-09-11', '2010-03-10')
         .then(history => {
-          expect(history[0].symbol).to.equal('YHOO');
-          expect(history[0].date).to.equal('2010-03-10');
+          expect(history).to.have.keys('YHOO');
+          expect(history.YHOO[0].date).to.equal('2010-03-10');
           done();
         })
         .catch(done);
@@ -102,7 +102,7 @@ describe('Stock queries', () => {
 
   context('#arrayToString()', () => {
     it('should return symbol if it is not array', done => {
-      expect(arrayToString('AAPL')).to.equal('AAPL');
+      expect(arrayToString('AAPL')).to.equal('\'AAPL\'');
       done();
     });
 
