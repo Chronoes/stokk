@@ -17,10 +17,10 @@ class StockCard extends Component {
   }
 
   render() {
-    const {symbol, currentPrice, change, name, histories} = this.props.stock;
+    const {symbol, currentPrice, change, name, history} = this.props.stock;
     const {isHovering} = this.state;
     const isPositive = change.charAt(0) === '+';
-    const dataSet = histories.map(history => history.close).reverse();
+    const dataSet = history.map(hist => hist.close).reverse();
     return (
       <div
         className="stock-card"
