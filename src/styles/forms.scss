@@ -30,11 +30,9 @@
   @extend .alert-danger;
   margin-bottom: 15px;
 
-  &--dark {
+  &--margin-top {
     @extend .alert;
     @extend .alert-danger;
-    background-color: $main-background;
-    border-color: $grey-accent;
     margin-top: 5px;
   }
 }

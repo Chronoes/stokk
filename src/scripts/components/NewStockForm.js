@@ -63,7 +63,7 @@ class NewStockForm extends Component {
       <NewStockList stocks={stocks} token={token} />
     );
     const errorNode = (
-      <div className="form-alert">
+      <div className="form-alert--margin-top">
         <strong>{errorMessage}</strong>
       </div>
     );
