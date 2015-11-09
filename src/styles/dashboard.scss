@@ -15,12 +15,21 @@
 .stock-card {
   @extend .col-xs-12;
   @extend .col-sm-6;
-  @extend .col-md-3;
+  @extend .col-md-4;
   @extend .col-lg-2;
   @extend .base-text;
 
   cursor: pointer;
   margin-bottom: 10px;
+
+  &__close-button {
+    @extend .close;
+    color: #666;
+
+    &:hover {
+      color: #fff;
+    }
+  }
 
   &__price-text {
     color: #fff;
