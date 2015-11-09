@@ -50,10 +50,9 @@ class UserStocksStore {
       .set('isLoading', false));
   }
 
-  onDeleteUserStockError() {
+  onDeleteUserStockError(errorMessage) {
     this.setState(this.state
-      .set('stocks', new List(stocks))
-      .set('errorMessage', '')
+      .set('errorMessage', errorMessage)
       .set('isLoading', false));
   }
 
