@@ -15,6 +15,11 @@
     background-color: $yellow-alert;
   }
 
+  &.--info {
+    @extend .alert-info;
+    background-color: $blue-alert;
+  }
+
   &.--margin-top {
     margin-top: 5px;
   }

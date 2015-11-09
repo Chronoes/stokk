@@ -11,7 +11,7 @@ const Alert = props => {
 
 Alert.propTypes = {
   message: Types.string.isRequired,
-  type: Types.oneOf(['warning', 'danger']).isRequired,
+  type: Types.oneOf(['warning', 'danger', 'info']).isRequired,
   margin: Types.oneOf(['top', 'bottom']),
 };
 
