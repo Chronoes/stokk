@@ -17,11 +17,11 @@ function resolveData(data) {
     symbol: data.Symbol,
     name: data.Name,
     change: data.Change,
-    currentPrice: data.LastTradePriceOnly,
-    daysLow: data.DaysLow,
-    daysHigh: data.DaysHigh,
-    yearLow: data.YearLow,
-    yearHigh: data.YearHigh,
+    currentPrice: parseFloat(data.LastTradePriceOnly),
+    daysLow: parseFloat(data.DaysLow),
+    daysHigh: parseFloat(data.DaysHigh),
+    yearLow: parseFloat(data.YearLow),
+    yearHigh: parseFloat(data.YearHigh),
   };
 }
 
@@ -55,10 +55,10 @@ export function getStockByDate(symbol, startDate, endDate) {
           }
           grouped[object.Symbol].push({
             date: object.Date,
-            open: object.Open,
-            high: object.High,
-            low: object.Low,
-            close: object.Close,
+            open: parseFloat(object.Open),
+            high: parseFloat(object.High),
+            low: parseFloat(object.Low),
+            close: parseFloat(object.Close),
           });
           return grouped;
         }, {}));
