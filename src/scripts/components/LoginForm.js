@@ -43,7 +43,7 @@ class LoginForm extends Component {
     const {isLoading} = this.props;
     const {errorMessage} = this.state;
     const errorNode = (
-      <div className="form-alert">
+      <div className="form-alert-danger--margin-bottom">
         <strong>{errorMessage}</strong>
       </div>
     );

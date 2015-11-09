@@ -31,7 +31,13 @@
   background-color: $red-alert;
   border: 0;
   color: $main-background;
+
   &--margin-bottom {
+    @extend .alert;
+    @extend .alert-danger;
+    background-color: $red-alert;
+    border: 0;
+    color: $main-background;
     margin-bottom: 15px;
   }
 }
@@ -42,7 +48,13 @@
   background-color: $yellow-alert;
   border: 0;
   color: $main-background;
+
   &--margin-top {
+    @extend .alert;
+    @extend .alert-danger;
+    background-color: $yellow-alert;
+    border: 0;
+    color: $main-background;
     margin-top: 5px;
   }
 }

@@ -81,7 +81,7 @@ class RegisterForm extends Component {
     const {errorMessage, isEmailValid, arePasswordsValid} = this.state;
     const {isLoading} = this.props;
     const errorNode = (
-      <div className="form-alert">
+      <div className="form-alert-danger--margin-bottom">
         <strong>{errorMessage}</strong>
       </div>
     );
