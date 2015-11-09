@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 
-import Alert from './Alert';
-import Preloader from './Preloader';
 import StrikedText from './StrikedText';
 import NewStockList from './NewStockList';
 import {searchStocks, emptySearchStore} from '../actions/SearchStocksActions';
@@ -17,6 +15,7 @@ class NewStockForm extends Component {
     this.isHovering = false;
     this.onPageClick = this.onPageClick.bind(this);
     this.timer = null;
+    this.isLoading = false;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -39,18 +38,20 @@ class NewStockForm extends Component {
     emptySearchStore();
     const searchString = this.refs.searchStock.value.trim();
     if (searchString.length === 0) {
-      this.setState({isOpen: false, errorMessage: 'Please enter a stock symbol or a part of it\'s name.'});
+      this.setState({isOpen: true, errorMessage: 'Please enter a stock symbol or a part of it\'s name.'});
     } else if (searchString.length > 35) {
-      this.setState({isOpen: false, errorMessage: `Stock "${searchString.substring(0, 34)}..." does not exist.`});
+      this.setState({isOpen: true, errorMessage: `Stock "${searchString.substring(0, 34)}..." does not exist.`});
     } else {
+      this.isLoading = true;
       searchStocks(searchString);
     }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     const {searchStocksState} = nextProps;
-    return searchStocksState.get('stocks').size > 0 ||
+    return this.isLoading || searchStocksState.get('stocks').size > 0 ||
       searchStocksState.get('errorMessage').length > 0 ||
+      nextState.errorMessage.length > 0 ||
       nextState.isOpen !== this.state.isOpen;
   }
 
@@ -71,14 +72,15 @@ class NewStockForm extends Component {
   }
 
   render() {
-    const {searchStocksState, isLoading, token} = this.props;
+    const {searchStocksState, token} = this.props;
     const {errorMessage, isOpen} = this.state;
     const stocks = searchStocksState.get('stocks');
+    this.isLoading = searchStocksState.get('isLoading');
     const preview = (
-      <NewStockList stocks={stocks} token={token} />
+      <NewStockList stocks={stocks} token={token} errorMessage={errorMessage} />
     );
-    const alert = (
-      <Alert message={errorMessage} type="warning" margin="top" />
+    const loader = (
+      <span className="new-stock-form__preloader"></span>
     );
     return (
       <div>
@@ -102,10 +104,9 @@ class NewStockForm extends Component {
               placeholder="search stocks"
               aria-describedby="basic-addon1"
               onChange={this.onInputChange.bind(this)} />
+              <span className="new-stock-form__preloader-container input-group-addon">{this.isLoading ? loader : ''}</span>
           </div>
-          {stocks.size > 0 && isOpen && !errorMessage ? preview : ''}
-          {errorMessage ? alert : ''}
-          {isLoading ? <Preloader /> : ''}
+          {isOpen ? preview : ''}
         </div>
       </div>
     );
