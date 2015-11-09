@@ -1,5 +1,10 @@
 @import 'constants';
 
+canvas {
+  height: auto !important;
+  width: 100% !important;
+}
+
 .dashboard {
   &__heading {
     color: #fff;
@@ -16,7 +21,7 @@
   @extend .col-xs-12;
   @extend .col-sm-6;
   @extend .col-md-4;
-  @extend .col-lg-2;
+  @extend .col-lg-3;
   @extend .base-text;
 
   cursor: pointer;

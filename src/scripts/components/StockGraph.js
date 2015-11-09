@@ -3,7 +3,7 @@ import {Line as LineChart} from 'react-chartjs';
 
 const StockGraph = ({dataset}) => {
   const chartData = {
-    labels: dataSet.map(() => ''),
+    labels: dataset.map(() => ''),
     datasets: [{
       label: 'history',
       data: dataset,
@@ -18,12 +18,11 @@ const StockGraph = ({dataset}) => {
     scaleShowGridLines: false,
     showScale: false,
     toolTipEvents: ['mouseover', 'mousemove', 'touchstart', 'touchmove'],
-    pointHitDetectionRadius: 3,
+    pointHitDetectionRadius: 2,
     responsive: true,
   };
   return (
     <LineChart
-      style={{width: '100%', height: 'auto'}}
       data={chartData}
       options={chartOptions} />
   );
