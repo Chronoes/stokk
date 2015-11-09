@@ -17,7 +17,9 @@ export default (req, res) => {
           message: `Retrieved ${stocks.length} stocks and ${histories.length ? histories[0].length : 0} days of data.`,
           stocks: stocks.map((stock, i) => {
             const stockjson = stock.toJSON();
-            stockjson.histories = histories[i];
+            if (histories[i]) {
+              stockjson.history = histories[i];
+            }
             return stockjson;
           }),
         })))
