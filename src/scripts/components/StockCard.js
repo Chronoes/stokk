@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import StockGraph from './StockGraph';
+
 class StockCard extends Component {
   constructor(props) {
     super(props);
@@ -15,9 +17,10 @@ class StockCard extends Component {
   }
 
   render() {
-    const {symbol, currentPrice, change, name} = this.props.stock;
+    const {symbol, currentPrice, change, name, histories} = this.props.stock;
     const {isHovering} = this.state;
     const isPositive = change.charAt(0) === '+';
+    const dataSet = histories.map(history => history.close).reverse();
     return (
       <div
         className="stock-card"
@@ -31,6 +34,7 @@ class StockCard extends Component {
         <span className={`change-label --aligned-in-card --${isPositive ? 'increase' : 'decrease'}`}>
           {change}
         </span>
+        <StockGraph dataSet={dataSet} />
       </div>
     );
   }
