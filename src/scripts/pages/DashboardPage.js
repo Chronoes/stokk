@@ -39,9 +39,9 @@ class DashboardPage extends Component {
     const {email} = decode(token);
     const stocks = userStocksState.get('stocks');
 
-    const stockAverage = (stocks.reduce((acc, current) => (
+    const stockAverage = stocks.reduce((acc, current) => (
         acc + parseFloat(current.change)
-      ), 0) / stocks.size).toFixed(3);
+      ), 0) / stocks.size;
     return (
       <div className="dashboard container-fluid">
         <DashboardOverview

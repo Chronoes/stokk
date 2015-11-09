@@ -1,11 +1,12 @@
 import React, {PropTypes as Types} from 'react';
 
 const DashboardOverview = ({email, stockAmount, stockAverage}) => {
+  const roundedAverage = parseFloat(stockAverage.toFixed(3));
   const hasStocksNode = (
     <span>
       You have {stockAmount} current stocks, with an average change of
-      <span className={`change-label --${stockAverage > 0 ? 'increase' : 'decrease'}`}>
-        {(stockAverage > 0 ? '+' : '-') + stockAverage}
+      <span className={`change-label --${roundedAverage > 0 ? 'increase' : 'decrease'}`}>
+        {(roundedAverage > 0 ? '+' : '-') + roundedAverage}
       </span>
     </span>
   );
