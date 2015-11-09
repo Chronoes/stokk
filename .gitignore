@@ -3,3 +3,4 @@ static/
 coverage/
 *.sqlite
 server/secret
+npm-debug.log
