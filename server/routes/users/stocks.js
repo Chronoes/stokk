@@ -14,7 +14,7 @@ export default (req, res) => {
       }))))
       .then(histories =>
         res.status(200).json({
-          message: `Retrieved ${stocks.length} stocks and ${histories[0].length} days of data.`,
+          message: `Retrieved ${stocks.length} stocks and ${histories.length ? histories[0].length : 0} days of data.`,
           stocks: stocks.map((stock, i) => {
             const stockjson = stock.toJSON();
             stockjson.histories = histories[i];
