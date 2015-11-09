@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import Alert from './Alert';
 import Preloader from './Preloader';
 import {register} from '../actions/RegistrationActions';
 
@@ -80,10 +81,8 @@ class RegisterForm extends Component {
   render() {
     const {errorMessage, isEmailValid, arePasswordsValid} = this.state;
     const {isLoading} = this.props;
-    const errorNode = (
-      <div className="form-alert --danger --margin-bottom">
-        <strong>{errorMessage}</strong>
-      </div>
+    const alert = (
+      <Alert message={errorMessage} type="danger" />
     );
     const submitButton = (
       <input
@@ -121,7 +120,7 @@ class RegisterForm extends Component {
                 placeholder="password again" />
             </div>
 
-            {errorMessage ? errorNode : ''}
+            {errorMessage ? alert : ''}
 
             <div className="form-group btn-form">
               {isLoading ? <Preloader /> : submitButton}

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import Alert from './Alert';
 import Preloader from './Preloader';
 import StrikedText from './StrikedText';
 import NewStockList from './NewStockList';
@@ -15,6 +16,7 @@ class NewStockForm extends Component {
     };
     this.isHovering = false;
     this.onPageClick = this.onPageClick.bind(this);
+    this.timer = null;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -26,20 +28,28 @@ class NewStockForm extends Component {
     if (!isLoading && (stocksSize > 0 || errorMessage.length)) window.addEventListener('click', this.onPageClick);
   }
 
-  onSearchSubmit() {
+  onInputChange() {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.submitSearch();
+    }, 200);
+  }
+
+  submitSearch() {
     emptySearchStore();
     const searchString = this.refs.searchStock.value.trim();
     if (searchString.length === 0) {
       this.setState({isOpen: false, errorMessage: 'Please enter a stock symbol or a part of it\'s name.'});
     } else {
       searchStocks(searchString);
-      this.setState({isOpen: false});
     }
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
     const {searchStocksState} = nextProps;
-    return searchStocksState.get('stocks').size > 0 || searchStocksState.get('errorMessage').length > 0;
+    return searchStocksState.get('stocks').size > 0 ||
+      searchStocksState.get('errorMessage').length > 0 ||
+      nextState.isOpen !== this.state.isOpen;
   }
 
   onPageClick() {
@@ -65,10 +75,8 @@ class NewStockForm extends Component {
     const preview = (
       <NewStockList stocks={stocks} token={token} />
     );
-    const errorNode = (
-      <div className="form-alert --warning --margin-top">
-        <strong>{errorMessage}</strong>
-      </div>
+    const alert = (
+      <Alert message={errorMessage} type="warning" margin="top" />
     );
     return (
       <div>
@@ -84,10 +92,10 @@ class NewStockForm extends Component {
             ref="searchStock"
             className="new-stock-form__search form-control"
             placeholder="search stocks"
-            onChange={this.onSearchSubmit.bind(this)}
+            onChange={this.onInputChange.bind(this)}
             />
           {stocks.size > 0 && isOpen && !errorMessage ? preview : ''}
-          {errorMessage ? errorNode : ''}
+          {errorMessage ? alert : ''}
           {isLoading ? <Preloader /> : ''}
         </div>
       </div>

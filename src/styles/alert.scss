@@ -1,0 +1,25 @@
+@import 'constants';
+
+.alert {
+  @extend .alert;
+  border: 0;
+  color: $main-background;
+
+  &.--danger {
+    @extend .alert-danger;
+    background-color: $red-alert;
+  }
+
+  &.--warning {
+    @extend .alert-warning;
+    background-color: $yellow-alert;
+  }
+
+  &.--margin-top {
+    margin-top: 5px;
+  }
+
+  &.--margin-bottom {
+    margin-bottom: 15px;
+  }
+}
