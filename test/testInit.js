@@ -67,18 +67,53 @@ before(done => {
     },
   ];
 
+  const history = {AAPL: [
+    {
+      date: '2015-11-06',
+      open: 121.1101,
+      close: 121.0598,
+      low: 121.8008,
+      high: 120.62,
+    },
+    {
+      date: '2015-11-05',
+      open: 111.321,
+      close: 131.123,
+      low: 140.08,
+      high: 109.23,
+    },
+    {
+      date: '2015-11-06',
+      open: 140.1101,
+      close: 321.0598,
+      low: 134.8008,
+      high: 534.62,
+    },
+    {
+      date: '2015-11-06',
+      open: 332.1101,
+      close: 31.0598,
+      low: 42.311,
+      high: 1220.34,
+    },
+    {
+      date: '2015-11-06',
+      open: 313.23,
+      close: 312.43,
+      low: 234.41234,
+      high: 525.5435,
+    },
+  ]};
+
   database.sync({force: true})
-  .then(() =>
-    Stock.bulkCreate(stocks))
-  .then(() =>
-    Promise.all(users))
-  .then(hashedUsers =>
-    User.bulkCreate(hashedUsers))
-  .then(() =>
-    User.findOne({where: {email: 'test1@stokk.io'}}))
-  .then(user =>
-    Stock.findAll()
-      .then(userStocks => user.setStocks(userStocks)))
+  .then(() => Stock.bulkCreate(stocks))
+  .then(() => Stock.findOne({where: {symbol: 'AAPL'}}))
+  .then(stock => Promise.all(history.AAPL.map(hist => stock.createHistory(hist))))
+  .then(() => Promise.all(users))
+  .then(hashedUsers => User.bulkCreate(hashedUsers))
+  .then(() => User.findOne({where: {email: 'test1@stokk.io'}}))
+  .then(user => Stock.findAll()
+    .then(userStocks => user.setStocks(userStocks)))
   .then(() => done())
   .catch(err => Array.isArray(err) ?
     done(err[0].errors) :
