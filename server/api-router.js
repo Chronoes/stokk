@@ -13,7 +13,7 @@ api.use((req, res, next) => {
         });
       }
     }
-  } else if (req.method !== 'GET') {
+  } else if (req.method !== 'GET' && req.method !== 'DELETE') {
     return res.status(400).json({
       message: `${req.method} request cannot be empty.`,
     });

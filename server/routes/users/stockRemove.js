@@ -1,6 +1,6 @@
 export default (req, res) => {
   const {user} = req;
-  const {symbol} = req.body;
+  const {symbol} = req.params;
   return user.getStocks({where: {symbol}})
     .then(stocks => {
       if (stocks.length === 0) {
