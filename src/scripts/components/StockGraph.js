@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes as Types} from 'react';
 import {Line as LineChart} from 'react-chartjs';
 
 const StockGraph = ({dataset}) => {
@@ -27,5 +27,8 @@ const StockGraph = ({dataset}) => {
       options={chartOptions} />
   );
 };
+
+StockGraph.propTypes = {dataset: Types.arrayOf(Types.number).isRequired};
+StockGraph.displayName = 'StockGraph';
 
 export default StockGraph;

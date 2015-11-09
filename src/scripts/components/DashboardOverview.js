@@ -6,7 +6,7 @@ const DashboardOverview = ({email, stockAmount, stockAverage}) => {
     <span>
       You have {stockAmount} current stocks, with an average change of
       <span className={`change-label --${roundedAverage > 0 ? 'increase' : 'decrease'}`}>
-        {(roundedAverage > 0 ? '+' : '-') + roundedAverage}
+        {(roundedAverage > 0 ? '+' : '') + roundedAverage}
       </span>
     </span>
   );

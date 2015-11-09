@@ -37,6 +37,26 @@ class UserStocksStore {
       .set('isLoading', false));
   }
 
+  onDeleteUserStockWithToken() {
+    this.setState(this.state
+      .set('errorMessage', '')
+      .set('isLoading', true));
+  }
+
+  onDeleteUserStockSuccess(symbol) {
+    this.setState(this.state
+      .set('stocks', this.state.delete(this.state.find(stock => stock.symbol === symbol)))
+      .set('errorMessage', '')
+      .set('isLoading', false));
+  }
+
+  onDeleteUserStockError() {
+    this.setState(this.state
+      .set('stocks', new List(stocks))
+      .set('errorMessage', '')
+      .set('isLoading', false));
+  }
+
   onAddNewStockWithToken() {
     this.setState(this.state
       .set('errorMessage', '')

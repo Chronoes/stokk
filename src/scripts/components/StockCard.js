@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import StockGraph from './StockGraph';
+import {deleteUserStockWithToken} from '../actions/UserStocksActions';
 
 class StockCard extends Component {
   constructor(props) {
@@ -17,7 +18,8 @@ class StockCard extends Component {
   }
 
   render() {
-    const {symbol, currentPrice, change, name, history} = this.props.stock;
+    const {stock, token} = this.props;
+    const {symbol, currentPrice, change, name, history} = stock;
     const {isHovering} = this.state;
     const isPositive = change.charAt(0) === '+';
     const dataset = history.map(dataPoint => dataPoint.close).reverse();
@@ -27,7 +29,9 @@ class StockCard extends Component {
         onMouseOver={() => this.startHovering()}
         onMouseOut={() => this.endHovering()}>
         {isHovering ? name : symbol}
-        <button className="stock-card__close-button">
+        <button
+          className="stock-card__close-button"
+          onClick={() => deleteUserStockWithToken(symbol, token)}>
           &times;
         </button>
         <br />
