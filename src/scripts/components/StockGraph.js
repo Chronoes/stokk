@@ -15,6 +15,10 @@ const StockGraph = ({dataSet}) => {
   };
   const chartOptions = {
     scaleFontFamily: 'SanFranciscoRegular',
+    scaleShowGridLines: false,
+    showScale: false,
+    toolTipEvents: ['mouseover', 'mousemove', 'touchstart', 'touchmove'],
+    pointHitDetectionRadius: 3,
   };
   return (
     <LineChart
