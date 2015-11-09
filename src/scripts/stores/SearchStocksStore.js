@@ -36,6 +36,13 @@ class SearchStocksStore {
       .set('errorMessage', errorMessage)
       .set('isLoading', false));
   }
+
+  onEmptySearchStore() {
+    this.setState(this.state
+      .set('stocks', new List())
+      .set('errorMessage', '')
+      .set('isLoading', false));
+  }
 }
 
 export default SearchStocksStore;

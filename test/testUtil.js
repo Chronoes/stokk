@@ -193,4 +193,88 @@ describe('Utility functions', () => {
       .catch(done);
     });
   });
+
+  context('#updateHistory()', () => {
+    it('should return history of stock if no data yet', done => {
+      const mockStock = {
+        symbol: 'GOOG',
+        getHistory: () => Promise.resolve([]),
+        createHistory: result => Promise.resolve(result),
+      };
+      const betweenDates = ['2015-11-05', '2015-11-06'];
+
+      util.updateHistory(mockStock, betweenDates)
+      .then(history => {
+        expect(history).to.be.an('array');
+        expect(history).to.have.length(2);
+        expect(history[0]).to.have.all.keys('date', 'open', 'close', 'high', 'low');
+        expect(history[0].date).to.equal(betweenDates[1]);
+        done();
+      })
+      .catch(done);
+    });
+
+    it('should return history of stock if no data yet', done => {
+      const originalHistory = [
+        {
+          date: '2015-11-06',
+          open: 121.1101,
+          close: 121.0598,
+          low: 121.8008,
+          high: 120.62,
+        }, {
+          date: '2015-11-05',
+          open: 111.321,
+          close: 131.123,
+          low: 140.08,
+          high: 109.23,
+        },
+      ];
+
+      const mockStock = {
+        symbol: 'AAPL',
+        getHistory: () => Promise.resolve(originalHistory),
+        createHistory: () => Promise.resolve(),
+      };
+      const betweenDates = ['2015-11-05', '2015-11-06'];
+
+      util.updateHistory(mockStock, betweenDates)
+      .then(history => {
+        expect(history).to.deep.equal(originalHistory);
+        done();
+      })
+      .catch(done);
+    });
+  });
+
+  context('#bulkUpdateHistory', () => {
+    it('should return all histories from stock array', done => {
+      const mockStocks = [
+        {
+          symbol: 'GOOG',
+          getHistory: () => Promise.resolve([]),
+          createHistory: result => Promise.resolve(result),
+        }, {
+          symbol: 'MSFT',
+          getHistory: () => Promise.resolve([]),
+          createHistory: result => Promise.resolve(result),
+        },
+      ];
+      const betweenDates = ['2015-11-05', '2015-11-06'];
+
+      util.bulkUpdateHistory(mockStocks, betweenDates)
+      .then(histories => {
+        expect(histories).to.be.an('array');
+        expect(histories).to.have.length(2);
+        Promise.all(histories[0])
+          .then(newHistory => {
+            expect(newHistory).to.be.an('array');
+            expect(newHistory[0]).to.have.all.keys('date', 'open', 'close', 'high', 'low');
+            expect(newHistory[0].date).to.equal(betweenDates[1]);
+            done();
+          });
+      })
+      .catch(done);
+    });
+  });
 });

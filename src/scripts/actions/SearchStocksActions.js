@@ -20,6 +20,10 @@ class SearchStocksActions {
   searchSuccess(stocks) {
     this.dispatch(stocks);
   }
+
+  emptySearchStore() {
+    this.dispatch();
+  }
 }
 
 export default SearchStocksActions;

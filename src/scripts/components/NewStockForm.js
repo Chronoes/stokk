@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import Preloader from './Preloader';
 import StrikedText from './StrikedText';
 import NewStockList from './NewStockList';
-import {searchStocks} from '../actions/SearchStocksActions';
+import {searchStocks, emptySearchStore} from '../actions/SearchStocksActions';
 
 class NewStockForm extends Component {
 
@@ -21,11 +21,13 @@ class NewStockForm extends Component {
     const {searchStocksState} = nextProps;
     const errorMessage = searchStocksState.get('errorMessage');
     const isLoading = searchStocksState.get('isLoading');
-    this.setState({isOpen: !isLoading, errorMessage: errorMessage});
+    const stocksSize = searchStocksState.get('stocks').size;
+    this.setState({isOpen: true, errorMessage: errorMessage});
+    if (!isLoading && (stocksSize > 0 || errorMessage.length)) window.addEventListener('click', this.onPageClick);
   }
 
-  onSearchSubmit(event) {
-    event.preventDefault();
+  onSearchSubmit() {
+    emptySearchStore();
     const searchString = this.refs.searchStock.value.trim();
     if (searchString.length === 0) {
       this.setState({isOpen: false, errorMessage: 'Please enter a stock symbol or a part of it\'s name.'});
@@ -35,19 +37,21 @@ class NewStockForm extends Component {
     }
   }
 
-  componentDidMount() {
-    window.addEventListener('mousedown', this.onPageClick);
+  shouldComponentUpdate(nextProps) {
+    const {searchStocksState} = nextProps;
+    return searchStocksState.get('stocks').size > 0 || searchStocksState.get('errorMessage').length > 0;
   }
 
   onPageClick() {
     if (!this.isHovering) {
+      emptySearchStore();
       this.close();
+      window.removeEventListener('click', this.onPageClick);
     }
   }
 
   componentWillUnmount() {
     this.setState({isOpen: false, errorMessage: ''});
-    window.removeEventListener('mousedown', this.onPageClick);
   }
 
   close() {
@@ -62,7 +66,7 @@ class NewStockForm extends Component {
       <NewStockList stocks={stocks} token={token} />
     );
     const errorNode = (
-      <div className="form-alert--dark">
+      <div className="form-alert-warning--margin-top">
         <strong>{errorMessage}</strong>
       </div>
     );
@@ -75,13 +79,13 @@ class NewStockForm extends Component {
           className="new-stock-form"
           onMouseOver={() => this.isHovering = true}
           onMouseOut={() => this.isHovering = false}>
-          <form onSubmit={this.onSearchSubmit.bind(this)}>
-            <input
-              type="text"
-              ref="searchStock"
-              className="new-stock-form__search form-control"
-              placeholder="search stocks" />
-          </form>
+          <input
+            type="text"
+            ref="searchStock"
+            className="new-stock-form__search form-control"
+            placeholder="search stocks"
+            onChange={this.onSearchSubmit.bind(this)}
+            />
           {stocks.size > 0 && isOpen && !errorMessage ? preview : ''}
           {errorMessage ? errorNode : ''}
           {isLoading ? <Preloader /> : ''}

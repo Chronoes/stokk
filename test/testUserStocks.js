@@ -111,7 +111,7 @@ describe('User stock handler', () => {
           expect(stocks).to.be.an('array');
           expect(stocks).to.have.length.of.at.least(1);
           expect(stocks[0]).to.be.an('object');
-          expect(stocks[0]).to.have.any.keys('symbol', 'name', 'currentPrice', 'user_stock');
+          expect(stocks[0]).to.have.any.keys('symbol', 'name', 'currentPrice', 'user_stock', 'history');
           done();
         });
     });
@@ -138,7 +138,7 @@ describe('User stock handler', () => {
             expect(res).to.have.status(200);
             const {message, stock} = res.body;
             expect(message).to.have.length.above(0);
-            expect(stock).to.have.any.keys('symbol', 'name', 'change');
+            expect(stock).to.have.any.keys('symbol', 'name', 'change', 'history');
             expect(stock.change).to.not.be.null;
             resolve();
           });
