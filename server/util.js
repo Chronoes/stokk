@@ -93,8 +93,7 @@ export function bulkUpdateHistory(stocks, betweenDates) {
         getStockByDate(stocks.map(stock => stock.symbol), ...betweenDates)
         .then(results => database.transaction(act =>
             Promise.all(stocks.map((stock, i) => {
-              const history = histories[i];
-              const historyDates = history.map(object => moment.utc(object.date));
+              const historyDates = histories[i].map(object => moment.utc(object.date));
               return results[stock.symbol]
                 .filter(result => !historyDates.some(date => date.isSame(result.date, 'day')))
                 .map(result => stock.createHistory(result, {transaction: act}));
@@ -103,6 +102,27 @@ export function bulkUpdateHistory(stocks, betweenDates) {
         .catch(reject));
     }
     return Promise.resolve(histories);
+  });
+}
+
+export function updateHistory(stock, betweenDates) {
+  return stock.getHistory({
+    where: {date: {$between: betweenDates}},
+  })
+  .then(history => {
+    if (isHistoryUpdateNeeded(history, ...betweenDates)) {
+      return new Promise((resolve, reject) =>
+        getStockByDate(stock.symbol, ...betweenDates)
+        .then(results => database.transaction(act => {
+          const historyDates = history.map(object => moment.utc(object.date));
+          return Promise.all(results[stock.symbol]
+            .filter(result => !historyDates.some(date => date.isSame(result.date, 'day')))
+            .map(result => stock.createHistory(result, {transaction: act})));
+        }))
+        .then(resolve)
+        .catch(reject));
+    }
+    return Promise.resolve(history);
   });
 }
 
