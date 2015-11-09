@@ -7,10 +7,11 @@ class UserDropdown extends Component {
     super(props);
     this.state = {isOpen: false};
     this.isHovering = false;
+    this.onPageClick = this.onPageClick.bind(this);
   }
 
   componentDidMount() {
-    window.addEventListener('mousedown', this.onPageClick.bind(this));
+    window.addEventListener('mousedown', this.onPageClick);
   }
 
   onPageClick() {
@@ -20,7 +21,7 @@ class UserDropdown extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('mousedown', this.onPageClick.bind(this));
+    window.removeEventListener('mousedown', this.onPageClick);
   }
 
   toggleOpen() {
