@@ -9,7 +9,7 @@ const DashboardStocks = ({stocks, token}) => {
       stock={stock}
       token={token}
       key={stock.id} />
-  ));
+  )).toArray();
 
   return (
     <div className="row">

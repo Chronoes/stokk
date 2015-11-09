@@ -45,7 +45,7 @@ class UserStocksStore {
 
   onDeleteUserStockSuccess(symbol) {
     this.setState(this.state
-      .set('stocks', this.state.delete(this.state.find(stock => stock.symbol === symbol)))
+      .update('stocks', stocks => stocks.delete(stocks.findIndex(stock => stock.symbol === symbol)))
       .set('errorMessage', '')
       .set('isLoading', false));
   }
