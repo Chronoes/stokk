@@ -2,6 +2,7 @@ import React from 'react';
 
 import StrikedText from './StrikedText';
 import StockCard from './StockCard';
+import Alert from './Alert';
 
 const DashboardStocks = ({stocks, token}) => {
   const stockNodes = stocks.map(stock => (
@@ -18,7 +19,7 @@ const DashboardStocks = ({stocks, token}) => {
           Your stocks
         </StrikedText>
         <div className="dashboard__section">
-          {stockNodes}
+          {stocks.size ? stockNodes : <Alert message="No stocks added yet, add one below." type="info" />}
         </div>
       </div>
     </div>

@@ -20,6 +20,7 @@ const StockGraph = ({dataset}) => {
     toolTipEvents: ['mouseover', 'mousemove', 'touchstart', 'touchmove'],
     pointHitDetectionRadius: 2,
     responsive: true,
+    bezierCurve: false,
   };
   return (
     <LineChart
