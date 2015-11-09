@@ -16,7 +16,8 @@ users.param('id', paramIdHandler);
 
 users.route('/:id/stocks')
   .get(stocksHandler)
-  .post(stockAddHandler)
-  .delete(stockRemoveHandler);
+  .post(stockAddHandler);
+
+users.delete('/:id/stocks/:symbol', stockRemoveHandler);
 
 export default users;

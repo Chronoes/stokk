@@ -1,5 +1,5 @@
 import alt from '../altInstance';
-import {getStocksWithToken, addNewStockWithToken} from '../services/apiService';
+import {getStocksWithToken, addNewStockWithToken, deleteStockWithToken} from '../services/apiService';
 import createGenericErrorHandler from '../services/genericErrorHandlerFactory';
 
 @alt.createActions
@@ -11,6 +11,23 @@ class UserStocksActions {
     getStocksWithToken(token)
       .then(response => getUserStocksSuccess(response.data.stocks))
       .catch(createGenericErrorHandler(getUserStocksError));
+  }
+
+  deleteUserStockWithToken(stockSymbol, token) {
+    this.dispatch();
+    const {deleteUserStockSuccess, deleteUserStockError} = this.actions;
+
+    deleteStockWithToken(stockSymbol, token)
+      .then(() => deleteUserStockSuccess(stockSymbol))
+      .catch(createGenericErrorHandler(deleteUserStockError));
+  }
+
+  deleteUserStockSuccess(stockSymbol) {
+    this.dispatch(stockSymbol);
+  }
+
+  deleteUserStockError(error) {
+    this.dispatch(error);
   }
 
   getUserStocksSuccess(stocks) {

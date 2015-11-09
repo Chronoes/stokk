@@ -3,10 +3,11 @@ import React from 'react';
 import StrikedText from './StrikedText';
 import StockCard from './StockCard';
 
-const DashboardStocks = ({stocks}) => {
+const DashboardStocks = ({stocks, token}) => {
   const stockNodes = stocks.map(stock => (
     <StockCard
       stock={stock}
+      token={token}
       key={stock.id} />
   ));
 

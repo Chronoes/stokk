@@ -1,4 +1,4 @@
-import {get, post} from 'axios';
+import axios, {get, post} from 'axios';
 import {decode} from 'jsonwebtoken';
 
 class ApiService {
@@ -19,7 +19,7 @@ class ApiService {
       const {id} = decode(token);
       return get(`/api/users/${id}/stocks`, ApiService.createAuthenticatedConfig(token));
     }
-    throw new Error('Need token to get stocks!');
+    return new Error('Need token to get stocks!');
   }
 
   static addNewStockWithToken(symbol, token) {
@@ -27,11 +27,19 @@ class ApiService {
       const {id} = decode(token);
       return post(`/api/users/${id}/stocks`, {symbol}, ApiService.createAuthenticatedConfig(token));
     }
-    throw new Error('Need token to get stocks!');
+    return new Error('Need token to get stocks!');
   }
 
   static searchStocks(searchString) {
     return get(`api/stocks/${searchString}`);
+  }
+
+  static deleteStockWithToken(symbol, token) {
+    if (token) {
+      const {id} = decode(token);
+      return axios.delete(`/api/users/${id}/stocks/${symbol}`, ApiService.createAuthenticatedConfig(token));
+    }
+    return new Error('Need token to delete stocks!');
   }
 }
 

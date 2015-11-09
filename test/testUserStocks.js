@@ -183,17 +183,13 @@ describe('User stock handler', () => {
   context('DELETE request', () => {
     it('should delete stock for user', done => {
       const id = 1;
-      const route = makeRoute(id);
+      const route = makeRoute(id) + '/YHOO';
       const token = tokens[id];
-      const mockRequest = {
-        symbol: 'YHOO',
-      };
 
       const waitRequest = new Promise((resolve, reject) => {
         request(server)
           .del(route)
           .set('Authorization', `Bearer ${token}`)
-          .send(mockRequest)
           .end((err, res) => {
             if (err) {
               return reject(err);
@@ -208,7 +204,7 @@ describe('User stock handler', () => {
         .then(() =>
           User.findById(id))
         .then(user =>
-          Stock.findOne({where: {symbol: mockRequest.symbol}})
+          Stock.findOne({where: {symbol: 'YHOO'}})
             .then(stock => user.hasStock(stock)))
         .then(exists => {
           expect(exists).to.be.false;
@@ -219,16 +215,12 @@ describe('User stock handler', () => {
 
     it('should return Not Found when stock does not exist for user', done => {
       const id = 3;
-      const route = makeRoute(id);
+      const route = makeRoute(id) + '/GOOG';
       const token = tokens[id];
-      const mockRequest = {
-        symbol: 'GOOG',
-      };
 
       request(server)
         .del(route)
         .set('Authorization', `Bearer ${token}`)
-        .send(mockRequest)
         .end((err, res) => {
           if (err) {
             return done(err);
