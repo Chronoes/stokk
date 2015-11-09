@@ -25,36 +25,25 @@
   font-family: SanFranciscoThin;
 }
 
-.form-alert-danger {
+.form-alert {
   @extend .alert;
   @extend .alert-danger;
-  background-color: $red-alert;
   border: 0;
   color: $main-background;
 
-  &--margin-bottom {
-    @extend .alert;
-    @extend .alert-danger;
+  &.--danger {
     background-color: $red-alert;
-    border: 0;
-    color: $main-background;
-    margin-bottom: 15px;
   }
-}
 
-.form-alert-warning {
-  @extend .alert;
-  @extend .alert-danger;
-  background-color: $yellow-alert;
-  border: 0;
-  color: $main-background;
-
-  &--margin-top {
-    @extend .alert;
-    @extend .alert-danger;
+  &.--warning {
     background-color: $yellow-alert;
-    border: 0;
-    color: $main-background;
+  }
+
+  &.--margin-top {
     margin-top: 5px;
+  }
+
+  &.--margin-bottom {
+    margin-bottom: 15px;
   }
 }
