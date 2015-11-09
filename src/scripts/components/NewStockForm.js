@@ -41,7 +41,11 @@ class NewStockForm extends Component {
     if (searchString.length === 0) {
       this.setState({isOpen: false, errorMessage: 'Please enter a stock symbol or a part of it\'s name.'});
     } else {
-      searchStocks(searchString);
+      if (searchString.length > 35) {
+        this.setState({isOpen: false, errorMessage: 'This input is too long.'});
+      } else {
+        searchStocks(searchString);
+      }
     }
   }
 
