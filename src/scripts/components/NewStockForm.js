@@ -87,13 +87,20 @@ class NewStockForm extends Component {
           className="new-stock-form"
           onMouseOver={() => this.isHovering = true}
           onMouseOut={() => this.isHovering = false}>
-          <input
-            type="text"
-            ref="searchStock"
-            className="new-stock-form__search form-control"
-            placeholder="search stocks"
-            onChange={this.onInputChange.bind(this)}
-            />
+          <div className="new-stock-form input-group">
+            <span
+              className="new-stock-form__search-icon-container input-group-addon"
+              id="basic-addon1">
+              <span className="new-stock-form__search-icon"></span>
+            </span>
+            <input
+              type="text"
+              ref="searchStock"
+              className="new-stock-form__search form-control"
+              placeholder="search stocks"
+              aria-describedby="basic-addon1"
+              onChange={this.onInputChange.bind(this)} />
+          </div>
           {stocks.size > 0 && isOpen && !errorMessage ? preview : ''}
           {errorMessage ? alert : ''}
           {isLoading ? <Preloader /> : ''}

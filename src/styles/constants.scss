@@ -6,6 +6,8 @@ $button-text: rgba(255, 255, 255, 0.498039);
 $button-hover-text: rgba(255, 255, 255, 0.75);
 $red-alert: #9c5656;
 $yellow-alert: #dfdf84;
+$fa-font-path:"/fonts/";
+@import "../../node_modules/font-awesome/scss/font-awesome";
 
 @font-face {
   font-family: SanFranciscoThin;
@@ -20,6 +22,11 @@ $yellow-alert: #dfdf84;
 @font-face {
   font-family: SanFranciscoRegular;
   src: local('SFNS Display Regular'), url('/fonts/SystemSanFranciscoDisplayRegular.ttf');
+}
+
+@font-face {
+  font-family: SanFranciscoUltralight;
+  src: local('SFNS Display Ultralight'), url('/fonts/SystemSanFranciscoDisplayUltralight.ttf');
 }
 
 @font-face {

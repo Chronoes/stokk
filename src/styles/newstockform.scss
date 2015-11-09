@@ -2,13 +2,25 @@
 
 .new-stock-form {
   font-family: SanFranciscoRegular;
-  margin: 25px auto;
+  margin: 25px auto 0;
   max-width: 500px;
+
+  &__search-icon-container {
+    background-color: $grey-accent;
+    border: 0;
+  }
+
+  &__search-icon {
+    @extend .fa;
+    @extend .fa-search;
+    color: $button-text;
+  }
 }
 
 .stock-preview {
   color: #fff;
   margin: 5px 0;
+  padding: 0 2px;
   text-align: right;
 
   &__symbol {
