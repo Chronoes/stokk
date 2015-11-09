@@ -32,7 +32,6 @@ class StockCard extends Component {
         <button
           className="stock-card__close-button"
           onClick={() => deleteUserStockWithToken(symbol, token)}>
-          &times;
         </button>
         <br />
         <span className="stock-card__price-text">

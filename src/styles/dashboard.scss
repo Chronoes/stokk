@@ -29,7 +29,10 @@ canvas {
 
   &__close-button {
     @extend .close;
+    @extend .fa;
+    @extend .fa-times;
     color: #666;
+    text-shadow: none;
 
     &:hover {
       color: #fff;
