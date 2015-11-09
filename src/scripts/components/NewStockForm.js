@@ -22,11 +22,12 @@ class NewStockForm extends Component {
     const errorMessage = searchStocksState.get('errorMessage');
     const isLoading = searchStocksState.get('isLoading');
     const stocksSize = searchStocksState.get('stocks').size;
-    this.setState({isOpen: !isLoading, errorMessage: errorMessage});
+    this.setState({isOpen: true, errorMessage: errorMessage});
     if (!isLoading && (stocksSize > 0 || errorMessage.length)) window.addEventListener('click', this.onPageClick);
   }
 
   onSearchSubmit() {
+    emptySearchStore();
     const searchString = this.refs.searchStock.value.trim();
     if (searchString.length === 0) {
       this.setState({isOpen: false, errorMessage: 'Please enter a stock symbol or a part of it\'s name.'});
@@ -34,6 +35,11 @@ class NewStockForm extends Component {
       searchStocks(searchString);
       this.setState({isOpen: false});
     }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const {searchStocksState} = nextProps;
+    return searchStocksState.get('stocks').size > 0 || searchStocksState.get('errorMessage').length > 0;
   }
 
   onPageClick() {
