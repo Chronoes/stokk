@@ -14,6 +14,7 @@ class NewStockForm extends Component {
       errorMessage: '',
     };
     this.isHovering = false;
+    this.onPageClick = this.onPageClick.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,7 +36,7 @@ class NewStockForm extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('mousedown', this.onPageClick.bind(this));
+    window.addEventListener('mousedown', this.onPageClick);
   }
 
   onPageClick() {
@@ -46,7 +47,7 @@ class NewStockForm extends Component {
 
   componentWillUnmount() {
     this.setState({isOpen: false, errorMessage: ''});
-    window.removeEventListener('mousedown', this.onPageClick.bind(this));
+    window.removeEventListener('mousedown', this.onPageClick);
   }
 
   close() {
