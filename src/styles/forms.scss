@@ -24,26 +24,3 @@
   color: white;
   font-family: SanFranciscoThin;
 }
-
-.form-alert {
-  @extend .alert;
-  @extend .alert-danger;
-  border: 0;
-  color: $main-background;
-
-  &.--danger {
-    background-color: $red-alert;
-  }
-
-  &.--warning {
-    background-color: $yellow-alert;
-  }
-
-  &.--margin-top {
-    margin-top: 5px;
-  }
-
-  &.--margin-bottom {
-    margin-bottom: 15px;
-  }
-}

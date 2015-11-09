@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import Alert from './Alert';
 import Preloader from './Preloader';
 import {login} from '../actions/AuthenticationActions';
 import RegisterForm from './RegisterForm';
@@ -42,10 +43,8 @@ class LoginForm extends Component {
   render() {
     const {isLoading} = this.props;
     const {errorMessage} = this.state;
-    const errorNode = (
-      <div className="form-alert --danger --margin-bottom">
-        <strong>{errorMessage}</strong>
-      </div>
+    const alert = (
+      <Alert message={errorMessage} type="danger" />
     );
     const submitButton = (
       <input
@@ -75,7 +74,7 @@ class LoginForm extends Component {
                 placeholder="password" />
             </div>
 
-            {errorMessage ? errorNode : ''}
+            {errorMessage ? alert : ''}
 
             <div className="form-group btn-form">
               {isLoading ? <Preloader /> : submitButton}

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import Alert from './Alert';
 import Preloader from './Preloader';
 import StrikedText from './StrikedText';
 import NewStockList from './NewStockList';
@@ -65,10 +66,8 @@ class NewStockForm extends Component {
     const preview = (
       <NewStockList stocks={stocks} token={token} />
     );
-    const errorNode = (
-      <div className="form-alert --warning --margin-top">
-        <strong>{errorMessage}</strong>
-      </div>
+    const alert = (
+      <Alert message={errorMessage} type="warning" margin="top" />
     );
     return (
       <div>
@@ -87,7 +86,7 @@ class NewStockForm extends Component {
             onChange={this.onSearchSubmit.bind(this)}
             />
           {stocks.size > 0 && isOpen && !errorMessage ? preview : ''}
-          {errorMessage ? errorNode : ''}
+          {errorMessage ? alert : ''}
           {isLoading ? <Preloader /> : ''}
         </div>
       </div>
