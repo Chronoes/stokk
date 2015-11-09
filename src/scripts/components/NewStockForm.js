@@ -21,7 +21,9 @@ class NewStockForm extends Component {
     const {searchStocksState} = nextProps;
     const errorMessage = searchStocksState.get('errorMessage');
     const isLoading = searchStocksState.get('isLoading');
+    const stocksSize = searchStocksState.get('stocks').size;
     this.setState({isOpen: !isLoading, errorMessage: errorMessage});
+    if (!isLoading && (stocksSize > 0 || errorMessage.length)) window.addEventListener('mousedown', this.onPageClick);
   }
 
   onSearchSubmit(event) {
@@ -35,20 +37,16 @@ class NewStockForm extends Component {
     }
   }
 
-  componentDidMount() {
-    window.addEventListener('mousedown', this.onPageClick);
-  }
-
   onPageClick() {
     if (!this.isHovering) {
       emptySearchStore();
       this.close();
+      window.removeEventListener('mousedown', this.onPageClick);
     }
   }
 
   componentWillUnmount() {
     this.setState({isOpen: false, errorMessage: ''});
-    window.removeEventListener('mousedown', this.onPageClick);
   }
 
   close() {

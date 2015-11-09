@@ -25,14 +25,24 @@
   font-family: SanFranciscoThin;
 }
 
-.form-alert {
+.form-alert-danger {
   @extend .alert;
   @extend .alert-danger;
-  margin-bottom: 15px;
+  background-color: $red-alert;
+  border: 0;
+  color: $main-background;
+  &--margin-bottom {
+    margin-bottom: 15px;
+  }
+}
 
+.form-alert-warning {
+  @extend .alert;
+  @extend .alert-danger;
+  background-color: $yellow-alert;
+  border: 0;
+  color: $main-background;
   &--margin-top {
-    @extend .alert;
-    @extend .alert-danger;
     margin-top: 5px;
   }
 }
