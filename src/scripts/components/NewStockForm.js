@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import Preloader from './Preloader';
 import StrikedText from './StrikedText';
 import NewStockList from './NewStockList';
-import {searchStocks} from '../actions/SearchStocksActions';
+import {searchStocks, emptySearchStore} from '../actions/SearchStocksActions';
 
 class NewStockForm extends Component {
 
@@ -41,6 +41,7 @@ class NewStockForm extends Component {
 
   onPageClick() {
     if (!this.isHovering) {
+      emptySearchStore();
       this.close();
     }
   }
