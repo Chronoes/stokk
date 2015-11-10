@@ -15,6 +15,11 @@ canvas {
     font-family: SanFranciscoRegular;
     padding: 50px 0;
   }
+
+  &__info-alert {
+    margin: auto;
+    width: 500px;
+  }
 }
 
 .stock-card {

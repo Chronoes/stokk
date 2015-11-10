@@ -19,7 +19,7 @@ const DashboardStocks = ({stocks, token}) => {
           Your stocks
         </StrikedText>
         <div className="dashboard__section">
-          {stocks.size ? stockNodes : <Alert message="No stocks added yet, add one below." type="info" />}
+          {stocks.size ? stockNodes : <div className="dashboard__info-alert"><Alert message="No stocks added yet, add one below." type="info" /></div>}
         </div>
       </div>
     </div>
