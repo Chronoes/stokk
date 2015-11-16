@@ -1,5 +1,9 @@
 @import 'constants';
 
+.new-stock-form-container {
+  padding-bottom: 400px;
+}
+
 .new-stock-form {
   font-family: SanFranciscoRegular;
   margin: 25px auto 0;
@@ -54,15 +58,18 @@
     text-align: left;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 70%;
-    @include breakpoint(xxxs) {
+    width: 65%;
+    @include breakpoint(xxs) {
       width: 60%;
     }
-    @include breakpoint(xxxxs) {
+    @include breakpoint(xxxs) {
       width: 50%;
     }
+    @include breakpoint(xxxxs) {
+      width: 35%;
+    }
     @include breakpoint(xxxxxs) {
-      width: 40%;
+      width: 30%;
     }
   }
 }

@@ -51,7 +51,7 @@ class DashboardPage extends Component {
         <DashboardStocks
           stocks={stocks}
           token={token}/>
-        <NewStockForm searchStocksState={searchStocksState} token={token}/>
+        <NewStockForm searchStocksState={searchStocksState} userStocks={stocks} token={token}/>
       </div>
     );
   }
