@@ -6,16 +6,13 @@ import {deleteUserStockWithToken} from '../actions/UserStocksActions';
 class NewStockPreview extends Component {
 
   render() {
-    const {stock, userStocks, token} = this.props;
+    const {stock, stockExists, token, isLoading} = this.props;
     const {symbol, name} = stock;
-    const isInUserStocks = userStocks.some(element => {
-      return element.symbol === stock.symbol;
-    });
     const addButton = (
       <button
         onClick={() => addNewStockWithToken(symbol, token)}
         className="stock-preview__add-button btn btn-primary-outline">
-        add
+        {isLoading ? 'loading' : 'add'}
       </button>
     );
     const removeButton = (
@@ -31,7 +28,7 @@ class NewStockPreview extends Component {
         <span className="stock-preview__name">
           {name}
         </span>
-        {isInUserStocks ? removeButton : addButton}
+        {stockExists ? removeButton : addButton}
       </div>
     );
   }

@@ -38,6 +38,7 @@ class DashboardPage extends Component {
     const token = authState.get('token');
     const {email} = decode(token);
     const stocks = userStocksState.get('stocks');
+    const isLoading = userStocksState.get('isLoading');
 
     const stockAverage = stocks.reduce((acc, current) => (
         acc + parseFloat(current.change)
@@ -51,7 +52,11 @@ class DashboardPage extends Component {
         <DashboardStocks
           stocks={stocks}
           token={token}/>
-        <NewStockForm searchStocksState={searchStocksState} userStocks={stocks} token={token}/>
+        <NewStockForm
+          searchStocksState={searchStocksState}
+          userStocks={stocks}
+          isLoading={isLoading}
+          token={token}/>
       </div>
     );
   }

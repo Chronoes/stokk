@@ -9,7 +9,7 @@ class NewStockList extends Component {
   }
 
   render() {
-    const {stocks, token, errorMessage, userStocks} = this.props;
+    const {stocks, token, errorMessage, userStocks, isLoading} = this.props;
     const alert = (
       <Alert message={errorMessage} type="warning" margin="top" />
     );
@@ -18,7 +18,8 @@ class NewStockList extends Component {
       key={index}
       stock={stock}
       token={token}
-      userStocks={userStocks}/>
+      isLoading={isLoading === stock.symbol}
+      stockExists={userStocks.some(element => element.symbol === stock.symbol)}/>
     ));
     return (
       <div>

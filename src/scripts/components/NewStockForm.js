@@ -72,12 +72,12 @@ class NewStockForm extends Component {
   }
 
   render() {
-    const {searchStocksState, token, userStocks} = this.props;
+    const {searchStocksState, userStocks, token, isLoading} = this.props;
     const {errorMessage, isOpen} = this.state;
     const stocks = searchStocksState.get('stocks');
     this.isLoading = searchStocksState.get('isLoading');
     const preview = (
-      <NewStockList stocks={stocks} token={token} userStocks={userStocks} errorMessage={errorMessage} />
+      <NewStockList stocks={stocks} token={token} userStocks={userStocks} isLoading={isLoading} errorMessage={errorMessage} />
     );
     const loader = (
       <span className="new-stock-form__preloader"></span>

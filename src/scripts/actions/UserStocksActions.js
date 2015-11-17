@@ -14,7 +14,7 @@ class UserStocksActions {
   }
 
   deleteUserStockWithToken(stockSymbol, token) {
-    this.dispatch();
+    this.dispatch(stockSymbol);
     const {deleteUserStockSuccess, deleteUserStockError} = this.actions;
 
     deleteStockWithToken(stockSymbol, token)
@@ -39,7 +39,7 @@ class UserStocksActions {
   }
 
   addNewStockWithToken(stockSymbol, token) {
-    this.dispatch();
+    this.dispatch(stockSymbol);
     const {addNewStockSuccess, addNewStockError} = this.actions;
 
     addNewStockWithToken(stockSymbol, token)
