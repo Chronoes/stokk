@@ -2,8 +2,10 @@ import User from '../../models/User';
 import {compareSaltyHash, signToken} from '../../util';
 
 function doesNotExist(res, email) {
+  let dots = '';
+  if (email.length > 32) dots = '...';
   res.status(401).json({
-    message: `User ${email} does not exist or password is wrong.`,
+    message: `User ${email.substring(0, 32)}${dots} does not exist or password is wrong.`,
   });
 }
 export default (req, res) => {

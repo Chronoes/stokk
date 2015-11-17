@@ -7,7 +7,6 @@ class AuthenticationActions {
   login(email, password) {
     this.dispatch();
     const {loginError, loginSuccess} = this.actions;
-
     login(email, password)
       .then(response => loginSuccess(response.data.token))
       .catch(response => {

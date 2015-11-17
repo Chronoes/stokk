@@ -21,7 +21,6 @@ class LoginForm extends Component {
 
     const email = emailNode.value.trim();
     const password = passwordNode.value;
-
     const {errorMessages} = RegisterForm.validate(email, password);
 
     if (errorMessages.length) {
