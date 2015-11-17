@@ -19,7 +19,7 @@ class NewStockPreview extends Component {
       <button
         onClick={() => deleteUserStockWithToken(symbol, token)}
         className="stock-preview__add-button btn btn-primary-outline">
-        remove
+        {isLoading ? 'loading' : 'remove'}
       </button>
     );
     return (
