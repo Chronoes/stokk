@@ -83,14 +83,19 @@ function isHistoryUpdateNeeded(history, startDate, endDate) {
   return history.length < weekdays;
 }
 
+export function formatDates(dateList) {
+  return dateList.map(date => date.format('YYYY-MM-DD'));
+}
+
 export function bulkUpdateHistory(stocks, betweenDates) {
+  const formattedDates = formatDates(betweenDates);
   return Promise.all(stocks.map(stock => stock.getHistory({
-    where: {date: {$between: betweenDates}},
+    where: {date: {$between: formattedDates}},
   })))
   .then(histories => {
-    if (histories.some(history => isHistoryUpdateNeeded(history, ...betweenDates))) {
+    if (histories.some(history => isHistoryUpdateNeeded(history, ...formattedDates))) {
       return new Promise((resolve, reject) =>
-        getStockByDate(stocks.map(stock => stock.symbol), ...betweenDates)
+        getStockByDate(stocks.map(stock => stock.symbol), ...formattedDates)
         .then(results => database.transaction(act =>
             Promise.all(stocks.map((stock, i) => {
               const historyDates = histories[i].map(object => moment.utc(object.date));
@@ -106,13 +111,14 @@ export function bulkUpdateHistory(stocks, betweenDates) {
 }
 
 export function updateHistory(stock, betweenDates) {
+  const formattedDates = formatDates(betweenDates);
   return stock.getHistory({
-    where: {date: {$between: betweenDates}},
+    where: {date: {$between: formattedDates}},
   })
   .then(history => {
-    if (isHistoryUpdateNeeded(history, ...betweenDates)) {
+    if (isHistoryUpdateNeeded(history, ...formattedDates)) {
       return new Promise((resolve, reject) =>
-        getStockByDate(stock.symbol, ...betweenDates)
+        getStockByDate(stock.symbol, ...formattedDates)
         .then(results => database.transaction(act => {
           const historyDates = history.map(object => moment.utc(object.date));
           return Promise.all(results[stock.symbol]

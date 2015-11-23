@@ -5,7 +5,6 @@ import {addNewStockWithToken} from '../actions/UserStocksActions';
 import {deleteUserStockWithToken} from '../actions/UserStocksActions';
 
 class NewStockPreview extends Component {
-
   render() {
     const {stock, stockExists, token, isLoading} = this.props;
     const {symbol, name} = stock;

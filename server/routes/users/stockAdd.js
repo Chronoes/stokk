@@ -7,14 +7,13 @@ export default (req, res) => {
   const {user} = req;
   const {symbol} = req.body;
   const betweenDates = [moment.utc().subtract(stockHistoryTimeLimit), moment.utc()];
-  const formattedDates = betweenDates.map(date => date.format('YYYY-MM-DD'));
   return Stock.findOne({where: {symbol}})
   .then(stock => {
     if (stock !== null) {
       return updateDatabase(stock)
       .then(updatedStock => user.addStock(updatedStock))
       .then(() => reloadFromDatabase(stock))
-      .then(() => updateHistory(stock, formattedDates)
+      .then(() => updateHistory(stock, betweenDates)
         .then(history => {
           const stockWithHistory = stock.toJSON();
           stockWithHistory.history = history;

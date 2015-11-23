@@ -201,14 +201,14 @@ describe('Utility functions', () => {
         getHistory: () => Promise.resolve([]),
         createHistory: result => Promise.resolve(result),
       };
-      const betweenDates = ['2015-11-05', '2015-11-06'];
+      const betweenDates = [moment('2015-11-05'), moment('2015-11-06')];
 
       util.updateHistory(mockStock, betweenDates)
       .then(history => {
         expect(history).to.be.an('array');
         expect(history).to.have.length(2);
         expect(history[0]).to.have.all.keys('date', 'open', 'close', 'high', 'low');
-        expect(history[0].date).to.equal(betweenDates[1]);
+        expect(history[0].date).to.equal(betweenDates[1].format('YYYY-MM-DD'));
         done();
       })
       .catch(done);
@@ -236,7 +236,7 @@ describe('Utility functions', () => {
         getHistory: () => Promise.resolve(originalHistory),
         createHistory: () => Promise.resolve(),
       };
-      const betweenDates = ['2015-11-05', '2015-11-06'];
+      const betweenDates = [moment('2015-11-05'), moment('2015-11-06')];
 
       util.updateHistory(mockStock, betweenDates)
       .then(history => {
@@ -260,7 +260,7 @@ describe('Utility functions', () => {
           createHistory: result => Promise.resolve(result),
         },
       ];
-      const betweenDates = ['2015-11-05', '2015-11-06'];
+      const betweenDates = [moment('2015-11-05'), moment('2015-11-06')];
 
       util.bulkUpdateHistory(mockStocks, betweenDates)
       .then(histories => {
@@ -270,11 +270,19 @@ describe('Utility functions', () => {
           .then(newHistory => {
             expect(newHistory).to.be.an('array');
             expect(newHistory[0]).to.have.all.keys('date', 'open', 'close', 'high', 'low');
-            expect(newHistory[0].date).to.equal(betweenDates[1]);
+            expect(newHistory[0].date).to.equal(betweenDates[1].format('YYYY-MM-DD'));
             done();
           });
       })
       .catch(done);
+    });
+  });
+
+  context('#formatDates', () => {
+    it('should return an array of formatted dates', () => {
+      const originalDates = ['2015-11-11', '2015-07-23'];
+      const momentDates = originalDates.map(date => moment(date));
+      expect(util.formatDates(momentDates)).to.deep.equal(originalDates);
     });
   });
 });

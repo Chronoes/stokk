@@ -5,6 +5,7 @@ import App from './components/App';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
+import StockPage from './pages/StockPage';
 
 import AuthenticationStore from './stores/AuthenticationStore';
 import AuthenticationActions from './actions/AuthenticationActions';
@@ -21,5 +22,6 @@ export default (
     <IndexRoute component={DashboardPage} onEnter={requireAuth} />
     <Route path="login" component={LoginPage} />
     <Route path="register" component={RegisterPage} />
+    <Route path="stock/:id" component={StockPage} onEnter={requireAuth} />
   </Route>
 );

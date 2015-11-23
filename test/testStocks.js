@@ -7,14 +7,14 @@ chai.use(supertestChai.httpAsserts);
 
 describe('Stock handler', () => {
   const route = '/api/stocks';
-  const symbolRoute = symbol => `/api/stocks/${symbol}`;
+  const searchRoute = searchString => `/api/stocks/${searchString}`;
 
   let server;
   before(() => {
     server = app.listen(1338);
   });
 
-  context('GET request', () => {
+  context('GET request /api/stocks', () => {
     it('should get all stocks in database', done => {
       request(server)
         .get(route)
@@ -31,10 +31,11 @@ describe('Stock handler', () => {
           done();
         });
     });
-
-    it('should get stock by given symbol', done => {
+  });
+  context('GET request /api/stocks/:searchString', () => {
+    it('should search stocks by given symbol', done => {
       request(server)
-        .get(symbolRoute('GOOG'))
+        .get(searchRoute('GOOG'))
         .end((err, res) => {
           if (err) {
             done(err);
@@ -49,9 +50,38 @@ describe('Stock handler', () => {
         });
     });
 
+    it('should get stock by ID if string is numerical', done => {
+      request(server)
+        .get(searchRoute('1'))
+        .end((err, res) => {
+          if (err) {
+            done(err);
+          }
+          expect(res).to.have.status(200);
+          const {message, stock} = res.body;
+          expect(message).to.have.length.above(0);
+          expect(stock).to.have.any.keys('symbol', 'name', 'change', 'history');
+          expect(stock.history).to.be.an('array');
+          done();
+        });
+    });
+
     it('should return Not Found with no results', done => {
       request(server)
-        .get(symbolRoute('JBOYS'))
+        .get(searchRoute('JBOYS'))
+        .end((err, res) => {
+          if (err) {
+            done(err);
+          }
+          expect(res).to.have.status(404);
+          expect(res.body.message).to.have.length.above(0);
+          done();
+        });
+    });
+
+    it('should return Not Found with no existing ID', done => {
+      request(server)
+        .get(searchRoute('420'))
         .end((err, res) => {
           if (err) {
             done(err);

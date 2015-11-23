@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router';
 
 import StockGraph from './StockGraph';
 import {deleteUserStockWithToken} from '../actions/UserStocksActions';
@@ -24,7 +25,8 @@ class StockCard extends Component {
     const isPositive = change.charAt(0) === '+';
     const dataset = history.map(dataPoint => dataPoint.close).reverse();
     return (
-      <div
+      <Link
+        to={`/stock/${stock.id}`}
         className="stock-card"
         onMouseOver={() => this.startHovering()}
         onMouseOut={() => this.endHovering()}>
@@ -41,7 +43,7 @@ class StockCard extends Component {
           {change}
         </span>
         <StockGraph dataset={dataset} />
-      </div>
+      </Link>
     );
   }
 }
