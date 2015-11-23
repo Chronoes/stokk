@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import Preloader from './Preloader';
 import StrikedText from './StrikedText';
 import NewStockList from './NewStockList';
 import {searchStocks, emptySearchStore} from '../actions/SearchStocksActions';
@@ -79,32 +80,34 @@ class NewStockForm extends Component {
     const preview = (
       <NewStockList stocks={stocks} token={token} userStocks={userStocks} isLoading={isLoading} errorMessage={errorMessage} />
     );
-    const loader = (
-      <span className="new-stock-form__preloader"></span>
-    );
     return (
-      <div className="new-stock-form-container">
+      <div>
         <StrikedText>
           Add stocks
         </StrikedText>
         <div
-          className="new-stock-form"
+          className="new-stock-container"
           onMouseOver={() => this.isHovering = true}
           onMouseOut={() => this.isHovering = false}>
-          <div className="new-stock-form input-group">
-            <span
-              className="new-stock-form__search-icon-container input-group-addon"
-              id="basic-addon1">
-              <span className="new-stock-form__search-icon"></span>
-            </span>
-            <input
-              type="text"
-              ref="searchStock"
-              className="new-stock-form__search form-control"
-              placeholder="search stocks"
-              aria-describedby="basic-addon1"
-              onChange={this.onInputChange.bind(this)} />
-              <span className="new-stock-form__preloader-container input-group-addon">{this.isLoading ? loader : ''}</span>
+          <div
+            className="new-stock-form">
+            <div className="input-group">
+              <span
+                className="input-group-addon"
+                id="basic-addon1">
+                <span className="new-stock-form__search-icon"></span>
+              </span>
+              <input
+                type="text"
+                ref="searchStock"
+                className="form-control"
+                placeholder="search stocks"
+                onChange={this.onInputChange.bind(this)} />
+              <span
+                className="input-group-addon">
+                {this.isLoading ? <Preloader /> : ''}
+              </span>
+            </div>
           </div>
           {isOpen ? preview : ''}
         </div>

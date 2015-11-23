@@ -1,0 +1,80 @@
+@import 'constants';
+
+.new-stock-container {
+  margin: 25px auto 0;
+  max-width: 500px;
+  padding-bottom: 400px;
+}
+
+.new-stock-form {
+  font-family: SanFranciscoRegular;
+
+  &__search-icon {
+    @extend .fa;
+    @extend .fa-search;
+    color: $button-text;
+  }
+}
+
+.preloader-image {
+  height: 24px;
+}
+
+.input-group {
+  width: 100%;
+}
+
+.input-group-addon {
+  background-color: $grey-accent;
+  border: 0;
+  width: 48px;
+}
+
+.stock-preview {
+  color: #fff;
+  margin: 5px 0;
+  padding: 0 2px;
+  text-align: right;
+
+  &__symbol {
+    float: left;
+    padding: 6px 0;
+    text-align: left;
+    width: 70px;
+  }
+
+  &__name {
+    -o-text-overflow: ellipsis;
+    float: left;
+    overflow: hidden;
+    padding: 6px 0;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 65%;
+    @include breakpoint(xxs) {
+      width: 60%;
+    }
+    @include breakpoint(xxxs) {
+      width: 50%;
+    }
+    @include breakpoint(xxxxs) {
+      width: 35%;
+    }
+    @include breakpoint(xxxxxs) {
+      width: 30%;
+    }
+  }
+
+  &__button {
+    background-color: #1787b1;
+    border: 0;
+    color: $main-background;
+    width: 85px;
+
+    &:hover {
+      background-color: #1ca2d4;
+      color: $main-background;
+    }
+  }
+}
