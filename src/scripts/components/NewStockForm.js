@@ -11,6 +11,7 @@ class NewStockForm extends Component {
     this.state = {
       isOpen: false,
       errorMessage: '',
+      vaporWave: false,
     };
     this.isHovering = false;
     this.onPageClick = this.onPageClick.bind(this);
@@ -29,19 +30,21 @@ class NewStockForm extends Component {
 
   onInputChange() {
     clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      this.submitSearch();
-    }, 200);
+    this.timer = setTimeout(() => this.submitSearch(), 200);
   }
 
   submitSearch() {
     emptySearchStore();
     const searchString = this.refs.searchStock.value.trim();
+    clearInterval(this.vaporWaveImage);
     if (searchString.length === 0) {
-      this.setState({isOpen: true, errorMessage: 'Please enter a stock symbol or a part of it\'s name.'});
+      this.setState({isOpen: true, errorMessage: 'Please enter a stock symbol or a part of it\'s name.', vaporWave: false});
     } else if (searchString.length > 35) {
-      this.setState({isOpen: true, errorMessage: `Stock "${searchString.substring(0, 34)}..." does not exist.`});
+      this.setState({isOpen: true, errorMessage: `Stock "${searchString.substring(0, 34)}..." does not exist.`, vaporWave: false});
+    } else if (searchString === '420') {
+      this.setState({isOpen: true, errorMessage: '420 blaze it.', vaporWave: true});
     } else {
+      this.setState({vaporWave: false});
       this.isLoading = true;
       searchStocks(searchString);
     }
@@ -73,7 +76,7 @@ class NewStockForm extends Component {
 
   render() {
     const {searchStocksState, userStocks, token, isLoading} = this.props;
-    const {errorMessage, isOpen} = this.state;
+    const {errorMessage, isOpen, vaporWave} = this.state;
     const stocks = searchStocksState.get('stocks');
     this.isLoading = searchStocksState.get('isLoading');
     const preview = (
@@ -107,6 +110,11 @@ class NewStockForm extends Component {
               <span className="new-stock-form__preloader-container input-group-addon">{this.isLoading ? loader : ''}</span>
           </div>
           {isOpen ? preview : ''}
+          {vaporWave ? (
+            <div className="vaporwave-container">
+              <audio autoPlay><source src="vaporwave.ogg" type="audio/ogg" /></audio>
+              <img src="vaporwave.jpg" />
+            </div>) : ''}
         </div>
       </div>
     );
