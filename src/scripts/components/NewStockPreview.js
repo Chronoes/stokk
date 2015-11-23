@@ -7,18 +7,25 @@ class NewStockPreview extends Component {
   render() {
     const {stock, stockExists, token, isLoading} = this.props;
     const {symbol, name} = stock;
+    const loader = (
+      <span className="new-stock-form__preloader --background"></span>
+    );
     const addButton = (
       <button
         onClick={() => addNewStockWithToken(symbol, token)}
-        className="stock-preview__add-button btn btn-primary-outline">
-        {isLoading ? 'loading' : 'add'}
+        className="stock-preview__button btn btn-primary"
+        ref="stockPreviewButton"
+        onFocus={() => this.refs.stockPreviewButton.blur()}>
+        {isLoading ? loader : 'add'}
       </button>
     );
     const removeButton = (
       <button
         onClick={() => deleteUserStockWithToken(symbol, token)}
-        className="stock-preview__add-button btn btn-primary-outline">
-        {isLoading ? 'loading' : 'remove'}
+        className="stock-preview__button btn btn-primary"
+        ref="stockPreviewButton"
+        onFocus={() => this.refs.stockPreviewButton.blur()}>
+        {isLoading ? loader : 'remove'}
       </button>
     );
     return (

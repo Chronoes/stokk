@@ -6,13 +6,13 @@ canvas {
 }
 
 .dashboard {
+  font-family: SanFranciscoRegular;
+
   &__heading {
     color: #fff;
-    font-family: SanFranciscoRegular;
   }
 
   &__section {
-    font-family: SanFranciscoRegular;
     padding: 50px 0;
   }
 

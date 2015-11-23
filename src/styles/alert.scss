@@ -7,17 +7,17 @@
 
   &.--danger {
     @extend .alert-danger;
-    background-color: $red-alert;
+    background-color: $alert-background-danger;
   }
 
   &.--warning {
     @extend .alert-warning;
-    background-color: $yellow-alert;
+    background-color: $alert-background-warning;
   }
 
   &.--info {
     @extend .alert-info;
-    background-color: $blue-alert;
+    background-color: $alert-background-info;
   }
 
   &.--margin-top {

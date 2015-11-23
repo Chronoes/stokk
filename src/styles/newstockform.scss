@@ -34,6 +34,10 @@
     -webkit-animation: spin 1s infinite linear;
     animation: spin 1s infinite linear;
     color: $button-text;
+
+    &.--background {
+      color: $main-background;
+    }
   }
 }
 
@@ -70,6 +74,18 @@
     }
     @include breakpoint(xxxxxs) {
       width: 30%;
+    }
+  }
+
+  &__button {
+    background-color: #1787b1;
+    border: 0;
+    color: $main-background;
+    width: 85px;
+
+    &:hover {
+      background-color: #1ca2d4;
+      color: $main-background;
     }
   }
 }
