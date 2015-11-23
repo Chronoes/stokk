@@ -1,16 +1,15 @@
 import moment from 'moment';
-import {bulkUpdateDatabase, bulkUpdateHistory, reloadFromDatabase} from '../../util';
+import {bulkUpdateDatabase, bulkUpdateHistory, reloadFromDatabase, formatDates} from '../../util';
 import {stockHistoryTimeLimit} from '../../conf';
 
 export default (req, res) => {
   const {user} = req;
   const betweenDates = [moment.utc().subtract(stockHistoryTimeLimit), moment.utc()];
-  const formattedDates = betweenDates.map(date => date.format('YYYY-MM-DD'));
   return user.getStocks()
     .then(stocks => bulkUpdateDatabase(stocks).then(() => reloadFromDatabase(stocks)))
-    .then(stocks => bulkUpdateHistory(stocks, formattedDates)
+    .then(stocks => bulkUpdateHistory(stocks, betweenDates)
       .then(() => Promise.all(stocks.map(stock => stock.getHistory({
-        where: {date: {$between: formattedDates}},
+        where: {date: {$between: formatDates(betweenDates)}},
       }))))
       .then(histories =>
         res.status(200).json({
