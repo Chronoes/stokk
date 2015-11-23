@@ -25,6 +25,15 @@ function resolveData(data) {
   };
 }
 
+function stockFilter(data) {
+  for (const key in data) {
+    if (data.hasOwnProperty(key) && data[key] === null) {
+      return false;
+    }
+  }
+  return true;
+}
+
 export function getStockBySymbol(symbol) {
   if (symbolCheck(symbol)) {
     const query = new YQL(`select * from yahoo.finance.quote where symbol in (${arrayToString(symbol)})`);
@@ -32,9 +41,13 @@ export function getStockBySymbol(symbol) {
       query.exec((error, response) => {
         if (error) return reject(error);
         const results = response.query.results;
-        if (results === null || results.quote.Name === null) return reject(null);
+        if (results === null) return reject(null);
         const data = results.quote;
-        return Array.isArray(data) ? resolve(data.map(resolveData)) : resolve(resolveData(data));
+        if (Array.isArray(data)) {
+          const filteredData = data.filter(stockFilter).map(resolveData);
+          return filteredData.length ? resolve(filteredData) : reject(null);
+        }
+        return stockFilter(data) ? resolve(resolveData(data)) : reject(null);
       });
     });
   }

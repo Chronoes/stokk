@@ -21,7 +21,7 @@ export default (req, res) => {
         })
         .catch(() => {
           res.status(400).json({
-            message: `Email "${email}" is incorrect.`,
+            message: `Email ${email.substring(0, 32)}... is incorrect.`,
           });
         });
     })

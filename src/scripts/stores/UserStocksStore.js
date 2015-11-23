@@ -14,7 +14,7 @@ class UserStocksStore {
     this.state = new Map({
       stocks: new List(),
       errorMessage: '',
-      isLoading: false,
+      isLoading: '',
     });
   }
 
@@ -37,10 +37,10 @@ class UserStocksStore {
       .set('isLoading', false));
   }
 
-  onDeleteUserStockWithToken() {
+  onDeleteUserStockWithToken(symbol) {
     this.setState(this.state
       .set('errorMessage', '')
-      .set('isLoading', true));
+      .set('isLoading', symbol));
   }
 
   onDeleteUserStockSuccess(symbol) {
@@ -56,10 +56,10 @@ class UserStocksStore {
       .set('isLoading', false));
   }
 
-  onAddNewStockWithToken() {
+  onAddNewStockWithToken(symbol) {
     this.setState(this.state
       .set('errorMessage', '')
-      .set('isLoading', true));
+      .set('isLoading', symbol));
   }
 
   onAddNewStockSuccess(stock) {
@@ -69,6 +69,12 @@ class UserStocksStore {
         return index === -1 ? currentStocks.unshift(stock) : currentStocks.delete(index).unshift(stock);
       })
       .set('errorMessage', '')
+      .set('isLoading', false));
+  }
+
+  onAddNewStockError(errorMessage) {
+    this.setState(this.state
+      .set('errorMessage', errorMessage)
       .set('isLoading', false));
   }
 }
