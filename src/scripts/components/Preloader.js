@@ -1,3 +1,5 @@
 import React from 'react';
 
-export default () => <img src="preloader.gif" className="preloader-image"/>;
+const Preloader = () => <img src="balls.svg" className="preloader-image"/>;
+Preloader.displayName = 'Preloader';
+export default Preloader;

@@ -1,0 +1,125 @@
+@-webkit-keyframes move {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(200px, 0);
+  }
+
+  50% {
+    transform: translate(200px, 200px);
+  }
+
+  75% {
+    transform: translate(0, 200px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@-moz-keyframes move {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(200px, 0);
+  }
+
+  50% {
+    transform: translate(200px, 200px);
+  }
+
+  75% {
+    transform: translate(0, 200px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@-o-keyframes move {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(200px, 0);
+  }
+
+  50% {
+    transform: translate(200px, 200px);
+  }
+
+  75% {
+    transform: translate(0, 200px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@-ms-keyframes move {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(200px, 0);
+  }
+
+  50% {
+    transform: translate(200px, 200px);
+  }
+
+  75% {
+    transform: translate(0, 200px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@-keyframes move {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(200px, 0);
+  }
+
+  50% {
+    transform: translate(200px, 200px);
+  }
+
+  75% {
+    transform: translate(0, 200px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.vaporwave-container {
+  -moz-animation: move 10s infinite linear;
+  -ms-animation: move 10s infinite linear;
+  -o-animation: move 10s infinite linear;
+  -webkit-animation: move 10s infinite linear;
+  animation: move 10s infinite linear;
+
+  & img {
+    -moz-animation: spin 5s infinite linear;
+    -ms-animation: spin 5s infinite linear;
+    -o-animation: spin 5s infinite linear;
+    -webkit-animation: spin 5s infinite linear;
+    animation: spin 5s infinite linear;
+  }
+}

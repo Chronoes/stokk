@@ -32,6 +32,7 @@ const directories = {
     styles: 'src/styles/**/*.scss',
     images: 'src/images/**/*',
     fonts: 'src/styles/fonts/*',
+    music: 'src/music/*',
   },
   test: 'test/**/*.js',
   server: 'server/**/*.js',
@@ -121,6 +122,12 @@ gulp.task('fonts', () => {
     .pipe(gulp.dest(directories.distribution + '/fonts'));
 });
 
+gulp.task('music', () => {
+  return gulp.src(directories.source.music)
+    .pipe(cache('music'))
+    .pipe(gulp.dest(directories.distribution));
+});
+
 gulp.task('js', () => {
   const opts = {
     entries: directories.source.main,
@@ -205,11 +212,11 @@ gulp.task('coverage:init', () => {
 });
 
 gulp.task('build', () => {
-  runSequence(['line-count', 'lint'], 'test', ['js', 'sass', 'html', 'images', 'fonts']);
+  runSequence(['line-count', 'lint'], 'test', ['js', 'sass', 'html', 'images', 'fonts', 'music']);
 });
 
 gulp.task('build:watch', () => {
-  runSequence(['line-count', 'lint:scripts', 'lint:sass'], ['js:watch', 'sass', 'html', 'images', 'fonts', 'env-development']);
+  runSequence(['line-count', 'lint:scripts', 'lint:sass'], ['js:watch', 'sass', 'html', 'images', 'fonts', 'music', 'env-development']);
 });
 
 gulp.task('build:watch:server', () => {
@@ -217,7 +224,7 @@ gulp.task('build:watch:server', () => {
 });
 
 gulp.task('build:production', () => {
-  runSequence(['line-count', 'lint'], 'test', ['js:production', 'sass:production', 'html:production', 'images', 'fonts']);
+  runSequence(['line-count', 'lint'], 'test', ['js:production', 'sass:production', 'html:production', 'images', 'fonts', 'music']);
 });
 
 gulp.task('watch:src', () => {
@@ -227,6 +234,7 @@ gulp.task('watch:src', () => {
       directories.source.styles,
       directories.source.images,
       directories.source.fonts,
+      directories.source.music,
     ], ['build:watch']);
 });
 

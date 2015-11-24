@@ -1,21 +1,20 @@
 import React, {Component} from 'react';
 
+import Preloader from './Preloader';
 import {deleteUserStockWithToken, addNewStockWithToken} from '../actions/UserStocksActions';
 
 class NewStockPreview extends Component {
   render() {
     const {stock, stockExists, token, isLoading} = this.props;
     const {symbol, name} = stock;
-    const loader = (
-      <span className="new-stock-form__preloader --background"></span>
-    );
+
     const addButton = (
       <button
         onClick={() => addNewStockWithToken(symbol, token)}
         className="stock-preview__button btn btn-primary"
         ref="stockPreviewButton"
         onFocus={() => this.refs.stockPreviewButton.blur()}>
-        {isLoading ? loader : 'add'}
+        {isLoading ? <Preloader /> : 'add'}
       </button>
     );
     const removeButton = (
@@ -24,7 +23,7 @@ class NewStockPreview extends Component {
         className="stock-preview__button btn btn-primary"
         ref="stockPreviewButton"
         onFocus={() => this.refs.stockPreviewButton.blur()}>
-        {isLoading ? loader : 'remove'}
+        {isLoading ? <Preloader /> : 'remove'}
       </button>
     );
     return (
