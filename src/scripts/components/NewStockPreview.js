@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
-import {addNewStockWithToken} from '../actions/UserStocksActions';
-import {deleteUserStockWithToken} from '../actions/UserStocksActions';
+import {deleteUserStockWithToken, addNewStockWithToken} from '../actions/UserStocksActions';
 
 class NewStockPreview extends Component {
   render() {

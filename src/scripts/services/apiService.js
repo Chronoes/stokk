@@ -31,7 +31,7 @@ class ApiService {
   }
 
   static searchStocks(searchString) {
-    return get(`api/stocks/${searchString}`);
+    return get(`/api/stocks/${searchString}`);
   }
 
   static deleteStockWithToken(symbol, token) {
@@ -40,6 +40,13 @@ class ApiService {
       return axios.delete(`/api/users/${id}/stocks/${symbol}`, ApiService.createAuthenticatedConfig(token));
     }
     return new Error('Need token to delete stocks!');
+  }
+
+  static getStockById(id) {
+    if (typeof id === 'number' && id % 1 === 0) {
+      return axios.get(`api/stocks/${id}`);
+    }
+    return new Error('Stock id needs to be an integer!');
   }
 }
 
