@@ -98,7 +98,7 @@ export function bulkUpdateHistory(stocks, betweenDates) {
         getStockByDate(stocks.map(stock => stock.symbol), ...formattedDates)
         .then(results => database.transaction(act =>
             Promise.all(stocks.map((stock, i) => {
-              const historyDates = histories[i].map(object => moment.utc(object.date));
+              const historyDates = histories[i].map(object => moment(object.date));
               return results[stock.symbol]
                 .filter(result => !historyDates.some(date => date.isSame(result.date, 'day')))
                 .map(result => stock.createHistory(result, {transaction: act}));
@@ -120,7 +120,7 @@ export function updateHistory(stock, betweenDates) {
       return new Promise((resolve, reject) =>
         getStockByDate(stock.symbol, ...formattedDates)
         .then(results => database.transaction(act => {
-          const historyDates = history.map(object => moment.utc(object.date));
+          const historyDates = history.map(object => moment(object.date));
           return Promise.all(results[stock.symbol]
             .filter(result => !historyDates.some(date => date.isSame(result.date, 'day')))
             .map(result => stock.createHistory(result, {transaction: act})));

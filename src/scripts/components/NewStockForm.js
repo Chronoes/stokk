@@ -37,7 +37,6 @@ class NewStockForm extends Component {
   submitSearch() {
     emptySearchStore();
     const searchString = this.refs.searchStock.value.trim();
-    clearInterval(this.vaporWaveImage);
     if (searchString.length === 0) {
       this.setState({isOpen: true, errorMessage: 'Please enter a stock symbol or a part of it\'s name.', vaporWave: false});
     } else if (searchString.length > 35) {
