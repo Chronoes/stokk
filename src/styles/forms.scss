@@ -8,9 +8,25 @@
 
 .form-container {
   @extend .col-xs-12;
-  @extend .col-sm-6;
-  @extend .col-sm-offset-3;
+  @extend .col-sm-10;
+  @extend .col-sm-offset-1;
+  @extend .col-md-8;
+  @extend .col-md-offset-2;
+  @extend .col-lg-6;
+  @extend .col-lg-offset-3;
   margin-top: 25vh;
+  @include breakpoint(xxs) {
+    margin-top: 10vh;
+  }
+  @include breakpoint(xxxs) {
+    margin-top: 10vh;
+  }
+  @include breakpoint(xxxxs) {
+    margin-top: 10vh;
+  }
+  @include breakpoint(xxxxxs) {
+    margin-top: 10vh;
+  }
 }
 
 .btn-form {
