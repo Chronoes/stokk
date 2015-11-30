@@ -29,7 +29,6 @@ canvas {
   @extend .col-lg-3;
   @extend .base-text;
 
-  cursor: pointer;
   margin-bottom: 10px;
 
   &__close-button {
@@ -41,6 +40,15 @@ canvas {
 
     &:hover {
       color: #fff;
+    }
+  }
+
+  &__link {
+    @extend .base-text;
+
+    &:hover {
+      color: $base-text;
+      text-decoration: none;
     }
   }
 

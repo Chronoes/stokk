@@ -22,14 +22,15 @@ class StockPage extends Component {
 
   componentDidMount() {
     const {userStocksState, detailedStockState, params} = this.props;
-    if (detailedStockState.get('stock').id !== params.id) {
+    const id = parseInt(params.id, 10);
+    if (detailedStockState.get('stock').id !== id) {
       const stock = userStocksState
         .get('stocks')
-        .find(currentStock => currentStock.id === params.id, null, -1);
+        .find(currentStock => currentStock.id === id, null, -1);
       if (stock !== -1) {
         setStock(stock);
       } else {
-        getStock(parseInt(params.id, 10));
+        getStock(id);
       }
     }
   }

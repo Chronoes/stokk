@@ -38,7 +38,7 @@ class DetailedStockStore {
   }
 
   onSetStock(stock) {
-    this.state.set('stock', stock);
+    this.setState(this.state.set('stock', stock));
   }
 }
 
