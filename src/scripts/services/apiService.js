@@ -44,7 +44,7 @@ class ApiService {
 
   static getStockById(id) {
     if (typeof id === 'number' && id % 1 === 0) {
-      return axios.get(`api/stocks/${id}`);
+      return axios.get(`/api/stocks/${id}`);
     }
     return new Error('Stock id needs to be an integer!');
   }
