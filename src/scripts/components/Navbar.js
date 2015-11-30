@@ -1,12 +1,12 @@
 import React, {PropTypes as Types} from 'react';
-import {Link} from 'react-router';
+import {IndexLink, Link} from 'react-router';
 
 import UserDropdown from './UserDropdown';
 
 const Navbar = ({loggedIn, email}) => {
   const dashboardLink = (
     <li className="nav-item" key="dashboardLink">
-      <Link className="nav-link" activeClassName="active" to="/">Dashboard</Link>
+      <IndexLink className="nav-link" activeClassName="active" to="/">Dashboard</IndexLink>
     </li>
   );
 
