@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes as Types} from 'react';
 
 const StrikedText = ({children}) => (
   <div className="striked-text-wrapper">
@@ -9,5 +9,8 @@ const StrikedText = ({children}) => (
 );
 
 StrikedText.displayName = 'StrikedText';
+StrikedText.propTypes = {
+  children: Types.string,
+};
 
 export default StrikedText;

@@ -1,10 +1,16 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes as Types} from 'react';
 
 import Alert from './Alert';
 import Preloader from './Preloader';
 import {register} from '../actions/RegistrationActions';
 
 class RegisterForm extends Component {
+  static displayName = 'RegisterForm';
+  static propTypes = {
+    errorMessage: Types.string.isRequired,
+    isLoading: Types.bool,
+  };
+
   static MINIMUM_PASSWORD_LENGTH = 8;
 
   constructor(props) {

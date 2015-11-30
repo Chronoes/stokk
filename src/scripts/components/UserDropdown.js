@@ -1,8 +1,13 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes as Types} from 'react';
 
 import {logout} from '../actions/AuthenticationActions';
 
 class UserDropdown extends Component {
+  static displayName = 'UserDropdown';
+  static propTypes = {
+    email: Types.string.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {isOpen: false};

@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes as Types} from 'react';
+import {Map, List} from 'immutable';
 
 import Preloader from './Preloader';
 import StrikedText from './StrikedText';
@@ -6,6 +7,13 @@ import NewStockList from './NewStockList';
 import {searchStocks, emptySearchStore} from '../actions/SearchStocksActions';
 
 class NewStockForm extends Component {
+  static displayName = 'NewStockForm';
+  static propTypes = {
+    searchStocksState: Types.instanceOf(Map).isRequired,
+    userStocks: Types.instanceOf(List).isRequired,
+    token: Types.string.isRequired,
+    isLoading: Types.oneOfType([Types.string, Types.bool]),
+  };
 
   constructor(props) {
     super(props);

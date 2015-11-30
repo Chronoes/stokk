@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes as Types} from 'react';
 
 import Alert from './Alert';
 import Preloader from './Preloader';
@@ -6,6 +6,11 @@ import {login} from '../actions/AuthenticationActions';
 import RegisterForm from './RegisterForm';
 
 class LoginForm extends Component {
+  static displayName = 'LoginForm';
+  static propTypes = {
+    errorMessage: Types.string.isRequired,
+    isLoading: Types.bool,
+  };
 
   constructor(props) {
     super(props);

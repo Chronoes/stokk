@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {PropTypes as Types} from 'react';
+import {List} from 'immutable';
 
 import StrikedText from './StrikedText';
 import StockCard from './StockCard';
@@ -27,5 +28,10 @@ const DashboardStocks = ({stocks, token}) => {
 };
 
 DashboardStocks.displayName = 'DashboardStocks';
+
+DashboardStocks.propTypes = {
+  stocks: Types.instanceOf(List).isRequired,
+  token: Types.string.isRequired,
+};
 
 export default DashboardStocks;

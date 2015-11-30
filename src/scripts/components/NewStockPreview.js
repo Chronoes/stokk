@@ -1,9 +1,20 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes as Types} from 'react';
 
 import Preloader from './Preloader';
 import {deleteUserStockWithToken, addNewStockWithToken} from '../actions/UserStocksActions';
 
 class NewStockPreview extends Component {
+  static displayName = 'NewStockPreview';
+  static propTypes = {
+    stock: Types.shape({
+      symbol: Types.string.isRequired,
+      name: Types.string.isRequired,
+    }).isRequired,
+    stockExists: Types.bool.isRequired,
+    isLoading: Types.bool.isRequired,
+    token: Types.string.isRequired,
+  };
+
   render() {
     const {stock, stockExists, token, isLoading} = this.props;
     const {symbol, name} = stock;

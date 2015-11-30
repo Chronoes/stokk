@@ -1,13 +1,10 @@
 import React, {PropTypes as Types} from 'react';
 
-const Alert = props => {
-  const {message, type} = props;
-  return (
-    <div className={`alert --${type} ${props.margin ? `--margin-${props.margin}` : ''}`}>
-      <strong>{message}</strong>
-    </div>
-  );
-};
+const Alert = ({message, type, margin}) => (
+  <div className={`alert --${type} ${margin ? `--margin-${margin}` : ''}`}>
+    <strong>{message}</strong>
+  </div>
+);
 
 Alert.propTypes = {
   message: Types.string.isRequired,

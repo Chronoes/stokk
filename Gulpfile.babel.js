@@ -195,7 +195,7 @@ gulp.task('sass:production', () => {
 function runTest() {
   return gulp.src(directories.test, {read: false})
     .pipe(remember('test'))
-    .pipe(mocha({reporter: 'nyan', timeout: 5000}));
+    .pipe(mocha({reporter: 'nyan', timeout: 10000}));
 }
 
 gulp.task('test', ['env-testing'], runTest);

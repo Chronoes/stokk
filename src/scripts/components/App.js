@@ -1,6 +1,7 @@
-import React, {Component, Children, cloneElement} from 'react';
+import React, {Component, Children, cloneElement, PropTypes as Types} from 'react';
 import {decode} from 'jsonwebtoken';
 import connectToStores from 'alt/utils/connectToStores';
+import {Map} from 'immutable';
 
 import Navbar from './Navbar';
 import AuthenticationStore from '../stores/AuthenticationStore';
@@ -8,6 +9,12 @@ import AuthenticationStore from '../stores/AuthenticationStore';
 
 @connectToStores
 class App extends Component {
+  static displayName = 'App';
+  static propTypes = {
+    authState: Types.instanceOf(Map).isRequired,
+    children: Types.oneOfType([Types.element, Types.arrayOf(Types.element)]),
+  };
+
   constructor(props) {
     super(props);
   }

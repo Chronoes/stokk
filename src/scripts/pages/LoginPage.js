@@ -1,26 +1,25 @@
-import React, {Component} from 'react';
+import React, {PropTypes as Types} from 'react';
+import {Map} from 'immutable';
 
 import LoginForm from '../components/LoginForm';
 
-class LoginPage extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const {authState} = this.props;
-    const errorMessage = authState.get('errorMessage');
-    const isLoading = authState.get('isLoading');
-    return (
-      <div className="container-fluid">
-        <div className="row">
-          <LoginForm
-            errorMessage={errorMessage}
-            isLoading={isLoading} />
-        </div>
+const LoginPage = ({authState}) => {
+  const errorMessage = authState.get('errorMessage');
+  const isLoading = authState.get('isLoading');
+  return (
+    <div className="container-fluid">
+      <div className="row">
+        <LoginForm
+          errorMessage={errorMessage}
+          isLoading={isLoading} />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+LoginPage.displayName = 'LoginPage';
+LoginPage.propTypes = {
+  authState: Types.instanceOf(Map),
+};
 
 export default LoginPage;

@@ -1,10 +1,16 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes as Types} from 'react';
 import {Link} from 'react-router';
 
 import StockGraph from './StockGraph';
 import {deleteUserStockWithToken} from '../actions/UserStocksActions';
 
 class StockCard extends Component {
+  static displayName = 'StockCard';
+  static propTypes = {
+    stock: Types.object.isRequired,
+    token: Types.string.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {isHovering: false};

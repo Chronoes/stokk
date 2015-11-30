@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes as Types} from 'react';
 import connectToStores from 'alt/utils/connectToStores';
 import {decode} from 'jsonwebtoken';
+import {Map} from 'immutable';
 
 import SearchStocksStore from '../stores/SearchStocksStore';
 import UserStocksStore from '../stores/UserStocksStore';
@@ -13,6 +14,13 @@ import NewStockForm from '../components/NewStockForm';
 
 @connectToStores
 class DashboardPage extends Component {
+  static displayName = 'DashboardPage';
+  static propTypes = {
+    authState: Types.instanceOf(Map).isRequired,
+    searchStocksState: Types.instanceOf(Map).isRequired,
+    userStocksState: Types.instanceOf(Map).isRequired,
+  };
+
   static getStores() {
     return [SearchStocksStore, UserStocksStore];
   }

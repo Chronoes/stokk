@@ -1,26 +1,25 @@
-import React, {Component} from 'react';
+import React, {PropTypes as Types} from 'react';
+import {Map} from 'immutable';
 
 import RegisterForm from '../components/RegisterForm';
 
-class RegisterPage extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const {authState} = this.props;
-    const errorMessage = authState.get('errorMessage');
-    const isLoading = authState.get('isLoading');
-    return (
-      <div className="container-fluid">
-        <div className="row">
-          <RegisterForm
-            errorMessage={errorMessage}
-            isLoading={isLoading} />
-        </div>
+const RegisterPage = ({authState}) => {
+  const errorMessage = authState.get('errorMessage');
+  const isLoading = authState.get('isLoading');
+  return (
+    <div className="container-fluid">
+      <div className="row">
+        <RegisterForm
+          errorMessage={errorMessage}
+          isLoading={isLoading} />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+RegisterPage.displayName = 'RegisterPage';
+RegisterPage.propTypes = {
+  authState: Types.instanceOf(Map),
+};
 
 export default RegisterPage;
