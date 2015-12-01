@@ -43,23 +43,17 @@ function isStockUpdateNeeded(stock) {
 export function bulkUpdateDatabase(stocks) {
   const stocksToUpdate = stocks.filter(isStockUpdateNeeded);
   if (stocksToUpdate.length) {
-    return new Promise((resolve, reject) =>
-      getStockBySymbol(stocksToUpdate.map(stock => stock.symbol))
+    return getStockBySymbol(stocksToUpdate.map(stock => stock.symbol))
       .then(results =>
-        Promise.all(stocksToUpdate.map((stock, i) => stock.update(results[i]))))
-      .then(resolve)
-      .catch(reject));
+        Promise.all(stocksToUpdate.map((stock, i) => stock.update(results[i]))));
   }
   return Promise.resolve(stocks);
 }
 
 export function updateDatabase(stock) {
   if (isStockUpdateNeeded(stock)) {
-    return new Promise((resolve, reject) =>
-      getStockBySymbol(stock.symbol)
-      .then(result => stock.update(result))
-      .then(resolve)
-      .catch(reject));
+    return getStockBySymbol(stock.symbol)
+      .then(result => stock.update(result));
   }
   return Promise.resolve(stock);
 }
@@ -87,24 +81,23 @@ export function formatDates(dateList) {
   return dateList.map(date => date.format('YYYY-MM-DD'));
 }
 
+export function getHistory(stock, between) {
+  return stock.getHistory({where: {date: {$between: formatDates(between)}}});
+}
+
 export function bulkUpdateHistory(stocks, betweenDates) {
   const formattedDates = formatDates(betweenDates);
-  return Promise.all(stocks.map(stock => stock.getHistory({
-    where: {date: {$between: formattedDates}},
-  })))
+  return Promise.all(stocks.map(stock => getHistory(stock, betweenDates)))
   .then(histories => {
     if (histories.some(history => isHistoryUpdateNeeded(history, ...formattedDates))) {
-      return new Promise((resolve, reject) =>
-        getStockByDate(stocks.map(stock => stock.symbol), ...formattedDates)
+      return getStockByDate(stocks.map(stock => stock.symbol), ...formattedDates)
         .then(results => database.transaction(act =>
             Promise.all(stocks.map((stock, i) => {
               const historyDates = histories[i].map(object => moment(object.date));
               return results[stock.symbol]
                 .filter(result => !historyDates.some(date => date.isSame(result.date, 'day')))
                 .map(result => stock.createHistory(result, {transaction: act}));
-            }))))
-        .then(resolve)
-        .catch(reject));
+            }))));
     }
     return Promise.resolve(histories);
   });
@@ -112,21 +105,16 @@ export function bulkUpdateHistory(stocks, betweenDates) {
 
 export function updateHistory(stock, betweenDates) {
   const formattedDates = formatDates(betweenDates);
-  return stock.getHistory({
-    where: {date: {$between: formattedDates}},
-  })
+  return getHistory(stock, betweenDates)
   .then(history => {
     if (isHistoryUpdateNeeded(history, ...formattedDates)) {
-      return new Promise((resolve, reject) =>
-        getStockByDate(stock.symbol, ...formattedDates)
+      return getStockByDate(stock.symbol, ...formattedDates)
         .then(results => database.transaction(act => {
           const historyDates = history.map(object => moment(object.date));
           return Promise.all(results[stock.symbol]
             .filter(result => !historyDates.some(date => date.isSame(result.date, 'day')))
             .map(result => stock.createHistory(result, {transaction: act})));
-        }))
-        .then(resolve)
-        .catch(reject));
+        }));
     }
     return Promise.resolve(history);
   });
