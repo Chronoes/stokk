@@ -7,3 +7,4 @@ rules:
   no-color-literals: 0
   no-color-keywords: 0
   leading-zero: 0
+  no-vendor-prefixes: 0

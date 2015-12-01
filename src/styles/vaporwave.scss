@@ -1,4 +1,26 @@
-@-webkit-keyframes move {
+@mixin keyframes($animation) {
+  @-webkit-keyframes #{$animation} {
+    @content;
+  }
+
+  @-moz-keyframes #{$animation} {
+    @content;
+  }
+
+  @-o-keyframes #{$animation} {
+    @content;
+  }
+
+  @-ms-keyframes #{$animation} {
+    @content;
+  }
+
+  @-keyframes #{$animation} {
+    @content;
+  }
+}
+
+@mixin move-animation {
   0% {
     transform: translate(0, 0);
   }
@@ -20,136 +42,7 @@
   }
 }
 
-@-moz-keyframes move {
-  0% {
-    transform: translate(0, 0);
-  }
-
-  25% {
-    transform: translate(200px, 0);
-  }
-
-  50% {
-    transform: translate(200px, 200px);
-  }
-
-  75% {
-    transform: translate(0, 200px);
-  }
-
-  100% {
-    transform: translate(0, 0);
-  }
-}
-
-@-o-keyframes move {
-  0% {
-    transform: translate(0, 0);
-  }
-
-  25% {
-    transform: translate(200px, 0);
-  }
-
-  50% {
-    transform: translate(200px, 200px);
-  }
-
-  75% {
-    transform: translate(0, 200px);
-  }
-
-  100% {
-    transform: translate(0, 0);
-  }
-}
-
-@-ms-keyframes move {
-  0% {
-    transform: translate(0, 0);
-  }
-
-  25% {
-    transform: translate(200px, 0);
-  }
-
-  50% {
-    transform: translate(200px, 200px);
-  }
-
-  75% {
-    transform: translate(0, 200px);
-  }
-
-  100% {
-    transform: translate(0, 0);
-  }
-}
-
-@-keyframes move {
-  0% {
-    transform: translate(0, 0);
-  }
-
-  25% {
-    transform: translate(200px, 0);
-  }
-
-  50% {
-    transform: translate(200px, 200px);
-  }
-
-  75% {
-    transform: translate(0, 200px);
-  }
-
-  100% {
-    transform: translate(0, 0);
-  }
-}
-
-
-@-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-
-@-moz-keyframes spin {
-  0% {
-    -moz-transform: rotate(0deg);
-  }
-
-  100% {
-    -moz-transform: rotate(360deg);
-  }
-}
-
-@-o-keyframes spin {
-  0% {
-    -o-transform: rotate(0deg);
-  }
-
-  100% {
-    -o-transform: rotate(360deg);
-  }
-}
-
-@-ms-keyframes spin {
-  0% {
-    -ms-transform: rotate(0deg);
-  }
-
-  100% {
-    -ms-transform: rotate(360deg);
-  }
-}
-
-@-keyframes spin {
+@mixin spin-animation {
   0% {
     transform: rotate(0deg);
   }
@@ -159,18 +52,26 @@
   }
 }
 
+@include keyframes(move) {
+  @include move-animation;
+}
+
+@include keyframes(spin) {
+  @include spin-animation;
+}
+
+@mixin animation($opts...) {
+  -moz-animation: $opts;
+  -ms-animation: $opts;
+  -o-animation: $opts;
+  -webkit-animation: $opts;
+  animation: $opts;
+}
+
 .vaporwave-container {
-  -moz-animation: move 10s infinite linear;
-  -ms-animation: move 10s infinite linear;
-  -o-animation: move 10s infinite linear;
-  -webkit-animation: move 10s infinite linear;
-  animation: move 10s infinite linear;
+  @include animation(move 10s infinite linear);
 
   & img {
-    -moz-animation: spin 5s infinite linear;
-    -ms-animation: spin 5s infinite linear;
-    -o-animation: spin 5s infinite linear;
-    -webkit-animation: spin 5s infinite linear;
-    animation: spin 5s infinite linear;
+    @include animation(spin 5s infinite linear)
   }
 }
