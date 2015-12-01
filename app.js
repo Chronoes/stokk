@@ -1,7 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import {readFile, access} from 'fs';
+import {readFile} from 'fs';
 import {join} from 'path';
+import glob from 'glob';
 
 import api from './server/api-router';
 
@@ -20,9 +21,16 @@ readFile('./server/secret', 'utf8', (err, secret) => {
 
 const staticPath = join(__dirname, '/static/');
 
-app.all('/*', (req, res) => {
-  const reqPath = staticPath + req.path.split('/').pop();
-  access(reqPath, err => res.sendFile(err ? staticPath : reqPath));
+glob('**/*', {cwd: staticPath, nodir: true}, (err, files) => {
+  if (err) {
+    throw err;
+  }
+
+  app.all('/*', (req, res) => {
+    const sanitizedPath = req.path.replace(/\/{2,}/, '/');
+    const staticFiles = files.filter(file => sanitizedPath.includes(file));
+    res.sendFile(staticFiles.length ? join(staticPath, staticFiles[0]) : staticPath);
+  });
 });
 
 export default app;
