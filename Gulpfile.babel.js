@@ -19,6 +19,7 @@ import sloc from 'gulp-sloc';
 import cache from 'gulp-cached';
 import remember from 'gulp-remember';
 import watchify from 'watchify';
+import notifier from 'node-notifier';
 
 import conf from './server/conf';
 
@@ -38,6 +39,14 @@ const directories = {
   server: 'server/**/*.js',
   distribution: 'static',
 };
+
+gulp.task('notify', () => {
+  notifier.notify({
+    'title': 'Stokk',
+    'message': 'gulp build: finished',
+    'icon': 'atom',
+  });
+});
 
 gulp.task('env-testing', () => {
   env({
@@ -212,11 +221,11 @@ gulp.task('coverage:init', () => {
 });
 
 gulp.task('build', () => {
-  runSequence(['line-count', 'lint'], 'test', ['js', 'sass', 'html', 'images', 'fonts', 'music']);
+  runSequence(['line-count', 'lint'], 'test', ['js', 'sass', 'html', 'images', 'fonts', 'music'], 'notify');
 });
 
 gulp.task('build:watch', () => {
-  runSequence(['line-count', 'lint:scripts', 'lint:sass'], ['js:watch', 'sass', 'html', 'images', 'fonts', 'music', 'env-development']);
+  runSequence(['line-count', 'lint:scripts', 'lint:sass'], ['js:watch', 'sass', 'html', 'images', 'fonts', 'music', 'env-development'], 'notify');
 });
 
 gulp.task('build:watch:server', () => {
