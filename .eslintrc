@@ -2,5 +2,6 @@
   "extends": "airbnb",
   "rules": {
     "new-cap": 0,
-  }
+  },
+  "parser": "babel-eslint",
 }

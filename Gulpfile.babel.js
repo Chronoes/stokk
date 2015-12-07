@@ -76,6 +76,15 @@ gulp.task('lint:scripts', () => {
   return gulp.src(directories.source.scripts)
     .pipe(remember('scripts'))
     .pipe(eslint())
+    .pipe(eslint.results((result) => {
+      if (result.errorCount > 0) {
+        notifier.notify({
+          'title': 'Stokk',
+          'message': 'eslint error!',
+          'icon': 'dialog-error',
+        });
+      }
+    }))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
