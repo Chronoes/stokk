@@ -14,7 +14,7 @@ class UserStocksStore {
     this.state = new Map({
       stocks: new List(),
       errorMessage: '',
-      isLoading: false,
+      isLoading: true,
     });
   }
 
