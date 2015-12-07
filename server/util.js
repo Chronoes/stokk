@@ -36,6 +36,10 @@ export function verifyAuthorization(authHeader) {
   return Promise.reject(new Error('No Authorization header.'));
 }
 
+export function reloadFromDatabase(items) {
+  return Array.isArray(items) ? Promise.all(items.map(item => item.reload())) : items.reload();
+}
+
 function isStockUpdateNeeded(stock) {
   return stock.currentPrice === null || moment.utc(stock.updatedAt) < moment.utc().subtract(stockQueryTimeLimit);
 }
@@ -45,7 +49,8 @@ export function bulkUpdateDatabase(stocks) {
   if (stocksToUpdate.length) {
     return getStockBySymbol(stocksToUpdate.map(stock => stock.symbol))
       .then(results =>
-        Promise.all(stocksToUpdate.map((stock, i) => stock.update(results[i]))));
+        Promise.all(stocksToUpdate.map((stock, i) => stock.update(results[i]))))
+      .then(() => reloadFromDatabase(stocks));
   }
   return Promise.resolve(stocks);
 }
@@ -53,7 +58,8 @@ export function bulkUpdateDatabase(stocks) {
 export function updateDatabase(stock) {
   if (isStockUpdateNeeded(stock)) {
     return getStockBySymbol(stock.symbol)
-      .then(result => stock.update(result));
+      .then(result => stock.update(result))
+      .then(() => reloadFromDatabase(stock));
   }
   return Promise.resolve(stock);
 }
@@ -97,7 +103,8 @@ export function bulkUpdateHistory(stocks, betweenDates) {
               return results[stock.symbol]
                 .filter(result => !historyDates.some(date => date.isSame(result.date, 'day')))
                 .map(result => stock.createHistory(result, {transaction: act}));
-            }))));
+            }))))
+        .then(() => reloadFromDatabase(histories));
     }
     return Promise.resolve(histories);
   });
@@ -114,14 +121,11 @@ export function updateHistory(stock, betweenDates) {
           return Promise.all(results[stock.symbol]
             .filter(result => !historyDates.some(date => date.isSame(result.date, 'day')))
             .map(result => stock.createHistory(result, {transaction: act})));
-        }));
+        }))
+        .then(() => reloadFromDatabase(history));
     }
     return Promise.resolve(history);
   });
-}
-
-export function reloadFromDatabase(items) {
-  return Array.isArray(items) ? Promise.all(items.map(item => item.reload())) : items.reload();
 }
 
 /* istanbul ignore next */
