@@ -1,35 +1,53 @@
 import React, {Component, PropTypes as Types} from 'react';
-import connectToStores from 'alt/utils/connectToStores';
-import {Map} from 'immutable';
 
+import fuckAlt from '../services/fuckAlt';
 import {getStock, setStock} from '../actions/DetailedStockActions';
 import UserStocksStore from '../stores/UserStocksStore';
 import DetailedStockStore from '../stores/DetailedStockStore';
 
-@connectToStores
+import SingleStockOverview from '../components/SingleStockOverview';
+import Preloader from '../components/Preloader';
+
+@fuckAlt
 class StockPage extends Component {
   static displayName = 'StockPage';
   static propTypes = {
-    userStocksState: Types.instanceOf(Map).isRequired,
-    detailedStockState: Types.instanceOf(Map).isRequired,
     params: Types.object,
   };
 
-  static getStores() {
-    return [UserStocksStore, DetailedStockStore];
+  constructor(props) {
+    super(props);
+    this.state = {
+      detailedStockState: DetailedStockStore.getState(),
+      userStocksState: UserStocksStore.getState(),
+    };
+    this.onDetailedStockStateChange = this.onDetailedStockStateChange.bind(this);
+    this.onUserStocksStateChange = this.onUserStocksStateChange.bind(this);
+
+    DetailedStockStore.listen(this.onDetailedStockStateChange);
+    UserStocksStore.listen(this.onUserStocksStateChange);
   }
 
-  static getPropsFromStores() {
-    return {
-      userStocksState: UserStocksStore.getState(),
-      detailedStockState: DetailedStockStore.getState(),
-    };
+  componentWillUnmount() {
+    DetailedStockStore.unlisten(this.onDetailedStockStateChange);
+    UserStocksStore.unlisten(this.onUserStocksStateChange);
+  }
+
+  onDetailedStockStateChange(newState) {
+    this.state.detailedStockState = newState;
+    this.setState(this.state);
+  }
+
+  onUserStocksStateChange(newState) {
+    this.state.userStocksState = newState;
+    this.setState(this.state);
   }
 
   componentWillMount() {
-    const {userStocksState, detailedStockState, params} = this.props;
+    const {detailedStockState, userStocksState} = this.state;
+    const {params} = this.props;
     const id = parseInt(params.id, 10);
-    if (detailedStockState.get('stock').id !== id) {
+    if (id !== detailedStockState.get('stock').id) {
       const stock = userStocksState
         .get('stocks')
         .find(currentStock => currentStock.id === id, null, -1);
@@ -42,11 +60,22 @@ class StockPage extends Component {
   }
 
   render() {
-    const {detailedStockState, params} = this.props;
+    const {detailedStockState} = this.state;
+    const isLoading = detailedStockState.get('isLoading');
     const stock = detailedStockState.get('stock');
+    const preloader = (
+      <div className="row">
+        <div className="col-xs-12">
+          <div className="dashboard__section" style={{textAlign: 'center'}}>
+            <Preloader />
+          </div>
+        </div>
+      </div>
+    );
+    const page = isLoading ? preloader : <SingleStockOverview stock={stock} />;
     return (
       <div className="container-fluid">
-        <h1>Welcome to battletits {params.id} {JSON.stringify(stock)}</h1>
+        {page}
       </div>
     );
   }
