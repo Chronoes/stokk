@@ -59,7 +59,9 @@ class DashboardPage extends Component {
           stockAverage={stockAverage} />
         <DashboardStocks
           stocks={stocks}
-          token={token}/>
+          token={token}
+          isLoading={isLoading}
+          />
         <NewStockForm
           searchStocksState={searchStocksState}
           userStocks={stocks}
