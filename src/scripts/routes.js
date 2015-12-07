@@ -6,6 +6,7 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import StockPage from './pages/StockPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 import AuthenticationStore from './stores/AuthenticationStore';
 import AuthenticationActions from './actions/AuthenticationActions';
@@ -23,5 +24,6 @@ export default (
     <Route path="login" component={LoginPage} />
     <Route path="register" component={RegisterPage} />
     <Route path="stock/:id" component={StockPage} onEnter={requireAuth} />
+    <Route status="404" path="*" component={NotFoundPage} />
   </Route>
 );
