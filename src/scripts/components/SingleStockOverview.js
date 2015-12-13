@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import StockBarChart from './StockBarChart';
 
 const SingleStockOverview = ({stock}) => {
   const {change, name, currentPrice, symbol, updatedAt} = stock;
@@ -21,6 +22,12 @@ const SingleStockOverview = ({stock}) => {
           <span className="base-text">
             {' '} last updated {updatedAgo}
           </span>
+        </div>
+        <div className="col-xs-6 col-xs-offset-3">
+          <StockBarChart dataset={stock} days={10} typeLine/>
+        </div>
+        <div className="col-xs-6 col-xs-offset-3">
+          <StockBarChart dataset={stock} days={10} typeLine={false}/>
         </div>
       </div>
     </div>
