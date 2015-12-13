@@ -37,6 +37,6 @@ export default {
   },
   stockList: 'https://dl.dropboxusercontent.com/s/60kxq3kacq8ydbo/newOut.json?dl=1',
   stockCount: 4723,
-  stockQueryTimeLimit: moment.duration(1, 'days'),
+  stockQueryTimeLimit: moment.duration(30, 'minutes'),
   stockHistoryTimeLimit: moment.duration(30, 'days'),
 };
