@@ -71,9 +71,11 @@ class StockPage extends Component {
     );
     const page = isLoading ? preloader : (
       <div className="row">
-        <div className="col-xs-12">
+        <div className="col-xs-12 col-md-4">
           <SingleStockOverview stock={stock} />
           <DetailedStockForm historyLength={stock.history.length} daysShown={daysShown} checkboxes={checkboxes} />
+        </div>
+        <div className="col-xs-12 col-md-8">
           <DetailedStockChart dataset={stock} daysShown={daysShown} checkboxes={checkboxes} />
         </div>
       </div>

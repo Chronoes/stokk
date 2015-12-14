@@ -45,7 +45,7 @@ const DetailedStockChart = ({dataset, daysShown, checkboxes}) => {
     bezierCurve: false,
   };
   return (
-    <div>
+    <div className="dashboard__section">
       <LineChart data={chartDataAndLabels} options={chartOptions} redraw/>
     </div>
   );

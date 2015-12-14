@@ -3,7 +3,7 @@ import {adjustDaysShown, checkboxClick} from '../actions/DetailedStockActions';
 
 const DetailedStockForm = ({historyLength, daysShown, checkboxes}) => (
   <div className="dashboard__section">
-    <label className="c-input c-checkbox">
+    <label className="c-input c-checkbox base-text">
       <input
         type="checkbox"
         onChange={() => checkboxClick('high')}
@@ -12,7 +12,7 @@ const DetailedStockForm = ({historyLength, daysShown, checkboxes}) => (
       <span className="c-indicator"></span>
       high
     </label>
-    <label className="c-input c-checkbox">
+    <label className="c-input c-checkbox base-text">
       <input
         type="checkbox"
         onChange={() => checkboxClick('low')}
@@ -21,7 +21,7 @@ const DetailedStockForm = ({historyLength, daysShown, checkboxes}) => (
       <span className="c-indicator"></span>
       low
     </label>
-    <label className="c-input c-checkbox">
+    <label className="c-input c-checkbox base-text">
       <input
         type="checkbox"
         onChange={() => checkboxClick('close')}
@@ -30,21 +30,16 @@ const DetailedStockForm = ({historyLength, daysShown, checkboxes}) => (
       <span className="c-indicator"></span>
       close
     </label>
-    <br />
-    <div className="row">
-      <div className="col-xs-12 col-sm-2 col-md-1 base-text">
-        {daysShown + ' days'}
-      </div>
-      <div className="col-xs-12 col-sm-4 col-md-5">
-        <input className="slider"
-          type="range"
-          defaultValue={daysShown}
-          min="2"
-          max={historyLength}
-          onChange={event => adjustDaysShown(parseInt(event.target.value, 10))}
-          step="1" />
-      </div>
-    </div>
+    <input className="slider"
+      type="range"
+      defaultValue={daysShown}
+      min="2"
+      max={historyLength}
+      onChange={event => adjustDaysShown(parseInt(event.target.value, 10))}
+      step="1" />
+    <span className="base-text">
+      {daysShown + ' days'}
+    </span>
   </div>
 );
 

@@ -6,8 +6,8 @@ const SingleStockOverview = ({stock}) => {
   const isPositive = change.charAt(0) === '+';
   const updatedAgo = moment(updatedAt).fromNow();
   const positiveChangeResult = isPositiveChange ?
-    'We predict that the stock price is going up' :
-    'We predict that the stock price is going down';
+    'We predict that the stock price will rise' :
+    'We predict that the stock price will fall';
   const changeClassModifier = isPositiveChange ? 'increase' : 'decrease';
   return (
     <div className="dashboard__section">
