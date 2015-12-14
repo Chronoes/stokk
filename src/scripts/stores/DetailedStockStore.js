@@ -16,6 +16,7 @@ class DetailedStockStore {
       isLoading: true,
       errorMessage: '',
       amountOfDaysShown: 10,
+      checkboxes: [true, true, true],
     });
   }
 
@@ -49,6 +50,12 @@ class DetailedStockStore {
   onAdjustDaysShown(days) {
     this.setState(this.state.set('amountOfDaysShown', days));
   }
-}
 
+  onCheckboxClick(checkbox) {
+    const checkboxes = this.state.get('checkboxes');
+    if (checkbox === 'high') this.setState(this.state.set('checkboxes', [!checkboxes[0], checkboxes[1], checkboxes[2]]));
+    if (checkbox === 'low' ) this.setState(this.state.set('checkboxes', [checkboxes[0], !checkboxes[1], checkboxes[2]]));
+    if (checkbox === 'close') this.setState(this.state.set('checkboxes', [checkboxes[0], checkboxes[1], !checkboxes[2]]));
+  }
+}
 export default DetailedStockStore;

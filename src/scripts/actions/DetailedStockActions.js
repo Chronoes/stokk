@@ -28,6 +28,10 @@ class DetailedStockActions {
   adjustDaysShown(days) {
     this.dispatch(days);
   }
+
+  checkboxClick(checkbox) {
+    this.dispatch(checkbox);
+  }
 }
 
 export default DetailedStockActions;
