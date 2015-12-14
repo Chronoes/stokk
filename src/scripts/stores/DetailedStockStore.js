@@ -39,13 +39,6 @@ class DetailedStockStore {
       .set('errorMessage', errorMessage));
   }
 
-  onSetStock(stock) {
-    this.setState(this.state
-      .set('stock', stock)
-      .set('isLoading', false)
-      .set('errorMessage', ''));
-  }
-
   onAdjustDaysShown(days) {
     this.setState(this.state.set('amountOfDaysShown', days));
   }
