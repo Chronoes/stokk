@@ -1,6 +1,6 @@
 import moment from 'moment';
 import Stock from '../../models/Stock';
-import {updateDatabase, reloadFromDatabase, updateHistory, getHistory} from '../../util';
+import {reloadFromDatabase, updateDatabase, updateHistory, getHistory} from '../../util';
 import {stockHistoryTimeLimit} from '../../conf';
 
 export default (req, res) => {

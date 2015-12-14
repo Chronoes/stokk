@@ -21,10 +21,6 @@ class DetailedStockActions {
     this.dispatch(error);
   }
 
-  setStock(stock) {
-    this.dispatch(stock);
-  }
-
   adjustDaysShown(days) {
     this.dispatch(days);
   }
