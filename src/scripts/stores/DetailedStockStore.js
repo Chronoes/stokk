@@ -15,6 +15,7 @@ class DetailedStockStore {
       stock: {},
       isLoading: true,
       errorMessage: '',
+      amountOfDaysShown: 10,
     });
   }
 
@@ -43,6 +44,10 @@ class DetailedStockStore {
       .set('stock', stock)
       .set('isLoading', false)
       .set('errorMessage', ''));
+  }
+
+  onAdjustDaysShown(days) {
+    this.setState(this.state.set('amountOfDaysShown', days));
   }
 }
 
