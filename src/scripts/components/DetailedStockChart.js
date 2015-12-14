@@ -5,21 +5,21 @@ import {adjustDaysShown, checkboxClick} from '../actions/DetailedStockActions';
 const DetailedStockChart = ({dataset, daysShown, checkboxes}) => {
   const chartDatasets = [
     {
-      label: 'High',
+      label: 'high',
       pointColor: '#1bc98e',
       fillColor: 'rgba(27, 201, 142, 0.03)',
       strokeColor: '#1bc98e',
       data: dataset.history.slice(-daysShown).map((data) => data.high),
     },
     {
-      label: 'Low',
+      label: 'low',
       pointColor: '#f54242',
       fillColor: 'rgba(66, 165, 245, 0.03)',
       strokeColor: '#f54242',
       data: dataset.history.slice(-daysShown).map((data) => data.low),
     },
     {
-      label: 'Close',
+      label: 'close',
       pointColor: '#42a5f5',
       fillColor: 'rgba(66, 165, 245, 0.03)',
       strokeColor: '#42a5f5',
@@ -28,7 +28,7 @@ const DetailedStockChart = ({dataset, daysShown, checkboxes}) => {
   ];
   const chartDataAndLabels = {
     labels: dataset.history.slice(-daysShown).map((data) => data.date.substring(0, 10)),
-    datasets: chartDatasets.filter(chartData => checkboxes[chartDatasets.indexOf(chartData)]),
+    datasets: chartDatasets.filter(chartData => checkboxes.get(chartData.label)),
   };
   const tooltipTemplate = '<%if (fillColor == "#42a5f5"){%><%="close" %>: <%} else if (fillColor == "#f54242"){%><%="low" %>: <%} else {%><%="high" %>: <%}%><%= value + " $" %>';
   const chartOptions = {
@@ -51,7 +51,7 @@ const DetailedStockChart = ({dataset, daysShown, checkboxes}) => {
         <input
           type="checkbox"
           onChange={() => checkboxClick('high')}
-          checked={checkboxes[0]}>
+          checked={checkboxes.get('high')}>
         </input>
         <span className="c-indicator"></span>
         high
@@ -60,7 +60,7 @@ const DetailedStockChart = ({dataset, daysShown, checkboxes}) => {
         <input
           type="checkbox"
           onChange={() => checkboxClick('low')}
-          checked={checkboxes[1]}>
+          checked={checkboxes.get('low')}>
         </input>
         <span className="c-indicator"></span>
         low
@@ -69,7 +69,7 @@ const DetailedStockChart = ({dataset, daysShown, checkboxes}) => {
         <input
           type="checkbox"
           onChange={() => checkboxClick('close')}
-          checked={checkboxes[2]}>
+          checked={checkboxes.get('close')}>
         </input>
         <span className="c-indicator"></span>
         close

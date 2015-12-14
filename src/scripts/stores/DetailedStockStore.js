@@ -16,7 +16,11 @@ class DetailedStockStore {
       isLoading: true,
       errorMessage: '',
       amountOfDaysShown: 10,
-      checkboxes: [true, true, true],
+      checkboxes: new Map({
+        high: true,
+        low: true,
+        close: true,
+      }),
     });
   }
 
@@ -45,10 +49,7 @@ class DetailedStockStore {
   }
 
   onCheckboxClick(checkbox) {
-    const checkboxes = this.state.get('checkboxes');
-    if (checkbox === 'high') this.setState(this.state.set('checkboxes', [!checkboxes[0], checkboxes[1], checkboxes[2]]));
-    if (checkbox === 'low' ) this.setState(this.state.set('checkboxes', [checkboxes[0], !checkboxes[1], checkboxes[2]]));
-    if (checkbox === 'close') this.setState(this.state.set('checkboxes', [checkboxes[0], checkboxes[1], !checkboxes[2]]));
+    this.setState(this.state.updateIn(['checkboxes', checkbox], value => !value));
   }
 }
 export default DetailedStockStore;
