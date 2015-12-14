@@ -1,11 +1,13 @@
 import React from 'react';
 import moment from 'moment';
-import StockBarChart from './StockBarChart';
+import DetailedStockChart from './DetailedStockChart';
 
 const SingleStockOverview = ({stock, daysShown}) => {
-  const {change, name, currentPrice, symbol, updatedAt} = stock;
+  console.log(daysShown);
+  const {change, name, currentPrice, symbol, updatedAt, isPositiveChange} = stock;
   const isPositive = change.charAt(0) === '+';
   const updatedAgo = moment(updatedAt).fromNow();
+  const positiveChangeResult = isPositiveChange ? 'Stock is going up' : 'Stock is going down';
   return (
     <div className="row">
       <div className="col-xs-12">
@@ -22,12 +24,13 @@ const SingleStockOverview = ({stock, daysShown}) => {
           <span className="base-text">
             {' '} last updated {updatedAgo}
           </span>
+          <span className={`direction-label --${isPositiveChange ? 'increase' : 'decrease'}`}>
+            <i className={isPositiveChange ? 'fa fa-arrow-circle-up' : 'fa fa-arrow-circle-down'}></i>
+            {positiveChangeResult}
+          </span>
         </div>
-        <div className="col-xs-6 col-xs-offset-3">
-          <StockBarChart dataset={stock} days={daysShown} typeLine/>
-        </div>
-        <div className="col-xs-6 col-xs-offset-3">
-          <StockBarChart dataset={stock} days={daysShown} typeLine={false}/>
+        <div className="col-xs-12 col-xs-offset-0">
+          <DetailedStockChart dataset={stock} daysShown={daysShown} typeLine />
         </div>
       </div>
     </div>

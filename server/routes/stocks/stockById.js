@@ -1,6 +1,6 @@
 import moment from 'moment';
 import Stock from '../../models/Stock';
-import {updateDatabase, reloadFromDatabase, updateHistory, getHistory} from '../../util';
+import {updateDatabase, reloadFromDatabase, updateHistory, getHistory, predictStockPositiveChange} from '../../util';
 import {stockHistoryTimeLimit} from '../../conf';
 
 export default (req, res, next) => {
@@ -18,14 +18,16 @@ export default (req, res, next) => {
         .then(() => updateHistory(stock, betweenDates))
         .then(() => reloadFromDatabase(stock))
         .then(updatedStock => getHistory(updatedStock, betweenDates)
-          .then(history => {
-            const stockWithHistory = updatedStock.toJSON();
-            stockWithHistory.history = history;
-            return res.status(200).json({
-              message: `Stock "${stock.symbol}" retrieved.`,
-              stock: stockWithHistory,
-            });
-          }));
+          .then(history => predictStockPositiveChange(updatedStock)
+            .then(isPositiveChange => {
+              const stockWithHistory = updatedStock.toJSON();
+              stockWithHistory.history = history;
+              stockWithHistory.isPositiveChange = isPositiveChange;
+              return res.status(200).json({
+                message: `Stock "${stock.symbol}" retrieved.`,
+                stock: stockWithHistory,
+              });
+            })));
       }
       return res.status(404).json({
         message: `Stock with ID "${stockId}" does not exist.`,

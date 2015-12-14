@@ -6,7 +6,8 @@ import axios from 'axios';
 import app from '../app';
 import database from './database';
 import {getStockBySymbol, getStockByDate} from './queries';
-import {development, stockQueryTimeLimit} from './conf';
+import {development, stockQueryTimeLimit, stockHistoryTimeLimit} from './conf';
+import * as algorithm from './algorithm';
 
 export function genSaltyHash(password) {
   return bcrypt.hash(password, 10);
@@ -81,13 +82,19 @@ export function formatDates(dateList) {
   return dateList.map(date => date.format('YYYY-MM-DD'));
 }
 
-export function getHistory(stock, between) {
-  return stock.getHistory({where: {date: {$between: formatDates(between)}}});
+export function getHistory(stock, between, sorted = true) {
+  return stock.getHistory({where: {date: {$between: formatDates(between)}}})
+  .then(history => {
+    if (sorted) {
+      history.sort((a, b) => moment(a.date).isBefore(b.date, 'day') ? -1 : 1);
+    }
+    return Promise.resolve(history);
+  });
 }
 
 export function bulkUpdateHistory(stocks, betweenDates) {
   const formattedDates = formatDates(betweenDates);
-  return Promise.all(stocks.map(stock => getHistory(stock, betweenDates)))
+  return Promise.all(stocks.map(stock => getHistory(stock, betweenDates, false)))
   .then(histories => {
     if (histories.some(history => isHistoryUpdateNeeded(history, ...formattedDates))) {
       return getStockByDate(stocks.map(stock => stock.symbol), ...formattedDates)
@@ -105,7 +112,7 @@ export function bulkUpdateHistory(stocks, betweenDates) {
 
 export function updateHistory(stock, betweenDates) {
   const formattedDates = formatDates(betweenDates);
-  return getHistory(stock, betweenDates)
+  return getHistory(stock, betweenDates, false)
   .then(history => {
     if (isHistoryUpdateNeeded(history, ...formattedDates)) {
       return getStockByDate(stock.symbol, ...formattedDates)
@@ -122,6 +129,21 @@ export function updateHistory(stock, betweenDates) {
 
 export function reloadFromDatabase(items) {
   return Array.isArray(items) ? Promise.all(items.map(item => item.reload())) : items.reload();
+}
+
+export function average(values) {
+  return values.reduce((acc, next) => acc + next, 0) / values.length;
+}
+
+export function predictStockPositiveChange(stock) {
+  return getHistory(stock, [moment().subtract(stockHistoryTimeLimit), moment()])
+  .then(history => {
+    const historyData = history.map(point => [point.close]);
+    const testValue = [stock.currentPrice];
+    const normalisedData = algorithm.normaliseValues(historyData).map(value => value >= 0.5 ? 1 : 0);
+    const neighbours = algorithm.nearestNeighbours(historyData, testValue, 10).map(idx => normalisedData[idx]);
+    return average(neighbours) >= 0.5;
+  });
 }
 
 /* istanbul ignore next */

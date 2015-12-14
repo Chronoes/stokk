@@ -58,6 +58,31 @@ canvas {
   }
 }
 
+.direction-label {
+  margin-left: 10px;
+  padding: 2px 8px;
+  color: $base-text;
+  cursor: default;
+  visibility: hidden;
+
+  &:hover {
+    visibility: visible;
+  }
+
+  i {
+    margin-right: 5px;
+    visibility: visible;
+  }
+
+  &.--increase i {
+    color: rgb(27, 201, 142);
+  }
+
+  &.--decrease i {
+    color: rgb(230, 71, 89);
+  }
+}
+
 .change-label {
   border-radius: 4px;
   color: $main-background;

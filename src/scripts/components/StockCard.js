@@ -29,7 +29,7 @@ class StockCard extends Component {
     const {symbol, currentPrice, change, name, history} = stock;
     const {isHovering} = this.state;
     const isPositive = change.charAt(0) === '+';
-    const dataset = history.map(dataPoint => dataPoint.close).reverse();
+    const dataset = history.map(dataPoint => dataPoint.close);
     return (
       <div
         className="stock-card"
