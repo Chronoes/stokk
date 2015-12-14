@@ -6,7 +6,10 @@ const SingleStockOverview = ({stock}) => {
   const {change, name, currentPrice, symbol, updatedAt, isPositiveChange} = stock;
   const isPositive = change.charAt(0) === '+';
   const updatedAgo = moment(updatedAt).fromNow();
-  const positiveChangeResult = isPositiveChange ? 'Stock is going up' : 'Stock is going down';
+  const positiveChangeResult = isPositiveChange ?
+    'We predict that the stock is going up' :
+    'We predict that the stock is going down';
+  const changeClassModifier = isPositiveChange ? 'increase' : 'decrease';
   return (
     <div className="row">
       <div className="col-xs-12">
@@ -23,8 +26,8 @@ const SingleStockOverview = ({stock}) => {
           <span className="base-text">
             {' '} last updated {updatedAgo}
           </span>
-          <span className={`direction-label --${isPositiveChange ? 'increase' : 'decrease'}`}>
-            <i className={isPositiveChange ? 'fa fa-arrow-circle-up' : 'fa fa-arrow-circle-down'}></i>
+          <span className={`direction-label --${changeClassModifier}`}>
+            <i className={`direction-label__icon --${changeClassModifier}`}></i>
             {positiveChangeResult}
           </span>
         </div>

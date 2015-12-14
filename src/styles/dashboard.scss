@@ -59,27 +59,30 @@ canvas {
 }
 
 .direction-label {
-  margin-left: 10px;
-  padding: 2px 8px;
   color: $base-text;
   cursor: default;
+  margin-left: 2px;
+  padding: 2px 8px;
   visibility: hidden;
 
   &:hover {
     visibility: visible;
   }
 
-  i {
+  &__icon {
+    @extend .fa;
     margin-right: 5px;
     visibility: visible;
-  }
 
-  &.--increase i {
-    color: rgb(27, 201, 142);
-  }
+    &.--increase {
+      @extend .fa-arrow-circle-up;
+      color: rgb(27, 201, 142);
+    }
 
-  &.--decrease i {
-    color: rgb(230, 71, 89);
+    &.--decrease {
+      @extend .fa-arrow-circle-down;
+      color: rgb(230, 71, 89);
+    }
   }
 }
 
