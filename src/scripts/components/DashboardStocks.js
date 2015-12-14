@@ -6,17 +6,17 @@ import StockCard from './StockCard';
 import Alert from './Alert';
 import Preloader from './Preloader';
 
-const DashboardStocks = ({stocks, token, isLoading}) => {
+const DashboardStocks = ({stocks, token, isLoading, errorMessage}) => {
   const stockNodes = stocks.map(stock => (
     <StockCard
       stock={stock}
       token={token}
       key={stock.id} />
   )).toArray();
-
+  const status = errorMessage.length === 0 ? {message: 'No stocks added yet, add one below.', type: 'info'} : {message: 'Could not load stocks.', type: 'danger'};
   const loadingResponse = (
     <div className="dashboard__info-alert">
-      {!stocks.size && isLoading ? <Preloader /> : <Alert message="No stocks added yet, add one below." type="info" />}
+      {!stocks.size && isLoading ? <Preloader /> : <Alert message={status.message} type={status.type} />}
     </div>
   );
 

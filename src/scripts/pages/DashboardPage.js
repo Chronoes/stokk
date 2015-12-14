@@ -47,6 +47,7 @@ class DashboardPage extends Component {
     const {email} = decode(token);
     const stocks = userStocksState.get('stocks');
     const isLoading = userStocksState.get('isLoading');
+    const errorMessage = userStocksState.get('errorMessage');
 
     const stockAverage = stocks.reduce((acc, current) => (
         acc + parseFloat(current.change)
@@ -61,6 +62,7 @@ class DashboardPage extends Component {
           stocks={stocks}
           token={token}
           isLoading={isLoading}
+          errorMessage={errorMessage}
           />
         <NewStockForm
           searchStocksState={searchStocksState}
