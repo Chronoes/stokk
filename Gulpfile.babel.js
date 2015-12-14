@@ -31,6 +31,7 @@ const directories = {
     scripts: 'src/scripts/**/*.js',
     main: 'src/scripts/main.js',
     styles: 'src/styles/**/*.scss',
+    cssStyles: 'src/styles/**/*.css',
     images: 'src/images/**/*',
     fonts: 'src/styles/fonts/*',
     music: 'src/music/*',
@@ -195,7 +196,7 @@ gulp.task('js:production', () => {
 });
 
 gulp.task('sass', () => {
-  return gulp.src(directories.source.styles)
+  return gulp.src([directories.source.styles, directories.source.cssStyles])
     .pipe(remember('styles'))
     .pipe(sass({includePaths: ['./node_modules/bootstrap/scss']}).on('error', sass.logError))
     .pipe(concatCss('style.css'))
@@ -203,7 +204,7 @@ gulp.task('sass', () => {
 });
 
 gulp.task('sass:production', () => {
-  return gulp.src(directories.source.styles)
+  return gulp.src([directories.source.styles, directories.source.cssStyles])
     .pipe(sass({includePaths: ['./node_modules/bootstrap/scss']}).on('error', sass.logError))
     .pipe(concatCss('style.css'))
     .pipe(minifyCss({compatibility: 'ie9'}))

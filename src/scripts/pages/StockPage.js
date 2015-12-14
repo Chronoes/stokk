@@ -66,7 +66,8 @@ class StockPage extends Component {
         </div>
       </div>
     );
-    const page = isLoading ? preloader : <SingleStockOverview stock={stock} daysShown={daysShown} />;
+    const page = isLoading ?
+      preloader : <SingleStockOverview stock={stock} daysShown={daysShown} />;
     return (
       <div className="container-fluid">
         {page}
