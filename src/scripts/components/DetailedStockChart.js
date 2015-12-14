@@ -1,6 +1,5 @@
 import React, {PropTypes as Types} from 'react';
 import {Line as LineChart} from 'react-chartjs';
-import {adjustDaysShown, checkboxClick} from '../actions/DetailedStockActions';
 
 const DetailedStockChart = ({dataset, daysShown, checkboxes}) => {
   const chartDatasets = [
@@ -47,44 +46,6 @@ const DetailedStockChart = ({dataset, daysShown, checkboxes}) => {
   };
   return (
     <div>
-      <label className="c-input c-checkbox">
-        <input
-          type="checkbox"
-          onChange={() => checkboxClick('high')}
-          checked={checkboxes.get('high')}>
-        </input>
-        <span className="c-indicator"></span>
-        high
-      </label>
-      <label className="c-input c-checkbox">
-        <input
-          type="checkbox"
-          onChange={() => checkboxClick('low')}
-          checked={checkboxes.get('low')}>
-        </input>
-        <span className="c-indicator"></span>
-        low
-      </label>
-      <label className="c-input c-checkbox">
-        <input
-          type="checkbox"
-          onChange={() => checkboxClick('close')}
-          checked={checkboxes.get('close')}>
-        </input>
-        <span className="c-indicator"></span>
-        close
-      </label>
-      <div className="range range-primary">
-        <input className="slider"
-          type="range"
-          defaultValue={daysShown}
-          min="2"
-          max={dataset.history.length}
-          onInput=""
-          onChange={event => adjustDaysShown(parseInt(event.target.value, 10))}
-          step="1" />
-      </div>
-      <h4 className="base-text">{daysShown + ' days'}</h4>
       <LineChart data={chartDataAndLabels} options={chartOptions} redraw/>
     </div>
   );
@@ -94,7 +55,7 @@ DetailedStockChart.displayName = 'DetailedStockChart';
 DetailedStockChart.propTypes = {
   dataset: Types.object.isRequired,
   daysShown: Types.number.isRequired,
-  checkboxes: Types.arrayOf(Types.bool).isRequired,
+  checkboxes: Types.object.isRequired,
 };
 
 export default DetailedStockChart;

@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import DetailedStockForm from './DetailedStockForm';
 import DetailedStockChart from './DetailedStockChart';
 
 const SingleStockOverview = ({stock, daysShown, checkboxes}) => {
@@ -7,8 +8,8 @@ const SingleStockOverview = ({stock, daysShown, checkboxes}) => {
   const isPositive = change.charAt(0) === '+';
   const updatedAgo = moment(updatedAt).fromNow();
   const positiveChangeResult = isPositiveChange ?
-    'We predict that the stock is going up' :
-    'We predict that the stock is going down';
+    'It is entirely possible that the stock price might rise at one point in the future.' :
+    'We are sorry to inform you that there is a possibility that the stock price might fall.';
   const changeClassModifier = isPositiveChange ? 'increase' : 'decrease';
   return (
     <div className="row">
@@ -32,6 +33,7 @@ const SingleStockOverview = ({stock, daysShown, checkboxes}) => {
           </span>
         </div>
         <div className="col-xs-12 col-xs-offset-0">
+          <DetailedStockForm historyLength={stock.history.length} daysShown={daysShown} checkboxes={checkboxes} />
           <DetailedStockChart dataset={stock} daysShown={daysShown} checkboxes={checkboxes} />
         </div>
       </div>
