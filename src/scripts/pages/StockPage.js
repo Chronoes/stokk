@@ -1,7 +1,7 @@
 import React, {Component, PropTypes as Types} from 'react';
 
 import fuckAlt from '../services/fuckAlt';
-import {getStock, setStock} from '../actions/DetailedStockActions';
+import {getStock} from '../actions/DetailedStockActions';
 import UserStocksStore from '../stores/UserStocksStore';
 import DetailedStockStore from '../stores/DetailedStockStore';
 
@@ -44,18 +44,11 @@ class StockPage extends Component {
   }
 
   componentWillMount() {
-    const {detailedStockState, userStocksState} = this.state;
+    const {detailedStockState} = this.state;
     const {params} = this.props;
     const id = parseInt(params.id, 10);
     if (id !== detailedStockState.get('stock').id) {
-      const stock = userStocksState
-        .get('stocks')
-        .find(currentStock => currentStock.id === id, null, -1);
-      if (stock !== -1) {
-        setStock(stock);
-      } else {
-        getStock(id);
-      }
+      getStock(id);
     }
   }
 

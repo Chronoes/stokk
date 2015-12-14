@@ -27,7 +27,7 @@ const SingleStockOverview = ({stock, daysShown}) => {
             {' '} last updated {updatedAgo}
           </span>
           <span className={`direction-label --${changeClassModifier}`}>
-            <i className={`direction-label__icon --${changeClassModifier}`}></i>
+            <i className={`direction-label__icon --${changeClassModifier}`} />
             {positiveChangeResult}
           </span>
         </div>
