@@ -44,11 +44,14 @@ class NewStockForm extends Component {
 
   submitSearch() {
     emptySearchStore();
+    const pattern = new RegExp('[\'#%?$-_.+!*,]');
     const searchString = this.refs.searchStock.value.trim();
     if (searchString.length === 0) {
       this.setState({isOpen: true, errorMessage: 'Please enter a stock symbol or a part of it\'s name.', vaporWave: false});
     } else if (searchString.length > 35) {
       this.setState({isOpen: true, errorMessage: `Stock "${searchString.substring(0, 34)}..." does not exist.`, vaporWave: false});
+    } else if (pattern.test(searchString) && searchString !== '420') {
+      this.setState({isOpen: true, errorMessage: `Please enter valid characters`, vaporWave: false});
     } else if (searchString === '420') {
       this.setState({isOpen: true, errorMessage: '420 blaze it.', vaporWave: true});
     } else {
