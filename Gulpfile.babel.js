@@ -198,14 +198,14 @@ gulp.task('js:production', () => {
 gulp.task('sass', () => {
   return gulp.src([directories.source.styles, directories.source.cssStyles])
     .pipe(remember('styles'))
-    .pipe(sass({includePaths: ['./node_modules/bootstrap/scss']}).on('error', sass.logError))
+    .pipe(sass({includePaths: ['./node_modules/bootstrap/scss', './node_modules/font-awesome/scss']}).on('error', sass.logError))
     .pipe(concatCss('style.css'))
     .pipe(gulp.dest(directories.distribution));
 });
 
 gulp.task('sass:production', () => {
   return gulp.src([directories.source.styles, directories.source.cssStyles])
-    .pipe(sass({includePaths: ['./node_modules/bootstrap/scss']}).on('error', sass.logError))
+    .pipe(sass({includePaths: ['./node_modules/bootstrap/scss', './node_modules/font-awesome/scss']}).on('error', sass.logError))
     .pipe(concatCss('style.css'))
     .pipe(minifyCss({compatibility: 'ie9'}))
     .pipe(gulp.dest(directories.distribution));
