@@ -5,8 +5,10 @@ import {getStock} from '../actions/DetailedStockActions';
 import UserStocksStore from '../stores/UserStocksStore';
 import DetailedStockStore from '../stores/DetailedStockStore';
 
-import SingleStockOverview from '../components/SingleStockOverview';
 import Preloader from '../components/Preloader';
+import SingleStockOverview from '../components/SingleStockOverview';
+import DetailedStockForm from '../components/DetailedStockForm';
+import DetailedStockChart from '../components/DetailedStockChart';
 
 @fuckAlt
 class StockPage extends Component {
@@ -67,8 +69,15 @@ class StockPage extends Component {
         </div>
       </div>
     );
-    const page = isLoading ?
-      preloader : <SingleStockOverview stock={stock} daysShown={daysShown} checkboxes={checkboxes}/>;
+    const page = isLoading ? preloader : (
+      <div className="row">
+        <div className="col-xs-12">
+          <SingleStockOverview stock={stock} />
+          <DetailedStockForm historyLength={stock.history.length} daysShown={daysShown} checkboxes={checkboxes} />
+          <DetailedStockChart dataset={stock} daysShown={daysShown} checkboxes={checkboxes} />
+        </div>
+      </div>
+    );
     return (
       <div className="container-fluid">
         {page}
