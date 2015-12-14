@@ -8,7 +8,7 @@ $alert-background-danger: #9c5656;
 $alert-background-warning: #dfdf84;
 $alert-background-info: rgba(28, 168, 221, 0.3);
 $fa-font-path: '/fonts/';
-@import '../../node_modules/font-awesome/scss/font-awesome';
+@import 'font-awesome';
 
 @font-face {
   font-family: SanFranciscoThin;
