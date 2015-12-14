@@ -30,7 +30,6 @@ const DetailedStockChart = ({dataset, daysShown, typeLine}) => {
         },
       ],
   };
-  console.log(chartData.datasets);
   const lineTooltipTemplate = '<%if (fillColor == "#42a5f5"){%><%="open" %>: <%} else if (fillColor == "#f54242"){%><%="low" %>: <%} else {%><%="high" %>: <%}%><%= value + " $" %>';
   const barTooltipTemplate = '<%if (fillColor == "#42a5f5"){%><%="open" %>: <%} else if (fillColor == "#f54242"){%><%="low" %>: <%} else {%><%="high" %>: <%}%><%= value + " $" %>';
   const chartOptions = {

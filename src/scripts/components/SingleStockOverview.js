@@ -3,7 +3,6 @@ import moment from 'moment';
 import DetailedStockChart from './DetailedStockChart';
 
 const SingleStockOverview = ({stock, daysShown}) => {
-  console.log(daysShown);
   const {change, name, currentPrice, symbol, updatedAt, isPositiveChange} = stock;
   const isPositive = change.charAt(0) === '+';
   const updatedAgo = moment(updatedAt).fromNow();
