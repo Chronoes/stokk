@@ -278,11 +278,64 @@ describe('Utility functions', () => {
     });
   });
 
-  context('#formatDates', () => {
+  context('#formatDates()', () => {
     it('should return an array of formatted dates', () => {
       const originalDates = ['2015-11-11', '2015-07-23'];
       const momentDates = originalDates.map(date => moment(date));
       expect(util.formatDates(momentDates)).to.deep.equal(originalDates);
+    });
+  });
+
+  context('#average()', () => {
+    it('should return the arithmetic average of an array', () => {
+      expect(util.average([1, 9, 6, 4, 5, 2, 7, 8, 3])).to.equal(5);
+    });
+  });
+
+  context('#predictStockPositiveChange()', () => {
+    const stock = {
+      getHistory: () => Promise.resolve([
+        119.300003,
+        118.779999,
+        117.290001,
+        113.690002,
+        114.18,
+        110.339996,
+        115.720001,
+        116.110001,
+        116.769997,
+        117.75,
+        114.18,
+        117.809998,
+        114.029999,
+        112.879997,
+        116.300003,
+        115.199997,
+        116.279999,
+        117.339996,
+      ].map(value => {return {close: value};})),
+    };
+
+    it('should return true if knn-algorithm shows positive', done => {
+      stock.currentPrice = 117.5;
+
+      util.predictStockPositiveChange(stock)
+      .then(isPositive => {
+        expect(isPositive).to.be.true;
+        done();
+      })
+      .catch(done);
+    });
+
+    it('should return false if knn-algorithm shows negative', done => {
+      stock.currentPrice = 113.3;
+
+      util.predictStockPositiveChange(stock)
+      .then(isPositive => {
+        expect(isPositive).to.be.false;
+        done();
+      })
+      .catch(done);
     });
   });
 });

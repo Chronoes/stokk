@@ -2,7 +2,7 @@ import React, {PropTypes as Types} from 'react';
 import {Bar as BarChart, Line as LineChart} from 'react-chartjs';
 
 const StockBarChart = ({dataset, days, typeLine}) => {
-  const history = dataset.history.slice(0, days).reverse();
+  const history = dataset.history.slice(0, days);
   const chartData = {
     labels: history.map((data) => data.date.substring(0, 10)),
     datasets: [{
