@@ -8,8 +8,8 @@ const SingleStockOverview = ({stock, daysShown, checkboxes}) => {
   const isPositive = change.charAt(0) === '+';
   const updatedAgo = moment(updatedAt).fromNow();
   const positiveChangeResult = isPositiveChange ?
-    'It is entirely possible that the stock price might rise at one point in the future.' :
-    'We are sorry to inform you that there is a possibility that the stock price might fall.';
+    'We predict that the stock price is going up' :
+    'We predict that the stock price is going down';
   const changeClassModifier = isPositiveChange ? 'increase' : 'decrease';
   return (
     <div className="row">
