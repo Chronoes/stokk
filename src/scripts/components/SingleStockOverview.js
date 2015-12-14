@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import StockBarChart from './StockBarChart';
 
-const SingleStockOverview = ({stock}) => {
+const SingleStockOverview = ({stock, daysShown}) => {
   const {change, name, currentPrice, symbol, updatedAt} = stock;
   const isPositive = change.charAt(0) === '+';
   const updatedAgo = moment(updatedAt).fromNow();
@@ -24,10 +24,10 @@ const SingleStockOverview = ({stock}) => {
           </span>
         </div>
         <div className="col-xs-6 col-xs-offset-3">
-          <StockBarChart dataset={stock} days={10} typeLine/>
+          <StockBarChart dataset={stock} days={daysShown} typeLine/>
         </div>
         <div className="col-xs-6 col-xs-offset-3">
-          <StockBarChart dataset={stock} days={10} typeLine={false}/>
+          <StockBarChart dataset={stock} days={daysShown} typeLine={false}/>
         </div>
       </div>
     </div>

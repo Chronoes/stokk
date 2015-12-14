@@ -24,6 +24,10 @@ class DetailedStockActions {
   setStock(stock) {
     this.dispatch(stock);
   }
+
+  adjustDaysShown(days) {
+    this.dispatch(days);
+  }
 }
 
 export default DetailedStockActions;

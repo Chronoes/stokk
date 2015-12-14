@@ -1,8 +1,9 @@
 import React, {PropTypes as Types} from 'react';
 import {Bar as BarChart, Line as LineChart} from 'react-chartjs';
+import {adjustDaysShown} from '../actions/DetailedStockActions';
 
-const StockBarChart = ({dataset, days, typeLine}) => {
-  const history = dataset.history.slice(0, days).reverse();
+const StockBarChart = ({dataset, daysShown, typeLine}) => {
+  const history = dataset.history.slice(0, daysShown).reverse();
   const chartData = {
     labels: history.map((data) => data.date.substring(0, 10)),
     datasets: [{
@@ -33,7 +34,17 @@ const StockBarChart = ({dataset, days, typeLine}) => {
   };
   return (
     <div>
-      <h4 className="base-text">{days + ' day highs and lows'}</h4>
+      <div className="range range-primary">
+        <input className="slider"
+          type="range"
+          value={daysShown}
+          min="0"
+          max="100"
+          onInput=""
+          onChange={(event) => {adjustDaysShown(event.target.value);}}
+          step="1" />
+      </div>
+      <h4 className="base-text">{daysShown + ' day highs and lows'}</h4>
       {typeLine ? <LineChart data={chartData} options={chartOptions} /> : <BarChart data={chartData} options={chartOptions} />}
     </div>
   );
@@ -42,7 +53,7 @@ const StockBarChart = ({dataset, days, typeLine}) => {
 StockBarChart.displayName = 'StockBarChart';
 StockBarChart.propTypes = {
   dataset: Types.object.isRequired,
-  days: Types.number.isRequired,
+  daysShown: Types.number.isRequired,
   typeLine: Types.bool.isRequired,
 };
 

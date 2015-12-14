@@ -63,6 +63,7 @@ class StockPage extends Component {
     const {detailedStockState} = this.state;
     const isLoading = detailedStockState.get('isLoading');
     const stock = detailedStockState.get('stock');
+    const daysShown = detailedStockState.get('amountOfDaysShown');
     const preloader = (
       <div className="row">
         <div className="col-xs-12">
@@ -72,7 +73,7 @@ class StockPage extends Component {
         </div>
       </div>
     );
-    const page = isLoading ? preloader : <SingleStockOverview stock={stock} />;
+    const page = isLoading ? preloader : <SingleStockOverview stock={stock} daysShown={daysShown} />;
     return (
       <div className="container-fluid">
         {page}
