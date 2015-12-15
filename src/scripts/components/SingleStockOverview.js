@@ -29,14 +29,14 @@ const SingleStockOverview = ({stock}) => {
           {positiveChangeResult}
         </span>
         </div>
-        <div className="statistics">
-          <div className="statcard-element">
-            <h3 className="statcard-number white">{yearLow} $</h3>
-            <span className="statcard-desc">Year lowest</span>
+        <div className="statistics-container">
+          <div className="statistics --element">
+            <span className="statistics --number">{yearLow} $</span>
+            <span className="statistics --desc">Year lowest</span>
           </div>
-          <div className="statcard-element">
-            <h3 className="statcard-number white">{yearHigh} $</h3>
-            <span className="statcard-desc">Year highest</span>
+          <div className="statistics --element">
+            <span className="statistics --number">{yearHigh} $</span>
+            <span className="statistics --desc">Year highest</span>
           </div>
         </div>
       </div>

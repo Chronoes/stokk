@@ -13,7 +13,7 @@ canvas {
   }
 
   &__section {
-    padding: 50px 0;
+    padding: 50px 0 0 0;
   }
 
   &__info-alert {
@@ -110,19 +110,25 @@ canvas {
   color: #fff !important;
 }
 
+.statistics-container {
+  @extend .row;
+}
+
 .statistics {
-  color: $base-text;
-  display: inline-flex;
-  float: left;
-  margin-bottom: 10px;
-  margin-top: 10px;
 
-  .statcard-element {
-    margin-right: 15px;
+  &.--element {
+    @extend .col-md-6;
+    @extend .col-lg-4;
+  }
 
-    h3 {
-      font-size: 1.2rem;
-    }
+  &.--number {
+    color: #fff;
+    display: block;
+  }
+
+  &.--desc {
+    color: $base-text;
+    display: block;
   }
 }
 
