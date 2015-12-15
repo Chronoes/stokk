@@ -2,6 +2,7 @@ import React, {Component, PropTypes as Types} from 'react';
 
 import fuckAlt from '../services/fuckAlt';
 import {getStock} from '../actions/DetailedStockActions';
+import {getUserStocksWithToken} from '../actions/UserStocksActions';
 import UserStocksStore from '../stores/UserStocksStore';
 import DetailedStockStore from '../stores/DetailedStockStore';
 
@@ -47,11 +48,15 @@ class StockPage extends Component {
   }
 
   componentWillMount() {
-    const {detailedStockState} = this.state;
+    const {authState} = this.props;
+    const {detailedStockState, userStocksState} = this.state;
     const {params} = this.props;
     const id = parseInt(params.id, 10);
     if (id !== detailedStockState.get('stock').id) {
       getStock(id);
+    }
+    if (userStocksState.get('stocks').size === 0) {
+      getUserStocksWithToken(authState.get('token'));
     }
   }
 
@@ -81,7 +86,7 @@ class StockPage extends Component {
             stock={stock}
             isUserStock={isUserStock}
             token={authState.get('token')}
-            isLoading={userStocksState.get('isLoading')}/>
+            isLoading={userStocksState.get('stocks').size > 0 ? userStocksState.get('isLoading') : false}/>
           <DetailedStockForm historyLength={stock.history.length} daysShown={daysShown} checkboxes={checkboxes} />
         </div>
         <div className="col-xs-12 col-md-8">
