@@ -1,7 +1,11 @@
 import React from 'react';
 import moment from 'moment';
 
-const SingleStockOverview = ({stock}) => {
+import {addNewStockWithToken, deleteUserStockWithToken} from '../actions/UserStocksActions';
+
+import Preloader from './Preloader';
+
+const SingleStockOverview = ({stock, isUserStock, token, isLoading}) => {
   const {change, name, currentPrice, symbol, updatedAt, isPositiveChange, yearLow, yearHigh} = stock;
   const isPositive = change.charAt(0) === '+';
   const updatedAgo = moment(updatedAt).fromNow();
@@ -9,6 +13,20 @@ const SingleStockOverview = ({stock}) => {
     'We predict that the stock price will rise' :
     'We predict that the stock price will fall';
   const changeClassModifier = isPositiveChange ? 'increase' : 'decrease';
+  const addButton = (
+    <button
+      onClick={() => addNewStockWithToken(symbol, token)}
+      className="stock-preview__button btn btn-primary">
+      {isLoading ? <Preloader /> : 'add'}
+    </button>
+  );
+  const removeButton = (
+    <button
+      onClick={() => deleteUserStockWithToken(symbol, token)}
+      className="stock-preview__button btn btn-primary">
+      {isLoading ? <Preloader /> : 'remove'}
+    </button>
+  );
   return (
     <div className="dashboard__section">
       <div className="information">
@@ -39,6 +57,8 @@ const SingleStockOverview = ({stock}) => {
             <span className="statcard-desc">Year highest</span>
           </div>
         </div>
+        <br />
+        {isUserStock ? removeButton : addButton}
       </div>
   );
 };

@@ -15,6 +15,7 @@ class StockPage extends Component {
   static displayName = 'StockPage';
   static propTypes = {
     params: Types.object,
+    authState: Types.object,
   };
 
   constructor(props) {
@@ -55,11 +56,15 @@ class StockPage extends Component {
   }
 
   render() {
-    const {detailedStockState} = this.state;
+    const {authState} = this.props;
+    const {detailedStockState, userStocksState} = this.state;
     const isLoading = detailedStockState.get('isLoading');
     const stock = detailedStockState.get('stock');
     const daysShown = detailedStockState.get('amountOfDaysShown');
     const checkboxes = detailedStockState.get('checkboxes');
+    const isUserStock = stock ? userStocksState
+      .get('stocks')
+      .findIndex(userStock => userStock.id === stock.id) !== -1 : false;
     const preloader = (
       <div className="row">
         <div className="col-xs-12">
@@ -72,7 +77,11 @@ class StockPage extends Component {
     const page = isLoading ? preloader : (
       <div className="row">
         <div className="col-xs-12 col-md-4">
-          <SingleStockOverview stock={stock} />
+          <SingleStockOverview
+            stock={stock}
+            isUserStock={isUserStock}
+            token={authState.get('token')}
+            isLoading={userStocksState.get('isLoading')}/>
           <DetailedStockForm historyLength={stock.history.length} daysShown={daysShown} checkboxes={checkboxes} />
         </div>
         <div className="col-xs-12 col-md-8">
